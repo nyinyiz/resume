@@ -50,5 +50,5 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 ## 📞 Contact
 
 Nyi Nyi Zaw - [@nyinyiz](https://linkedin.com/in/nyinyiz)
-
-Project Link: [https://github.com/nyinyiz/portfolio](https://github.com/nyinyiz/portfolio)
+Email: [nyinyizaw@gmail.com](mailto:nyinyizaw@gmail.com)
+Github: [github.com/nyinyiz](https://github.com/nyinyiz)
