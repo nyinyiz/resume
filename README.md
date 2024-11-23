@@ -2,6 +2,10 @@
 
 A modern, responsive portfolio website built with Next.js, TypeScript, and Tailwind CSS.
 
+## 🚀 Live Demo
+
+Check out the live demo: [https://resume-psi-blush-18.vercel.app/](https://resume-psi-blush-18.vercel.app/)
+
 ## 🚀 Features
 
 - **Responsive Design**: Fully responsive layout that works on all devices
@@ -24,6 +28,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide Icons
 - **Theme**: next-themes for dark mode
+- **Deployment**: Vercel
 
 ## 🚀 Getting Started
 
@@ -49,6 +54,8 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## 📞 Contact
 
-Nyi Nyi Zaw - [@nyinyiz](https://linkedin.com/in/nyinyiz)
-Email: [nyinyizaw@gmail.com](mailto:nyinyizaw@gmail.com)
-Github: [github.com/nyinyiz](https://github.com/nyinyiz)
+Nyi Nyi Zaw
+- LinkedIn: [@nyinyiz](https://linkedin.com/in/nyinyiz)
+- Email: [nyinyizaw.dev@gmail.com](mailto:nyinyizaw.dev@gmail.com)
+- Github: [github.com/nyinyiz](https://github.com/nyinyiz)
+- Portfolio: [resume-psi-blush-18.vercel.app](https://resume-psi-blush-18.vercel.app/)
