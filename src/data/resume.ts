@@ -117,11 +117,11 @@ export const resumeData = {
   certificates: [
     {
       name: "Agile Scrum Master Certification",
-      url: "https://www.udemy.com/certificate/UC-c1b584fc-28e54e3488f18f0c6286b9d9/"
+      url: "https://www.udemy.com/certificate/UC-c1b584fc-28e5-4e34-88f1-8f0c6286b9d9/"
     },
     {
       name: "The Complete Flutter Development Bootcamp with Dart",
-      url: "https://www.udemy.com/certificate/UC9f064e6b-e404447e-a609-a0299de55a16/"
+      url: "https://www.udemy.com/certificate/UC-c1b584fc-28e5-4e34-88f1-8f0c6286b9d9/"
     },
     {
       name: "Pair Programming with a Large Language Model",

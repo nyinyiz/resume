@@ -38,10 +38,6 @@ Check out the live demo: [https://resume-psi-blush-18.vercel.app/](https://resum
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
