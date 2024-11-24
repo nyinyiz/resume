@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Phone, Copy } from "lucide-react";
 import { resumeData } from "@/data/resume";
+import Link from "next/link";
 
 export default function Hero() {
   const { personalInfo } = resumeData;
@@ -58,6 +59,13 @@ export default function Hero() {
             <span>{personalInfo.email}</span>
           </div>
         </div>
+        {/* <Link 
+          href="/builder"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+        >
+          <Copy size={16} />
+          Use as Template
+        </Link> */}
       </div>
       <div className="relative h-64 w-64 overflow-hidden rounded-full bg-gray-200">
         <Image
