@@ -51,7 +51,8 @@ async function parsePDF(file: File): Promise<ResumeData> {
       experience: [],
       projects: [],
       communityContributions: [],
-      certificates: []
+      certificates: [],
+      education: [] // Add the missing education property
     };
   } catch (error) {
     console.error('PDF parsing error:', error);
