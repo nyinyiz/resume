@@ -59,13 +59,13 @@ export default function Hero() {
             <span>{personalInfo.email}</span>
           </div>
         </div>
-        {/* <Link 
+        <Link 
           href="/builder"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
         >
           <Copy size={16} />
           Use as Template
-        </Link> */}
+        </Link>
       </div>
       <div className="relative h-64 w-64 overflow-hidden rounded-full bg-gray-200">
         <Image

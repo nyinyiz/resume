@@ -14,8 +14,47 @@ export interface Project {
   link?: string;
 }
 
-export interface Skill {
-  name: string;
-  level: number; // 1-5
-  category: 'languages' | 'frameworks' | 'tools';
+export interface Education {
+  institution: string;
+  degree: string;
+  field: string;
+  location: string;
+  graduationYear: string;
+  gpa?: string;
+  relevantCourses?: string[];
+}
+
+export interface ResumeData {
+  personalInfo: {
+    name: string;
+    title: string;
+    email: string;
+    location: string;
+    phone: string;
+    github: string;
+    linkedin: string;
+    summary: string;
+  };
+  education: Education[];
+  experience: Array<{
+    title: string;
+    company: string;
+    location: string;
+    period: string;
+    responsibilities: string[];
+    skills: string[];
+  }>;
+  projects: Array<{
+    name: string;
+    description: string;
+  }>;
+  communityContributions: Array<{
+    event: string;
+    organization?: string;
+    topic: string;
+  }>;
+  certificates: Array<{
+    name: string;
+    url: string;
+  }>;
 } 
