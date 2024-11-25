@@ -1,7 +1,8 @@
-import { resumeData } from "@/data/resume";
+import { useResume } from "@/context/ResumeContext";
 import { ExternalLink } from "lucide-react";
 
 export default function Certificates() {
+  const resumeData = useResume();
   return (
     <section id="certificates" className="space-y-12 py-8">
       <h2 className="text-3xl font-bold">Certificates</h2>

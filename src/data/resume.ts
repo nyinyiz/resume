@@ -7,6 +7,7 @@ export const resumeData = {
     phone: "+66 886841509",
     github: "https://github.com/nyinyiz",
     linkedin: "https://www.linkedin.com/in/nyinyiz/",
+    profileImage: "/my_profile.jpg",
     summary: "I have over 7 years of experience as an Android developer with a strong background in both independent and collaborative work environments. I excel at meeting deadlines and delivering high-quality projects. I thrive in team settings, valuing collaboration, communication, and continuous learning."
   },
   experience: [
@@ -121,7 +122,7 @@ export const resumeData = {
     },
     {
       name: "The Complete Flutter Development Bootcamp with Dart",
-      url: "https://www.udemy.com/certificate/UC-c1b584fc-28e5-4e34-88f1-8f0c6286b9d9/"
+      url: "https://www.udemy.com/certificate/UC-9f064e6b-e404-447e-a609-a0299de55a16/"
     },
     {
       name: "Pair Programming with a Large Language Model",
@@ -131,5 +132,41 @@ export const resumeData = {
       name: "AI Python for Beginners: Basics of AI Python Coding",
       url: "https://learn.deeplearning.ai/accomplishments/76b2566582334ccc-b9c812963b0ac5ef"
     }
-  ]
+  ],
+  skills: {
+    languages: [
+      { name: "Kotlin", level: 5 },
+      { name: "Java", level: 4 },
+      { name: "Dart", level: 4 },
+      { name: "Swift", level: 3 },
+      { name: "TypeScript", level: 3 },
+      { name: "Python", level: 2 }
+    ],
+    frameworks: [
+      { name: "Android SDK", level: 5 },
+      { name: "Flutter", level: 4 },
+      { name: "React Native", level: 3 },
+      { name: "SwiftUI", level: 2 },
+      { name: "Jetpack Compose", level: 4 },
+      { name: "Spring Boot", level: 2 }
+    ],
+    tools: [
+      { name: "Git", level: 5 },
+      { name: "Firebase", level: 4 },
+      { name: "Android Studio", level: 5 },
+      { name: "VS Code", level: 4 },
+      { name: "Xcode", level: 3 },
+      { name: "Jenkins", level: 3 },
+      { name: "Jira", level: 4 },
+      { name: "Figma", level: 3 }
+    ],
+    concepts: [
+      { name: "Clean Architecture", level: 4 },
+      { name: "MVVM", level: 5 },
+      { name: "CI/CD", level: 4 },
+      { name: "Agile/Scrum", level: 4 },
+      { name: "Unit Testing", level: 4 },
+      { name: "REST APIs", level: 5 }
+    ]
+  }
 }; 

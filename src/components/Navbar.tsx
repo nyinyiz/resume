@@ -22,7 +22,7 @@ export default function Navbar() {
       <div className="container flex h-16 items-center px-4">
         <div className="mr-8">
           <Link href="/" className="text-xl font-bold">
-            {name}
+            {name.split(' ')[0]}
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-between">

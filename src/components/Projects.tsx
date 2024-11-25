@@ -1,6 +1,7 @@
-import { resumeData } from "@/data/resume";
+import { useResume } from "@/context/ResumeContext";
 
 export default function Projects() {
+  const resumeData = useResume();
   return (
     <section id="projects" className="space-y-12">
       <div className="text-center max-w-2xl mx-auto mb-16">

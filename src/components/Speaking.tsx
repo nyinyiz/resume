@@ -1,6 +1,7 @@
-import { resumeData } from "@/data/resume";
+import { useResume } from "@/context/ResumeContext";
 
 export default function Speaking() {
+  const resumeData = useResume();
   return (
     <section id="speaking" className="space-y-12 py-8">
       <h2 className="text-3xl font-bold">Community Contributions</h2>
