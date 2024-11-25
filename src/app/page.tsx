@@ -7,6 +7,7 @@ import Skills from "@/components/Skills";
 import Speaking from "@/components/Speaking";
 import Certificates from "@/components/Certificates";
 import { motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react"
 
 // Hero section animation - Fade in and slide up
 const heroAnimation = {
@@ -164,6 +165,7 @@ export default function Home() {
         >
           <Certificates />
         </motion.div>
+        <Analytics />
       </motion.div>
     </div>
   );
