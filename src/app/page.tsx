@@ -8,7 +8,7 @@ import Speaking from "@/components/Speaking";
 import Certificates from "@/components/Certificates";
 import { motion } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react"
-import { GitFork } from "lucide-react";
+import { GitFork, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 // Hero section animation - Fade in and slide up
@@ -123,6 +123,18 @@ const staggerContainer = {
   }
 };
 
+const shineAnimation = {
+  initial: { backgroundPosition: "200% center" },
+  animate: {
+    backgroundPosition: ["200% center", "-200% center"],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      ease: "linear"
+    }
+  }
+};
+
 export default function Home() {
   return (
     <div className="max-w-7xl mx-auto">
@@ -184,25 +196,6 @@ export default function Home() {
           transition={{ duration: 0.2 }}
         >
           <Certificates />
-        </motion.div>
-
-        <motion.div
-          variants={cloneAnimation}
-          viewport={{ once: true, margin: "-100px" }}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          className="text-center py-16"
-        >
-          <Link 
-            href="/clone"
-            className="inline-flex items-center gap-2 px-6 py-3 text-lg font-medium text-white bg-black rounded-full hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors"
-          >
-            <GitFork className="w-5 h-5" />
-            Clone this website
-          </Link>
-          <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-            Like what you see? Get your own portfolio website
-          </p>
         </motion.div>
         <Analytics />
       </motion.div>
