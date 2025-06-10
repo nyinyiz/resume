@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Github, Linkedin, Mail, MapPin, Phone, Copy } from "lucide-react";
 import { useResume } from "@/context/ResumeContext";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Hero() {
   const resumeData = useResume();
@@ -63,25 +64,56 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <div className="relative h-64 w-64 overflow-hidden rounded-full bg-gray-200">
-        {isExternalImage ? (
-          // For external images
-          <img
-            src={profileImage}
-            alt={name}
-            className="object-cover w-full h-full"
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut"
+        }}
+        whileHover={{ scale: 1.05 }}
+        className="relative"
+      >
+        <div className="relative h-64 w-64">
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{
+              border: "2px solid transparent",
+              background: "linear-gradient(45deg, #3b82f6, #8b5cf6, #3b82f6) border-box",
+              WebkitMask: "linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "destination-out",
+              maskComposite: "exclude",
+            }}
+            animate={{
+              rotate: 360,
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "linear",
+            }}
           />
-        ) : (
-          // For local images
-          <Image
-            src={profileImage || "/placeholder-avatar.png"}
-            alt={name}
-            fill
-            className="object-cover"
-            priority
-          />
-        )}
-      </div>
+          <div className="relative h-64 w-64 overflow-hidden rounded-full bg-gray-200">
+            {isExternalImage ? (
+              // For external images
+              <img
+                src={profileImage}
+                alt={name}
+                className="object-cover w-full h-full"
+              />
+            ) : (
+              // For local images
+              <Image
+                src={profileImage || "/placeholder-avatar.png"}
+                alt={name}
+                fill
+                className="object-cover"
+                priority
+              />
+            )}
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 } 

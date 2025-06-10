@@ -14,7 +14,7 @@ interface Article {
 const articles: Article[] = [
   {
     title: "Early Stage of My Developer Life",
-    description: "Leaအသိတစ်ယောက်က CDM ကလေးတွေစာသင်ပေးရင်းနဲ့ ကလေးတွေကို moti ပေးချင်လို့ code စရေးတုန်းက ကြုံခဲ့ရတဲ့အခက်ခဲတွေ ဘယ်လိုတွေ ဖြတ်ကျော်ခဲ့လဲဆိုတာနဲ့ ဘယ်လို အခက်ခဲတွေကျော်လွှားခဲ့လဲဆိုတာ ပြောပြပေးဖို့ လာပြောရင်းနဲ့ ကျွန်တော့် early developer life အကြောင်းပြန်တွေးမိတာလေးချရေးထားတာ။",
+    description: "အသိတစ်ယောက်က CDM ကလေးတွေစာသင်ပေးရင်းနဲ့ ကလေးတွေကို moti ပေးချင်လို့ code စရေးတုန်းက ကြုံခဲ့ရတဲ့အခက်ခဲတွေ ဘယ်လိုတွေ ဖြတ်ကျော်ခဲ့လဲဆိုတာနဲ့ ဘယ်လို အခက်ခဲတွေကျော်လွှားခဲ့လဲဆိုတာ ပြောပြပေးဖို့ လာပြောရင်းနဲ့ ကျွန်တော့် early developer life အကြောင်းပြန်တွေးမိတာလေးချရေးထားတာ။",
     url: "https://medium.com/@nyinyizaw.dev/early-stage-of-my-developer-life-c87b13875bd5",
     date: "Jun 25, 2024",
     readTime: "2 min read",

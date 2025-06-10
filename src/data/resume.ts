@@ -66,24 +66,38 @@ export const resumeData = {
   ],
   projects: [
     {
-      name: "TrueID",
-      description: "Main focus on TrueID international products"
+      name: "OCTO",
+      description: "OCTO is mainly developed for Thonburi Hospital. It is a communication platform for doctors and nurses.",
+      link: "https://play.google.com/store/apps/details?id=com.mediverse.octopus&pcampaignid=web_share"
     },
     {
-      name: "ShippingContainerHotel",
-      description: "Developed while working in Gtriip company"
+      name: "TrueID",
+      description: "Main focus on TrueID international products",
+      link: "https://play.google.com/store/apps/details?id=com.tdcm.trueidapp&pcampaignid=web_share"
+    },
+    {
+      name: "NUS Mobile Key",
+      description: "Developed while working in Gtriip company",
+      link: "https://play.google.com/store/apps/details?id=com.gtriip.android.nus_utown&pcampaignid=web_share"
+    },
+    {
+      name: "NUS Mobile Key",
+      description: "Developed while working in Gtriip company",
+      link: "https://apps.apple.com/th/app/nus-mobile-key-utown-halls/id1560802152"
     },
     {
       name: "CDG Zig",
-      description: "Earlier know as comfortDelgro taxi app. Developed while working in Codigo"
+      description: "Earlier know as comfortDelgro taxi app. Developed while working in Codigo",
+      link: "https://play.google.com/store/apps/details?id=com.codigo.comfort&pcampaignid=web_share"
+    },
+    {
+      name: "Oway Ride",
+      description: "Support Huawei Mobile Service in Oway Ride app. Integrated HMS Push Kit, Map Kit and Location Kit in multiple modules",
+      link: "https://play.google.com/store/apps/details?id=com.mobile.oway.myapplication"
     },
     {
       name: "Eleven News",
       description: "As a freelance project"
-    },
-    {
-      name: "Oway Ride",
-      description: "Support Huawei Mobile Service in Oway Ride app. Integrated HMS Push Kit, Map Kit and Location Kit in multiple modules"
     },
     {
       name: "MM - Online Institute (MMOI)",
