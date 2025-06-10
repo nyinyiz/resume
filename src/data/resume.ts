@@ -8,7 +8,7 @@ export const resumeData = {
     github: "https://github.com/nyinyiz",
     linkedin: "https://www.linkedin.com/in/nyinyiz/",
     profileImage: "/my_profile.jpg",
-    summary: "I have over 7 years of experience as an Android developer with a strong background in both independent and collaborative work environments. I excel at meeting deadlines and delivering high-quality projects. I thrive in team settings, valuing collaboration, communication, and continuous learning."
+    summary: "Experienced Android Developer with 7+ years of building high-performance, scalable apps using Kotlin, Java, and Jetpack libraries. Proven ability to deliver secure, user-friendly features in fast-paced fintech and communication environments. Strong in clean architecture, multithreading, and modular, well-tested code. Adept at mentoring, cross-functional collaboration, and contributing to architecture decisions."
   },
   experience: [
     {
