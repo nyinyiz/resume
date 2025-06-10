@@ -1,4 +1,7 @@
 import { useResume } from "@/context/ResumeContext";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function Experience() {
   const resumeData = useResume();
@@ -44,6 +47,58 @@ export default function Experience() {
             </div>
           </div>
         ))}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="p-[2px] rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-[length:200%_100%] group relative overflow-hidden"
+        >
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              backgroundPosition: ["0% 0%", "200% 0%"],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+          <div className="p-8 rounded-xl bg-background flex flex-col items-center justify-center text-center">
+            <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              Many More Experiences
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Check out my LinkedIn for more professional experiences and achievements
+            </p>
+            <div className="relative overflow-hidden rounded-full">
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
+                  backgroundSize: "200% 100%",
+                }}
+                animate={{
+                  backgroundPosition: ["-200% 0", "200% 0"],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+              <Link
+                href={resumeData.personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white hover:opacity-90 transition-all duration-300"
+              >
+                <span>View on LinkedIn</span>
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

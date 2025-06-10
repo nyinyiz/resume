@@ -49,19 +49,6 @@ export const resumeData = {
         "Conducted performance testing and optimization for smooth operation on various hardware configurations"
       ],
       skills: ["Flutter", "Dart", "Kotlin", "XML", "Android native SDK integration"]
-    },
-    {
-      title: "Mobile Lead",
-      company: "UMFCCI",
-      location: "Myanmar",
-      period: "2021 (1 year contract)",
-      responsibilities: [
-        "Led a team in developing a cross-platform mobile application for a communication platform",
-        "Integrated notification services for both Google and Huawei devices",
-        "Managed app deployment on iOS and Android platforms using Flutter",
-        "Oversaw the development process, including setting project timelines, assigning tasks, and conducting code reviews"
-      ],
-      skills: ["Flutter", "Dart"]
     }
   ],
   projects: [
