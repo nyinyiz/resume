@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Clock, Calendar, BookOpen } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+
+const MEDIUM_PROFILE_URL = "https://medium.com/@nyinyizaw.dev";
 
 interface Article {
   title: string;
@@ -26,6 +29,22 @@ const articles: Article[] = [
     url: "https://medium.com/@nyinyizaw.dev/5-paid-subscriptions-that-supercharge-my-software-engineering-productivity-20d910141831",
     date: "Jan 30, 2024",
     readTime: "3 min read",
+    source: "Medium"
+  },
+  {
+    title: "Custodial & Non-Custodial Wallets ဆိုတာဘာလဲ / ဘယ်လိုရွေးရမလဲ",
+    description: "အလုပ်မှာ Manager နဲ့ meeting ထိုင်ရင်း သူပြောသွားတဲ့ထဲမှာ Custodial ဆိုတဲ့ keyword ကို mentioned သွားတာသတိထားမိလိုက်တယ်။ အဲ့ဒါနဲ့ လိုက်ရှာဖတ်ရင်းနဲ့မှ နောက်တစ်နေ့ Blockchain ဘက်ကိုင်တဲ့ BE အကိုတစ်ယောက်နဲ့ ဆွေးနွေးဖြစ်တာလေး (ဆွေးနွေးတယ်ဆိုပေမယ့် သူကဖြေ ကိုယ်ကမေးတဲ့သဘောပါပဲ) ကိုယ်ကိုတိုင် မှတ်မိဖို့နဲ့ နားလည်ထားတာကို article တစ်ခုရေးမယ်လို့ ချရေး လိုက်တာ။",
+    url: "https://medium.com/@nyinyizaw.dev/custodial-non-custodial-wallets-ဆိုတာဘာလဲ-ဘယ်လိုရွေးရမလဲ-ca6b44206f86",
+    date: "Oct 4, 2023",
+    readTime: "3 min read",
+    source: "Medium"
+  },
+  {
+    title: "Simplifying Authentication in Kotlin with Auth0's WebAuthProvider",
+    description: "In today's digital world, security is one of utmost importance, and at the core of security is user authentication. In this article, we will explore how to leverage Auth0's WebAuthProvider in Kotlin to streamline the authentication process.",
+    url: "https://medium.com/@nyinyizaw.dev/simplifying-authentication-in-kotlin-with-auth0s-webauthprovider-92ffbc3060ca",
+    date: "Sep 27, 2023",
+    readTime: "6 min read",
     source: "Medium"
   },
 ];
@@ -108,6 +127,68 @@ export default function MediumArticles() {
               </div>
             </motion.article>
           ))}
+          {/* See more on Medium box */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: articles.length * 0.1 }}
+            className="p-[2px] rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-[length:200%_100%] group relative overflow-hidden"
+          >
+            <motion.div
+              className="absolute inset-0"
+              animate={{
+                backgroundPosition: ["0% 0%", "200% 0%"],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+            <div className="p-8 rounded-xl bg-background flex flex-col items-center justify-center text-center">
+              <div className="mb-4 flex items-center gap-2">
+                <Image
+                  src="/medium-logo.svg"
+                  alt="Medium"
+                  width={32}
+                  height={32}
+                  className="object-contain dark:invert"
+                />
+                <span className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  See more on Medium
+                </span>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Discover more articles and stories on my Medium profile.
+              </p>
+              <div className="relative overflow-hidden rounded-full">
+                <motion.div
+                  className="absolute inset-0"
+                  style={{
+                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
+                    backgroundSize: "200% 100%",
+                  }}
+                  animate={{
+                    backgroundPosition: ["-200% 0", "200% 0"],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+                <Link
+                  href={MEDIUM_PROFILE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white hover:opacity-90 transition-all duration-300"
+                >
+                  <span>Visit Medium Profile</span>
+                  <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
