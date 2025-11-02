@@ -14,7 +14,7 @@ export const resumeData = {
     {
       title: "Lead Mobile Engineer",
       company: "PassKit",
-      location: "Remote",
+      location: "Bangkok, Thailand",
       period: "October 2025 - Present",
       responsibilities: [
         "Leading mobile development initiatives and defining app architecture",
@@ -26,7 +26,7 @@ export const resumeData = {
     {
       title: "Android Engineer",
       company: "PassKit",
-      location: "Remote",
+      location: "Bangkok, Thailand",
       period: "July 2025 - October 2025",
       responsibilities: [
         "Improved Android app performance and overall user experience",
@@ -39,7 +39,7 @@ export const resumeData = {
     {
       title: "Freelance Mobile Engineer · Tech Consultant · Fractional CTO",
       company: "Self-employed",
-      location: "Remote",
+      location: "Bangkok, Thailand",
       period: "October 2024 - June 2025",
       responsibilities: [
         "Crypto social project (Thailand): Improved wallet integration, performance, and UX on web platform",
