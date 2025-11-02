@@ -41,7 +41,7 @@ export default function Experience() {
       <div className="text-center max-w-2xl mx-auto mb-16">
         <h2 className="text-4xl font-bold mb-4">Experience</h2>
         <p className="text-muted-foreground">
-          Over 7 years of experience in mobile development across different industries
+          Nearly a decade of mobile development experience across fintech, healthcare, and EdTech
         </p>
       </div>
       <div className="space-y-20">

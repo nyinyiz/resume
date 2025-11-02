@@ -8,7 +8,7 @@ export const resumeData = {
     github: "https://github.com/nyinyiz",
     linkedin: "https://www.linkedin.com/in/nyinyiz/",
     profileImage: "/my_profile.jpg",
-    summary: "Lead Mobile Engineer with 7+ years of building high-performance, scalable apps across Android and iOS platforms. Proven expertise in Kotlin, Java, Swift, and Jetpack libraries. Strong leadership in defining mobile architecture, mentoring teams, and delivering secure, user-friendly features in fast-paced fintech, healthcare, and EdTech environments. Skilled in clean architecture, multithreading, modular code, and cross-functional collaboration."
+    summary: "I've spent nearly a decade crafting mobile experiences that people actually enjoy using. From building secure fintech apps to healthcare platforms that connect doctors, I've worked across Android and iOS to solve real problems. I love diving deep into clean architecture, optimizing performance, and turning complex ideas into smooth, intuitive apps. Whether it's leading a team or coding late into the night with Kotlin and Swift, I'm driven by creating software that makes a difference. Currently leading mobile innovation at PassKit, and always excited about the next challenge."
   },
   experience: [
     {

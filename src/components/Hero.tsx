@@ -1,13 +1,22 @@
 import Image from "next/image";
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Phone, Download } from "lucide-react";
 import { useResume } from "@/context/ResumeContext";
 import { motion } from "framer-motion";
+import { generateResumePDF } from "@/lib/resumePdfExport";
 
 export default function Hero() {
   const resumeData = useResume();
   const { name, title, summary, profileImage } = resumeData.personalInfo;
 
   const isExternalImage = profileImage?.startsWith('http');
+
+  const handleDownloadResume = async () => {
+    try {
+      await generateResumePDF(resumeData);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
 
   return (
     <section className="flex flex-col-reverse items-center justify-between gap-8 md:flex-row">
@@ -21,6 +30,18 @@ export default function Hero() {
         <p className="max-w-prose text-muted-foreground">
           {summary}
         </p>
+
+        {/* Download Resume Button */}
+        <motion.button
+          onClick={handleDownloadResume}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Download size={20} />
+          Download Resume
+        </motion.button>
+
         <div className="flex gap-4">
           <a
             href={resumeData.personalInfo.github}
