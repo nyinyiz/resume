@@ -1,21 +1,61 @@
 export const resumeData = {
   personalInfo: {
     name: "Nyi Nyi Zaw",
-    title: "Senior Android Engineer",
+    title: "Lead Mobile Engineer",
     email: "nyinyizaw.dev@gmail.com",
     location: "Phra Khanong, Bangkok, Thailand",
     phone: "+66 886841509",
     github: "https://github.com/nyinyiz",
     linkedin: "https://www.linkedin.com/in/nyinyiz/",
     profileImage: "/my_profile.jpg",
-    summary: "Experienced Android Developer with 7+ years of building high-performance, scalable apps using Kotlin, Java, and Jetpack libraries. Proven ability to deliver secure, user-friendly features in fast-paced fintech and communication environments. Strong in clean architecture, multithreading, and modular, well-tested code. Adept at mentoring, cross-functional collaboration, and contributing to architecture decisions."
+    summary: "Lead Mobile Engineer with 7+ years of building high-performance, scalable apps across Android and iOS platforms. Proven expertise in Kotlin, Java, Swift, and Jetpack libraries. Strong leadership in defining mobile architecture, mentoring teams, and delivering secure, user-friendly features in fast-paced fintech, healthcare, and EdTech environments. Skilled in clean architecture, multithreading, modular code, and cross-functional collaboration."
   },
   experience: [
     {
+      title: "Lead Mobile Engineer",
+      company: "PassKit",
+      location: "Remote",
+      period: "October 2025 - Present",
+      responsibilities: [
+        "Leading mobile development initiatives and defining app architecture",
+        "Ensuring high performance and quality across Android and iOS platforms",
+        "Mentoring development team and establishing best practices",
+        "Making key architectural decisions for scalable mobile solutions"
+      ],
+      skills: ["Android", "iOS", "Mobile Architecture", "Team Leadership", "Performance Optimization"]
+    },
+    {
+      title: "Android Engineer",
+      company: "PassKit",
+      location: "Remote",
+      period: "July 2025 - October 2025",
+      responsibilities: [
+        "Improved Android app performance and overall user experience",
+        "Refactored legacy codebase for better maintainability",
+        "Implemented modern Android development practices",
+        "Enhanced app stability and reliability"
+      ],
+      skills: ["Kotlin", "Android SDK", "Code Refactoring", "Performance Optimization", "UX Enhancement"]
+    },
+    {
+      title: "Freelance Mobile Engineer · Tech Consultant · Fractional CTO",
+      company: "Self-employed",
+      location: "Remote",
+      period: "October 2024 - June 2025",
+      responsibilities: [
+        "Crypto social project (Thailand): Improved wallet integration, performance, and UX on web platform",
+        "Printer Project (Singapore): Integrated Android SDK for secure device communication in enterprise printing solutions",
+        "EdTech Startup (Myanmar): Served as fractional CTO, leading mobile and web development of a learning platform",
+        "Provided technical consulting and architecture guidance across multiple projects",
+        "Led cross-functional teams and delivered high-quality solutions for diverse clients"
+      ],
+      skills: ["Mobile Development", "Web Development", "Technical Consulting", "CTO Leadership", "Wallet Integration", "Android SDK", "EdTech", "Blockchain"]
+    },
+    {
       title: "Senior Android Engineer",
       company: "Thonburi Hospital",
-      location: "Thailand",
-      period: "2023 - Present",
+      location: "Bangkok, Thailand",
+      period: "March 2023 - September 2024",
       responsibilities: [
         "Spearheaded Android app development with a focus on modular architecture",
         "Integrated social networking features tailored for healthcare professionals",
@@ -23,13 +63,13 @@ export const resumeData = {
         "Developed a comprehensive messaging system including DMs, group chats, file sharing, and image transmission",
         "Emphasized creating scalable, secure, and user-centric solutions to enhance communication and collaboration among doctors"
       ],
-      skills: ["Kotlin", "Jetpack Compose", "Social networking features integration", "crypto wallet", "End-to-End secure chat", "Github action"]
+      skills: ["Kotlin", "Jetpack Compose", "Social networking features integration", "Crypto wallet", "End-to-End secure chat", "Github action"]
     },
     {
       title: "Android Software Engineer",
       company: "True Digital Group",
-      location: "Thailand",
-      period: "2022 - 2023",
+      location: "Bangkok, Thailand",
+      period: "July 2022 - March 2023",
       responsibilities: [
         "Focused on TrueID international products and features",
         "Collaborated with a team of developers to ensure timely and successful delivery of applications",
@@ -41,7 +81,7 @@ export const resumeData = {
       title: "Mobile Application Developer",
       company: "GTRIIP",
       location: "Singapore",
-      period: "2021 - 2022",
+      period: "September 2021 - July 2022",
       responsibilities: [
         "Integrated and supported existing Flutter projects running in production",
         "Led the integration of an Android native SDK (door lock SDK for a company product)",
