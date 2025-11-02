@@ -21,7 +21,7 @@ export const resumeData = {
         "Ensuring high performance and quality across Android and iOS platforms",
         "Making key architectural decisions for scalable mobile solutions"
       ],
-      skills: ["Android", "iOS", "Mobile Architecture", "Team Leadership", "Performance Optimization"]
+      skills: ["Android", "iOS", "Mobile Architecture", "Project Leadership", "Performance Optimization"]
     },
     {
       title: "Android Engineer",
