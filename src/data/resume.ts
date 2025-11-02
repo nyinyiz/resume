@@ -19,7 +19,6 @@ export const resumeData = {
       responsibilities: [
         "Leading mobile development initiatives and defining app architecture",
         "Ensuring high performance and quality across Android and iOS platforms",
-        "Mentoring development team and establishing best practices",
         "Making key architectural decisions for scalable mobile solutions"
       ],
       skills: ["Android", "iOS", "Mobile Architecture", "Team Leadership", "Performance Optimization"]
