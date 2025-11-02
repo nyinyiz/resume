@@ -208,5 +208,71 @@ export const resumeData = {
       { name: "Unit Testing", level: 4 },
       { name: "REST APIs", level: 5 }
     ]
+  },
+  education: [
+    {
+      degree: "Bachelor of Computer Science",
+      institution: "University of Computer Studies, Yangon",
+      location: "Myanmar",
+      graduationYear: "2017"
+    }
+  ],
+  detailedTechnicalExpertise: {
+    languagesAndFrameworks: [
+      "Kotlin, Java, Swift and Dart",
+      "Android, iOS, Flutter, Android SDK Development, Android Jetpack (WorkManager, Paging, ViewBinding, LiveData)",
+      "Kotlin Coroutines, Flow",
+      "Java Concurrency, Collections"
+    ],
+    architectureAndPatterns: [
+      "Clean Architecture (MVVM, MVI, MVP)",
+      "Multi-module Android project organization",
+      "Dependency Injection with Dagger 2, Hilt"
+    ],
+    databaseAndStorage: [
+      "Room Persistence Library",
+      "SQL optimization and schema design"
+    ],
+    uiUxAndCustomComponents: [
+      "Custom Android Views and UI components",
+      "Responsive layouts, Material Design principles",
+      "Complex layout building and performance tuning"
+    ],
+    testingAndQuality: [
+      "Unit Testing (JUnit, Mockito)",
+      "Test coverage and code quality best practices"
+    ],
+    toolingAndDevOps: [
+      "Android Studio, Gradle",
+      "Git, GitHub, GitLab",
+      "CI/CD: GitHub Actions, Bitrise, Jenkins"
+    ],
+    collaborationAndAgile: [
+      "Agile/Scrum methodologies",
+      "Cross-functional teamwork with designers, product managers, and QA",
+      "Professional spoken and written English communication"
+    ]
+  },
+  portfolioLinks: {
+    github: "github.com/nyinyiz",
+    portfolio: "nyinyizaw.vercel.app",
+    medium: "medium.com/@nyinyizaw.dev",
+    projects: [
+      {
+        name: "Freelance Hours",
+        description: "Time-tracking app for freelancers & developers",
+        url: "freelance-tracker.vercel.app"
+      },
+      {
+        name: "Maxi.meme",
+        description: "Blockchain-based platform on Solana",
+        url: "maxi.meme"
+      },
+      {
+        name: "Fullerton Valley",
+        description: "Freelance website",
+        url: "fullertonvalley.com"
+      }
+    ]
   }
 }; 

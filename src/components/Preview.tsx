@@ -27,7 +27,10 @@ export default function Preview({ data }: PreviewProps) {
       frameworks: [],
       tools: [],
       concepts: []
-    }
+    },
+    education: data.education || [],
+    detailedTechnicalExpertise: data.detailedTechnicalExpertise || {},
+    portfolioLinks: data.portfolioLinks || {}
   };
 
   return (

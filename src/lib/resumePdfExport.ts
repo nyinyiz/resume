@@ -19,17 +19,31 @@ interface ResumeData {
     responsibilities: string[];
     skills: string[];
   }>;
-  skills: {
-    languages: Array<{ name: string; level: number }>;
-    frameworks: Array<{ name: string; level: number }>;
-    tools: Array<{ name: string; level: number }>;
-    concepts: Array<{ name: string; level: number }>;
-  };
-  projects: Array<{
-    name: string;
-    description: string;
-    link?: string;
+  education?: Array<{
+    degree: string;
+    institution: string;
+    location: string;
+    graduationYear: string;
   }>;
+  detailedTechnicalExpertise?: {
+    languagesAndFrameworks: string[];
+    architectureAndPatterns: string[];
+    databaseAndStorage: string[];
+    uiUxAndCustomComponents: string[];
+    testingAndQuality: string[];
+    toolingAndDevOps: string[];
+    collaborationAndAgile: string[];
+  };
+  portfolioLinks?: {
+    github: string;
+    portfolio: string;
+    medium: string;
+    projects: Array<{
+      name: string;
+      description: string;
+      url: string;
+    }>;
+  };
   certificates: Array<{
     name: string;
     url: string;
@@ -56,6 +70,21 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
       return true;
     }
     return false;
+  };
+
+  // Helper to add section header
+  const addSectionHeader = (title: string) => {
+    checkNewPage(15);
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...textColor);
+    doc.text(title, margin, yPos);
+    yPos += 2;
+    // Add underline
+    doc.setDrawColor(...primaryColor);
+    doc.setLineWidth(0.5);
+    doc.line(margin, yPos, pageWidth - margin, yPos);
+    yPos += 8;
   };
 
   // Header Section
@@ -98,11 +127,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
   yPos += 10;
 
   // Professional Summary
-  doc.setFontSize(12);
-  doc.setTextColor(...textColor);
-  doc.setFont("helvetica", "bold");
-  doc.text("PROFESSIONAL SUMMARY", margin, yPos);
-  yPos += 7;
+  addSectionHeader("PROFESSIONAL SUMMARY");
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
@@ -115,13 +140,52 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
   });
   yPos += 5;
 
+  // Technical Expertise
+  if (data.detailedTechnicalExpertise) {
+    addSectionHeader("TECHNICAL EXPERTISE");
+
+    const expertiseCategories = [
+      { title: "Languages & Frameworks", items: data.detailedTechnicalExpertise.languagesAndFrameworks },
+      { title: "Architecture & Patterns", items: data.detailedTechnicalExpertise.architectureAndPatterns },
+      { title: "Database & Storage", items: data.detailedTechnicalExpertise.databaseAndStorage },
+      { title: "UI/UX & Custom Components", items: data.detailedTechnicalExpertise.uiUxAndCustomComponents },
+      { title: "Testing & Quality", items: data.detailedTechnicalExpertise.testingAndQuality },
+      { title: "Tooling & DevOps", items: data.detailedTechnicalExpertise.toolingAndDevOps },
+      { title: "Collaboration & Agile", items: data.detailedTechnicalExpertise.collaborationAndAgile },
+    ];
+
+    expertiseCategories.forEach((category) => {
+      if (category.items && category.items.length > 0) {
+        checkNewPage(10);
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...primaryColor);
+        doc.text(category.title, margin, yPos);
+        yPos += 5;
+
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...textColor);
+
+        category.items.forEach((item) => {
+          checkNewPage(6);
+          doc.text("●", margin + 2, yPos);
+          const itemLines = doc.splitTextToSize(item, pageWidth - 2 * margin - 8);
+          itemLines.forEach((line: string, index: number) => {
+            if (index > 0) checkNewPage(5);
+            doc.text(line, margin + 7, yPos);
+            yPos += 4.5;
+          });
+        });
+        yPos += 2;
+      }
+    });
+
+    yPos += 3;
+  }
+
   // Professional Experience
-  checkNewPage(20);
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...textColor);
-  doc.text("PROFESSIONAL EXPERIENCE", margin, yPos);
-  yPos += 7;
+  addSectionHeader("PROFESSIONAL EXPERIENCE");
 
   // Group experiences by company
   const groupedExperiences = data.experience.reduce((acc, exp) => {
@@ -171,7 +235,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
 
       role.responsibilities.forEach((resp) => {
         checkNewPage(7);
-        const bulletPoint = "•";
+        const bulletPoint = "●";
         doc.text(bulletPoint, margin + 3, yPos);
         const respLines = doc.splitTextToSize(resp, pageWidth - 2 * margin - 10);
         respLines.forEach((line: string, index: number) => {
@@ -187,7 +251,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
         checkNewPage(6);
         doc.setFontSize(8);
         doc.setTextColor(...lightGray);
-        const skillsText = "Skills: " + role.skills.join(" • ");
+        const skillsText = "Technologies: " + role.skills.join(" • ");
         const skillLines = doc.splitTextToSize(skillsText, pageWidth - 2 * margin - 6);
         skillLines.forEach((line: string) => {
           doc.text(line, margin + 6, yPos);
@@ -200,66 +264,112 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
     yPos += 2;
   });
 
-  // Technical Skills
-  checkNewPage(30);
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...textColor);
-  doc.text("TECHNICAL SKILLS", margin, yPos);
-  yPos += 7;
+  // Education
+  if (data.education && data.education.length > 0) {
+    addSectionHeader("EDUCATION");
 
-  const skillCategories = [
-    { title: "Languages", items: data.skills.languages },
-    { title: "Frameworks", items: data.skills.frameworks },
-    { title: "Tools", items: data.skills.tools },
-    { title: "Concepts", items: data.skills.concepts },
-  ];
-
-  skillCategories.forEach((category) => {
-    if (category.items.length > 0) {
-      checkNewPage(8);
+    data.education.forEach((edu) => {
+      checkNewPage(10);
       doc.setFontSize(10);
       doc.setFont("helvetica", "bold");
-      doc.setTextColor(...primaryColor);
-      doc.text(category.title + ":", margin, yPos);
+      doc.setTextColor(...textColor);
+      doc.text(edu.degree, margin, yPos);
       yPos += 5;
 
       doc.setFontSize(9);
       doc.setFont("helvetica", "normal");
-      doc.setTextColor(...textColor);
-      const skillNames = category.items
-        .sort((a, b) => b.level - a.level)
-        .map((s) => s.name)
-        .join(" • ");
-      const skillLines = doc.splitTextToSize(skillNames, pageWidth - 2 * margin - 3);
-      skillLines.forEach((line: string) => {
-        checkNewPage(5);
-        doc.text(line, margin + 3, yPos);
-        yPos += 4;
-      });
-      yPos += 3;
-    }
-  });
+      doc.setTextColor(...lightGray);
+      doc.text(`${edu.institution}, ${edu.location}`, margin, yPos);
+      doc.text(edu.graduationYear, pageWidth - margin, yPos, { align: "right" });
+      yPos += 8;
+    });
+  }
 
   // Certifications
   if (data.certificates.length > 0) {
-    checkNewPage(20);
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(...textColor);
-    doc.text("CERTIFICATIONS", margin, yPos);
-    yPos += 7;
+    addSectionHeader("CERTIFICATIONS");
 
     data.certificates.forEach((cert) => {
       checkNewPage(6);
       doc.setFontSize(9);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(...textColor);
-      doc.text("•", margin, yPos);
+      doc.text("●", margin, yPos);
       doc.setTextColor(...primaryColor);
+
+      // Shorten URLs for display
+      const displayUrl = cert.url.includes("shorturl")
+        ? cert.url
+        : cert.url.replace(/^https?:\/\//, "");
+
       doc.textWithLink(cert.name, margin + 5, yPos, { url: cert.url });
-      yPos += 5;
+      yPos += 4;
+
+      doc.setFontSize(8);
+      doc.setTextColor(...lightGray);
+      doc.text(`(${displayUrl})`, margin + 7, yPos);
+      yPos += 6;
     });
+    yPos += 3;
+  }
+
+  // Portfolio & Projects
+  if (data.portfolioLinks) {
+    addSectionHeader("PORTFOLIO & PROJECTS");
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(...textColor);
+
+    // Links
+    doc.text("●", margin, yPos);
+    doc.setTextColor(...primaryColor);
+    doc.textWithLink("GitHub: " + data.portfolioLinks.github, margin + 5, yPos, {
+      url: "https://" + data.portfolioLinks.github
+    });
+    yPos += 5;
+
+    doc.setTextColor(...textColor);
+    doc.text("●", margin, yPos);
+    doc.setTextColor(...primaryColor);
+    doc.textWithLink("Portfolio: " + data.portfolioLinks.portfolio, margin + 5, yPos, {
+      url: "https://" + data.portfolioLinks.portfolio
+    });
+    yPos += 5;
+
+    doc.setTextColor(...textColor);
+    doc.text("●", margin, yPos);
+    doc.setTextColor(...primaryColor);
+    doc.textWithLink("Medium: " + data.portfolioLinks.medium, margin + 5, yPos, {
+      url: "https://" + data.portfolioLinks.medium
+    });
+    yPos += 7;
+
+    // Projects
+    if (data.portfolioLinks.projects && data.portfolioLinks.projects.length > 0) {
+      data.portfolioLinks.projects.forEach((project) => {
+        checkNewPage(8);
+        doc.setTextColor(...textColor);
+        doc.text("●", margin, yPos);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...primaryColor);
+        doc.text(project.name + ": ", margin + 5, yPos);
+
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...textColor);
+        const projectDesc = project.description + " ";
+        doc.text(projectDesc, margin + 5 + doc.getTextWidth(project.name + ": "), yPos);
+        yPos += 4;
+
+        doc.setFontSize(8);
+        doc.setTextColor(...primaryColor);
+        doc.textWithLink("(" + project.url + ")", margin + 7, yPos, {
+          url: "https://" + project.url
+        });
+        doc.setFontSize(9);
+        yPos += 6;
+      });
+    }
   }
 
   // Save the PDF
