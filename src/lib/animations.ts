@@ -1,3 +1,4 @@
+// Stagger container for sequential animations
 export const staggerContainer = {
   initial: {},
   animate: {
@@ -8,6 +9,7 @@ export const staggerContainer = {
   }
 };
 
+// Hero section animation - Fade in and slide up
 export const heroAnimation = {
   initial: { y: 20, opacity: 0 },
   animate: {
@@ -20,6 +22,7 @@ export const heroAnimation = {
   }
 };
 
+// Experience section animation - Slide in from left
 export const experienceAnimation = {
   initial: { x: -100, opacity: 0 },
   animate: {
@@ -32,6 +35,7 @@ export const experienceAnimation = {
   }
 };
 
+// Projects section animation - Zoom in effect
 export const projectsAnimation = {
   initial: { scale: 0.8, opacity: 0 },
   animate: {
@@ -44,6 +48,7 @@ export const projectsAnimation = {
   }
 };
 
+// Skills section animation - Bounce effect
 export const skillsAnimation = {
   initial: { y: 60, opacity: 0 },
   animate: {
@@ -57,6 +62,7 @@ export const skillsAnimation = {
   }
 };
 
+// Speaking section animation - Slide in from right
 export const speakingAnimation = {
   initial: { x: 100, opacity: 0 },
   animate: {
@@ -69,6 +75,7 @@ export const speakingAnimation = {
   }
 };
 
+// Certificates section animation - Fade in and scale
 export const certificatesAnimation = {
   initial: {
     scale: 0.9,
@@ -79,6 +86,50 @@ export const certificatesAnimation = {
     scale: 1,
     opacity: 1,
     y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
+// Clone section animation
+export const cloneAnimation = {
+  initial: {
+    scale: 0.9,
+    opacity: 0,
+    y: 30
+  },
+  animate: {
+    scale: 1,
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
+// Shine animation for special effects
+export const shineAnimation = {
+  initial: { backgroundPosition: "200% center" },
+  animate: {
+    backgroundPosition: ["200% center", "-200% center"],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      ease: "linear"
+    }
+  }
+};
+
+// Generic fade in animation
+export const fadeInUp = {
+  initial: { y: 20, opacity: 0 },
+  animate: {
+    y: 0,
+    opacity: 1,
     transition: {
       duration: 0.8,
       ease: "easeOut"

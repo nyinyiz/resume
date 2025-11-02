@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { Github, Linkedin, Mail, MapPin, Phone, Copy } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { useResume } from "@/context/ResumeContext";
-import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function Hero() {

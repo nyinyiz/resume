@@ -1,46 +1,18 @@
 "use client";
 
-import Hero from "@/components/Hero";
-import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
-import Skills from "@/components/Skills";
-import Speaking from "@/components/Speaking";
-import Certificates from "@/components/Certificates";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { resumeData as initialResumeData } from "@/data/resume";
 import Editor from "@monaco-editor/react";
 import { Code, Eye, Settings2, FileDown, Download } from "lucide-react";
 import ResumeForm from "@/components/ResumeForm";
-import { useReactToPrint } from 'react-to-print';
-import { ResumeContext } from "@/context/ResumeContext";
-import React from "react";
 import Maintenance from "@/components/Maintenance";
-import Alert from "@/components/Alert";
 
 // Dynamically import the preview component to avoid SSR issues
 const Preview = dynamic(() => import("@/components/Preview"), { ssr: false });
 
 type Tab = "editor" | "preview" | "form";
-
-// Create a new component for PDF export
-const PDFPreview = ({ data }: { data: any }) => {
-  return (
-    <div className="max-w-7xl mx-auto px-4 bg-white text-black">
-      <ResumeContext.Provider value={data}>
-        <div className="space-y-32 py-16">
-          <Hero />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Speaking />
-          <Certificates />
-        </div>
-      </ResumeContext.Provider>
-    </div>
-  );
-};
 
 export default function ClonePage() {
   const [activeTab, setActiveTab] = useState<Tab>("form");
@@ -48,19 +20,7 @@ export default function ClonePage() {
     JSON.stringify(initialResumeData, null, 2)
   );
   const [parsedData, setParsedData] = useState(initialResumeData);
-  const pdfRef = useRef<HTMLDivElement>(null);
-  const printRef = useRef<HTMLDivElement>(null);
-  const componentRef = useRef<HTMLDivElement>(null);
   const [showMaintenance, setShowMaintenance] = useState(false);
-  const [alert, setAlert] = useState<{
-    show: boolean;
-    message: string;
-    type: 'success' | 'error';
-  }>({
-    show: false,
-    message: '',
-    type: 'success'
-  });
 
   const handleEditorChange = (value: string | undefined) => {
     if (value) {
@@ -77,28 +37,6 @@ export default function ClonePage() {
   const handleFormChange = (newData: any) => {
     setParsedData(newData);
     setResumeData(JSON.stringify(newData, null, 2));
-  };
-
-  const showAlert = (message: string, type: 'success' | 'error' = 'success') => {
-    setAlert({ show: true, message, type });
-  };
-
-  const handleDownloadCode = () => {
-    try {
-      const blob = new Blob([resumeData], { type: 'application/json' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'portfolio-data.json';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-      showAlert('JSON file has been downloaded successfully!');
-    } catch (error) {
-      showAlert('Failed to download JSON file. Please try again.', 'error');
-      console.error('JSON download failed:', error);
-    }
   };
 
   return (
@@ -257,17 +195,9 @@ export default function ClonePage() {
       </div>
 
       {/* Maintenance Modal */}
-      <Maintenance 
-        isOpen={showMaintenance} 
-        onClose={() => setShowMaintenance(false)} 
-      />
-
-      {/* Alert Modal */}
-      <Alert 
-        isOpen={alert.show}
-        onClose={() => setAlert(prev => ({ ...prev, show: false }))}
-        message={alert.message}
-        type={alert.type}
+      <Maintenance
+        isOpen={showMaintenance}
+        onClose={() => setShowMaintenance(false)}
       />
     </div>
   );

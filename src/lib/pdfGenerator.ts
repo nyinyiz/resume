@@ -129,7 +129,7 @@ function generateModernTemplate(doc: jsPDF, data: ResumeData) {
   doc.text("Experience", pageWidth / 2, yPos, { align: 'center' });
   yPos += 20;
 
-  data.experience.forEach((exp, index) => {
+  data.experience.forEach((exp) => {
     // Calculate total height needed for this experience entry
     const responsibilityHeight = exp.responsibilities.reduce((total, resp) => {
       const lines = doc.splitTextToSize(resp, pageWidth - 2 * margin - 10);
@@ -377,7 +377,7 @@ function generateMinimalTemplate(doc: jsPDF, data: ResumeData) {
   doc.text("Experience", margin, yPos);
   yPos += 10;
 
-  data.experience.forEach((exp, index) => {
+  data.experience.forEach((exp) => {
     // Check if we need a new page
     if (yPos > doc.internal.pageSize.height - 100) {
       doc.addPage();

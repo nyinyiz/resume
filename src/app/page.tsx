@@ -7,133 +7,16 @@ import Skills from "@/components/Skills";
 import Speaking from "@/components/Speaking";
 import Certificates from "@/components/Certificates";
 import { motion } from "framer-motion";
-import { Analytics } from "@vercel/analytics/react"
-import { GitFork, BookOpen } from "lucide-react";
-import Link from "next/link";
-
-// Hero section animation - Fade in and slide up
-const heroAnimation = {
-  initial: { y: 20, opacity: 0 },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut"
-    }
-  }
-};
-
-// Experience section animation - Slide in from left
-const experienceAnimation = {
-  initial: { x: -100, opacity: 0 },
-  animate: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99]
-    }
-  }
-};
-
-// Projects section animation - Zoom in effect
-const projectsAnimation = {
-  initial: { scale: 0.8, opacity: 0 },
-  animate: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99]
-    }
-  }
-};
-
-// Skills section animation - Bounce effect
-const skillsAnimation = {
-  initial: { y: 60, opacity: 0 },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      type: "spring",
-      bounce: 0.4
-    }
-  }
-};
-
-// Speaking section animation - Slide in from right
-const speakingAnimation = {
-  initial: { x: 100, opacity: 0 },
-  animate: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99]
-    }
-  }
-};
-
-// Certificates section animation - Fade in and scale
-const certificatesAnimation = {
-  initial: {
-    scale: 0.9,
-    opacity: 0,
-    y: 30
-  },
-  animate: {
-    scale: 1,
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut"
-    }
-  }
-};
-
-// Clone section animation
-const cloneAnimation = {
-  initial: {
-    scale: 0.9,
-    opacity: 0,
-    y: 30
-  },
-  animate: {
-    scale: 1,
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut"
-    }
-  }
-};
-
-const staggerContainer = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1
-    }
-  }
-};
-
-const shineAnimation = {
-  initial: { backgroundPosition: "200% center" },
-  animate: {
-    backgroundPosition: ["200% center", "-200% center"],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "linear"
-    }
-  }
-};
+import { Analytics } from "@vercel/analytics/react";
+import {
+  staggerContainer,
+  heroAnimation,
+  experienceAnimation,
+  projectsAnimation,
+  skillsAnimation,
+  speakingAnimation,
+  certificatesAnimation,
+} from "@/lib/animations";
 
 export default function Home() {
   return (

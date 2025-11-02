@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Upload, Plus, Trash2 } from "lucide-react";
-import type { ResumeData, Education } from "@/types";
+import type { ResumeData } from "@/types";
 
 interface SampleJSONProps {
   value: ResumeData;
