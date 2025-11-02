@@ -12,18 +12,6 @@ export const resumeData = {
   },
   experience: [
     {
-      title: "Lead Mobile Engineer",
-      company: "PassKit",
-      location: "Bangkok, Thailand",
-      period: "October 2025 - Present",
-      responsibilities: [
-        "Leading mobile development initiatives and defining app architecture",
-        "Ensuring high performance and quality across Android and iOS platforms",
-        "Making key architectural decisions for scalable mobile solutions"
-      ],
-      skills: ["Android", "iOS", "Mobile Architecture", "Project Leadership", "Performance Optimization"]
-    },
-    {
       title: "Android Engineer",
       company: "PassKit",
       location: "Bangkok, Thailand",
@@ -35,6 +23,18 @@ export const resumeData = {
         "Enhanced app stability and reliability"
       ],
       skills: ["Kotlin", "Android SDK", "Code Refactoring", "Performance Optimization", "UX Enhancement"]
+    },
+    {
+      title: "Lead Mobile Engineer",
+      company: "PassKit",
+      location: "Bangkok, Thailand",
+      period: "October 2025 - Present",
+      responsibilities: [
+        "Leading mobile development initiatives and defining app architecture",
+        "Ensuring high performance and quality across Android and iOS platforms",
+        "Making key architectural decisions for scalable mobile solutions"
+      ],
+      skills: ["Android", "iOS", "Mobile Architecture", "Project Leadership", "Performance Optimization"]
     },
     {
       title: "Freelance Mobile Engineer · Tech Consultant · Fractional CTO",
