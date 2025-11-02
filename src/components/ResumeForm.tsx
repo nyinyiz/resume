@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Minus, Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 

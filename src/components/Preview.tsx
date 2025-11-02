@@ -8,33 +8,11 @@ import Speaking from "./Speaking";
 import Certificates from "./Certificates";
 import { ResumeContext } from "@/context/ResumeContext";
 import { motion } from "framer-motion";
+import { staggerContainer, fadeInUp } from "@/lib/animations";
 
 interface PreviewProps {
   data: any;
 }
-
-// Animation variants
-const staggerContainer = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1
-    }
-  }
-};
-
-const fadeInUp = {
-  initial: { y: 20, opacity: 0 },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut"
-    }
-  }
-};
 
 export default function Preview({ data }: PreviewProps) {
   // Create a new context value with the updated data, including skills
