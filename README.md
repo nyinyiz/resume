@@ -4,7 +4,7 @@ A modern, responsive portfolio and resume website built with Next.js 14, TypeScr
 
 ## 🌟 Live Demo
 
-Check out the live demo: [https://resume-psi-blush-18.vercel.app/](https://resume-psi-blush-18.vercel.app/)
+Check out the live demo: [https://nyinyizaw.vercel.app/](https://nyinyizaw.vercel.app/)
 
 ## ✨ Features
 
