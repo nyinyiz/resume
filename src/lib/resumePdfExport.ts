@@ -169,7 +169,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
 
         category.items.forEach((item) => {
           checkNewPage(6);
-          doc.text("●", margin + 2, yPos);
+          doc.text("-", margin + 2, yPos);
           const itemLines = doc.splitTextToSize(item, pageWidth - 2 * margin - 8);
           itemLines.forEach((line: string, index: number) => {
             if (index > 0) checkNewPage(5);
@@ -235,7 +235,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
 
       role.responsibilities.forEach((resp) => {
         checkNewPage(7);
-        const bulletPoint = "●";
+        const bulletPoint = "-";
         doc.text(bulletPoint, margin + 3, yPos);
         const respLines = doc.splitTextToSize(resp, pageWidth - 2 * margin - 10);
         respLines.forEach((line: string, index: number) => {
@@ -251,7 +251,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
         checkNewPage(6);
         doc.setFontSize(8);
         doc.setTextColor(...lightGray);
-        const skillsText = "Technologies: " + role.skills.join(" • ");
+        const skillsText = "Technologies: " + role.skills.join(" | ");
         const skillLines = doc.splitTextToSize(skillsText, pageWidth - 2 * margin - 6);
         skillLines.forEach((line: string) => {
           doc.text(line, margin + 6, yPos);
@@ -294,7 +294,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
       doc.setFontSize(9);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(...textColor);
-      doc.text("●", margin, yPos);
+      doc.text("-", margin, yPos);
       doc.setTextColor(...primaryColor);
 
       // Shorten URLs for display
@@ -322,7 +322,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
     doc.setTextColor(...textColor);
 
     // Links
-    doc.text("●", margin, yPos);
+    doc.text("-", margin, yPos);
     doc.setTextColor(...primaryColor);
     doc.textWithLink("GitHub: " + data.portfolioLinks.github, margin + 5, yPos, {
       url: "https://" + data.portfolioLinks.github
@@ -330,7 +330,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
     yPos += 5;
 
     doc.setTextColor(...textColor);
-    doc.text("●", margin, yPos);
+    doc.text("-", margin, yPos);
     doc.setTextColor(...primaryColor);
     doc.textWithLink("Portfolio: " + data.portfolioLinks.portfolio, margin + 5, yPos, {
       url: "https://" + data.portfolioLinks.portfolio
@@ -338,7 +338,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
     yPos += 5;
 
     doc.setTextColor(...textColor);
-    doc.text("●", margin, yPos);
+    doc.text("-", margin, yPos);
     doc.setTextColor(...primaryColor);
     doc.textWithLink("Medium: " + data.portfolioLinks.medium, margin + 5, yPos, {
       url: "https://" + data.portfolioLinks.medium
@@ -350,7 +350,7 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
       data.portfolioLinks.projects.forEach((project) => {
         checkNewPage(8);
         doc.setTextColor(...textColor);
-        doc.text("●", margin, yPos);
+        doc.text("-", margin, yPos);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(...primaryColor);
         doc.text(project.name + ": ", margin + 5, yPos);
