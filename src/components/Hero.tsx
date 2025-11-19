@@ -1,22 +1,13 @@
 import Image from "next/image";
-import { Github, Linkedin, Mail, MapPin, Phone, Download } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { useResume } from "@/context/ResumeContext";
 import { motion } from "framer-motion";
-import { generateResumePDF } from "@/lib/resumePdfExport";
 
 export default function Hero() {
   const resumeData = useResume();
   const { name, title, summary, profileImage } = resumeData.personalInfo;
 
   const isExternalImage = profileImage?.startsWith('http');
-
-  const handleDownloadResume = async () => {
-    try {
-      await generateResumePDF(resumeData);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
-  };
 
   return (
     <section className="flex flex-col-reverse items-center justify-between gap-8 md:flex-row">
