@@ -54,13 +54,14 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.width;
   const pageHeight = doc.internal.pageSize.height;
-  const margin = 20;
+  const margin = 20; // Increased margin for better whitespace
   let yPos = margin;
 
   // Colors
-  const primaryColor: [number, number, number] = [59, 130, 246]; // Blue
-  const textColor: [number, number, number] = [30, 30, 30];
-  const lightGray: [number, number, number] = [100, 100, 100];
+  const primaryColor: [number, number, number] = [59, 130, 246]; // Blue #3b82f6
+  const darkGray: [number, number, number] = [51, 51, 51]; // #333333
+  const lightGray: [number, number, number] = [107, 114, 128]; // #6b7280
+  const accentColor: [number, number, number] = [243, 244, 246]; // #f3f4f6 (Light gray background)
 
   // Helper function to check if we need a new page
   const checkNewPage = (spaceNeeded: number) => {
@@ -74,120 +75,144 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
 
   // Helper to add section header
   const addSectionHeader = (title: string) => {
-    checkNewPage(15);
+    checkNewPage(20);
+    yPos += 5;
+
+    // Section Title
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(...textColor);
-    doc.text(title, margin, yPos);
+    doc.setTextColor(...primaryColor);
+    doc.text(title.toUpperCase(), margin, yPos);
+
     yPos += 2;
-    // Add underline
+    // Underline
     doc.setDrawColor(...primaryColor);
     doc.setLineWidth(0.5);
     doc.line(margin, yPos, pageWidth - margin, yPos);
+
     yPos += 8;
   };
 
-  // Header Section
-  doc.setFontSize(28);
-  doc.setTextColor(...textColor);
+  // --- HEADER SECTION ---
+  // Background for header
+  doc.setFillColor(...accentColor);
+  doc.rect(0, 0, pageWidth, 60, "F");
+
+  yPos = 25;
+
+  // Name
+  doc.setFontSize(24);
+  doc.setTextColor(...darkGray);
   doc.setFont("helvetica", "bold");
-  doc.text(data.personalInfo.name, margin, yPos);
+  doc.text(data.personalInfo.name.toUpperCase(), margin, yPos);
   yPos += 10;
 
+  // Title
   doc.setFontSize(14);
   doc.setTextColor(...primaryColor);
   doc.setFont("helvetica", "normal");
   doc.text(data.personalInfo.title, margin, yPos);
   yPos += 12;
 
-  // Contact Information
-  doc.setFontSize(10);
-  doc.setTextColor(...lightGray);
-  doc.setFont("helvetica", "normal");
+  // Contact Info (Single Line)
+  doc.setFontSize(9);
+  doc.setTextColor(...darkGray);
 
-  const contactLine1 = `${data.personalInfo.email} | ${data.personalInfo.phone}`;
-  const contactLine2 = `${data.personalInfo.location}`;
+  const contactParts = [
+    data.personalInfo.email,
+    data.personalInfo.phone,
+    data.personalInfo.location
+  ].filter(Boolean);
 
-  doc.text(contactLine1, margin, yPos);
-  yPos += 5;
-  doc.text(contactLine2, margin, yPos);
-  yPos += 5;
+  const contactText = contactParts.join("  •  ");
+  doc.text(contactText, margin, yPos);
+  yPos += 6;
 
-  // LinkedIn and GitHub
+  // Links (LinkedIn | GitHub)
+  const linkY = yPos;
+  let currentX = margin;
+
   doc.setTextColor(...primaryColor);
-  doc.textWithLink("LinkedIn", margin, yPos, { url: data.personalInfo.linkedin });
-  doc.text(" | ", margin + 20, yPos);
-  doc.textWithLink("GitHub", margin + 27, yPos, { url: data.personalInfo.github });
-  yPos += 10;
+  doc.setFontSize(9);
 
-  // Divider
-  doc.setDrawColor(...lightGray);
-  doc.setLineWidth(0.5);
-  doc.line(margin, yPos, pageWidth - margin, yPos);
-  yPos += 10;
-
-  // Professional Summary
-  addSectionHeader("PROFESSIONAL SUMMARY");
-
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(...textColor);
-  const summaryLines = doc.splitTextToSize(data.personalInfo.summary, pageWidth - 2 * margin);
-  summaryLines.forEach((line: string) => {
-    checkNewPage(6);
-    doc.text(line, margin, yPos);
-    yPos += 5;
-  });
-  yPos += 5;
-
-  // Technical Expertise
-  if (data.detailedTechnicalExpertise) {
-    addSectionHeader("TECHNICAL EXPERTISE");
-
-    const expertiseCategories = [
-      { title: "Languages & Frameworks", items: data.detailedTechnicalExpertise.languagesAndFrameworks },
-      { title: "Architecture & Patterns", items: data.detailedTechnicalExpertise.architectureAndPatterns },
-      { title: "Database & Storage", items: data.detailedTechnicalExpertise.databaseAndStorage },
-      { title: "UI/UX & Custom Components", items: data.detailedTechnicalExpertise.uiUxAndCustomComponents },
-      { title: "Testing & Quality", items: data.detailedTechnicalExpertise.testingAndQuality },
-      { title: "Tooling & DevOps", items: data.detailedTechnicalExpertise.toolingAndDevOps },
-      { title: "Collaboration & Agile", items: data.detailedTechnicalExpertise.collaborationAndAgile },
-    ];
-
-    expertiseCategories.forEach((category) => {
-      if (category.items && category.items.length > 0) {
-        checkNewPage(10);
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(...primaryColor);
-        doc.text(category.title, margin, yPos);
-        yPos += 5;
-
-        doc.setFontSize(9);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(...textColor);
-
-        category.items.forEach((item) => {
-          checkNewPage(6);
-          doc.text("-", margin + 2, yPos);
-          const itemLines = doc.splitTextToSize(item, pageWidth - 2 * margin - 8);
-          itemLines.forEach((line: string, index: number) => {
-            if (index > 0) checkNewPage(5);
-            doc.text(line, margin + 7, yPos);
-            yPos += 4.5;
-          });
-        });
-        yPos += 2;
-      }
-    });
-
-    yPos += 3;
+  if (data.personalInfo.linkedin) {
+    doc.textWithLink("LinkedIn", currentX, linkY, { url: data.personalInfo.linkedin });
+    currentX += doc.getTextWidth("LinkedIn");
   }
 
-  // Professional Experience
-  addSectionHeader("PROFESSIONAL EXPERIENCE");
+  if (data.personalInfo.github) {
+    if (data.personalInfo.linkedin) {
+      doc.setTextColor(...lightGray);
+      doc.text("  |  ", currentX, linkY);
+      currentX += doc.getTextWidth("  |  ");
+      doc.setTextColor(...primaryColor);
+    }
+    doc.textWithLink("GitHub", currentX, linkY, { url: data.personalInfo.github });
+  }
 
-  // Group experiences by company
+  yPos = 70; // Reset yPos after header background
+
+  // --- PROFESSIONAL SUMMARY ---
+  if (data.personalInfo.summary) {
+    addSectionHeader("Professional Summary");
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(...darkGray);
+
+    const summaryLines = doc.splitTextToSize(data.personalInfo.summary, pageWidth - 2 * margin);
+    summaryLines.forEach((line: string) => {
+      checkNewPage(5);
+      doc.text(line, margin, yPos);
+      yPos += 5;
+    });
+    yPos += 5;
+  }
+
+  // --- TECHNICAL EXPERTISE ---
+  if (data.detailedTechnicalExpertise) {
+    addSectionHeader("Technical Expertise");
+
+    const categories = [
+      { name: "Languages & Frameworks", items: data.detailedTechnicalExpertise.languagesAndFrameworks },
+      { name: "Architecture", items: data.detailedTechnicalExpertise.architectureAndPatterns },
+      { name: "Database", items: data.detailedTechnicalExpertise.databaseAndStorage },
+      { name: "UI/UX", items: data.detailedTechnicalExpertise.uiUxAndCustomComponents },
+      { name: "Testing", items: data.detailedTechnicalExpertise.testingAndQuality },
+      { name: "DevOps", items: data.detailedTechnicalExpertise.toolingAndDevOps },
+    ];
+
+    categories.forEach((cat) => {
+      if (cat.items && cat.items.length > 0) {
+        checkNewPage(7);
+
+        // Category Name (Bold)
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...darkGray);
+        doc.text(`${cat.name}:`, margin, yPos);
+
+        // Items
+        doc.setFont("helvetica", "normal");
+        const titleWidth = doc.getTextWidth(`${cat.name}:`) + 2;
+        const itemsText = cat.items.join(", ");
+
+        const itemLines = doc.splitTextToSize(itemsText, pageWidth - margin - (margin + titleWidth));
+
+        itemLines.forEach((line: string, i: number) => {
+          if (i > 0) checkNewPage(5);
+          doc.text(line, margin + titleWidth, yPos + (i * 5));
+        });
+
+        yPos += (itemLines.length * 5) + 2;
+      }
+    });
+    yPos += 5;
+  }
+
+  // --- PROFESSIONAL EXPERIENCE ---
+  addSectionHeader("Professional Experience");
+
+  // Group experiences
   const groupedExperiences = data.experience.reduce((acc, exp) => {
     const existing = acc.find(g => g.company === exp.company);
     if (existing) {
@@ -201,177 +226,131 @@ export async function generateResumePDF(data: ResumeData): Promise<void> {
   groupedExperiences.forEach((group) => {
     checkNewPage(15);
 
-    // Company name
+    // Company Header
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(...textColor);
+    doc.setTextColor(...darkGray);
     doc.text(group.company, margin, yPos);
 
+    // Location (Right aligned)
     doc.setFont("helvetica", "normal");
     doc.setTextColor(...lightGray);
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.text(group.location, pageWidth - margin, yPos, { align: "right" });
+
     yPos += 6;
 
     group.roles.forEach((role) => {
-      checkNewPage(10);
+      checkNewPage(15);
 
-      // Job title and period
+      // Role Title
       doc.setFontSize(10);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(...primaryColor);
-      doc.text(role.title, margin + 3, yPos);
+      doc.text(role.title, margin, yPos);
 
+      // Period (Right aligned)
       doc.setFont("helvetica", "italic");
       doc.setTextColor(...lightGray);
-      doc.setFontSize(9);
       doc.text(role.period, pageWidth - margin, yPos, { align: "right" });
+
       yPos += 6;
 
       // Responsibilities
       doc.setFontSize(9);
       doc.setFont("helvetica", "normal");
-      doc.setTextColor(...textColor);
+      doc.setTextColor(...darkGray);
 
       role.responsibilities.forEach((resp) => {
-        checkNewPage(7);
-        const bulletPoint = "-";
-        doc.text(bulletPoint, margin + 3, yPos);
-        const respLines = doc.splitTextToSize(resp, pageWidth - 2 * margin - 10);
+        checkNewPage(6);
+
+        // Bullet point
+        doc.text("•", margin + 2, yPos);
+
+        const respLines = doc.splitTextToSize(resp, pageWidth - 2 * margin - 8);
         respLines.forEach((line: string, index: number) => {
           if (index > 0) checkNewPage(5);
-          doc.text(line, margin + 8, yPos);
-          yPos += 4;
+          doc.text(line, margin + 6, yPos);
+          yPos += 4.5;
         });
+        yPos += 1; // Extra spacing between bullets
       });
-      yPos += 2;
 
-      // Skills
+      // Technologies used in this role
       if (role.skills.length > 0) {
         checkNewPage(6);
+        yPos += 1;
         doc.setFontSize(8);
         doc.setTextColor(...lightGray);
-        const skillsText = "Technologies: " + role.skills.join(" | ");
-        const skillLines = doc.splitTextToSize(skillsText, pageWidth - 2 * margin - 6);
-        skillLines.forEach((line: string) => {
+        doc.setFont("helvetica", "italic");
+        const techText = `Tech Stack: ${role.skills.join(" • ")}`;
+
+        const techLines = doc.splitTextToSize(techText, pageWidth - 2 * margin - 6);
+        techLines.forEach((line: string) => {
           doc.text(line, margin + 6, yPos);
           yPos += 4;
         });
-        yPos += 3;
       }
+
+      yPos += 6; // Spacing between roles
     });
 
-    yPos += 2;
+    yPos += 2; // Spacing between companies
   });
 
-  // Education
+  // --- EDUCATION ---
   if (data.education && data.education.length > 0) {
-    addSectionHeader("EDUCATION");
+    addSectionHeader("Education");
 
     data.education.forEach((edu) => {
-      checkNewPage(10);
+      checkNewPage(12);
+
+      // Degree
       doc.setFontSize(10);
       doc.setFont("helvetica", "bold");
-      doc.setTextColor(...textColor);
+      doc.setTextColor(...darkGray);
       doc.text(edu.degree, margin, yPos);
-      yPos += 5;
 
-      doc.setFontSize(9);
+      // Year (Right aligned)
       doc.setFont("helvetica", "normal");
       doc.setTextColor(...lightGray);
-      doc.text(`${edu.institution}, ${edu.location}`, margin, yPos);
       doc.text(edu.graduationYear, pageWidth - margin, yPos, { align: "right" });
+
+      yPos += 5;
+
+      // Institution
+      doc.setFontSize(10);
+      doc.setTextColor(...darkGray);
+      doc.text(`${edu.institution}, ${edu.location}`, margin, yPos);
+
       yPos += 8;
     });
   }
 
-  // Certifications
+  // --- CERTIFICATIONS ---
   if (data.certificates.length > 0) {
-    addSectionHeader("CERTIFICATIONS");
+    addSectionHeader("Certifications");
 
     data.certificates.forEach((cert) => {
       checkNewPage(6);
+
       doc.setFontSize(9);
-      doc.setFont("helvetica", "normal");
-      doc.setTextColor(...textColor);
-      doc.text("-", margin, yPos);
       doc.setTextColor(...primaryColor);
+      doc.textWithLink(cert.name, margin, yPos, { url: cert.url });
 
-      // Shorten URLs for display
-      const displayUrl = cert.url.includes("shorturl")
-        ? cert.url
-        : cert.url.replace(/^https?:\/\//, "");
-
-      doc.textWithLink(cert.name, margin + 5, yPos, { url: cert.url });
-      yPos += 4;
-
-      doc.setFontSize(8);
-      doc.setTextColor(...lightGray);
-      doc.text(`(${displayUrl})`, margin + 7, yPos);
       yPos += 6;
     });
-    yPos += 3;
   }
 
-  // Portfolio & Projects
-  if (data.portfolioLinks) {
-    addSectionHeader("PORTFOLIO & PROJECTS");
-
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(...textColor);
-
-    // Links
-    doc.text("-", margin, yPos);
-    doc.setTextColor(...primaryColor);
-    doc.textWithLink("GitHub: " + data.portfolioLinks.github, margin + 5, yPos, {
-      url: "https://" + data.portfolioLinks.github
-    });
-    yPos += 5;
-
-    doc.setTextColor(...textColor);
-    doc.text("-", margin, yPos);
-    doc.setTextColor(...primaryColor);
-    doc.textWithLink("Portfolio: " + data.portfolioLinks.portfolio, margin + 5, yPos, {
-      url: "https://" + data.portfolioLinks.portfolio
-    });
-    yPos += 5;
-
-    doc.setTextColor(...textColor);
-    doc.text("-", margin, yPos);
-    doc.setTextColor(...primaryColor);
-    doc.textWithLink("Medium: " + data.portfolioLinks.medium, margin + 5, yPos, {
-      url: "https://" + data.portfolioLinks.medium
-    });
-    yPos += 7;
-
-    // Projects
-    if (data.portfolioLinks.projects && data.portfolioLinks.projects.length > 0) {
-      data.portfolioLinks.projects.forEach((project) => {
-        checkNewPage(8);
-        doc.setTextColor(...textColor);
-        doc.text("-", margin, yPos);
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(...primaryColor);
-        doc.text(project.name + ": ", margin + 5, yPos);
-
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(...textColor);
-        const projectDesc = project.description + " ";
-        doc.text(projectDesc, margin + 5 + doc.getTextWidth(project.name + ": "), yPos);
-        yPos += 4;
-
-        doc.setFontSize(8);
-        doc.setTextColor(...primaryColor);
-        doc.textWithLink("(" + project.url + ")", margin + 7, yPos, {
-          url: "https://" + project.url
-        });
-        doc.setFontSize(9);
-        yPos += 6;
-      });
-    }
+  // Footer (Page Numbers)
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(8);
+    doc.setTextColor(...lightGray);
+    doc.text(`Page ${i} of ${pageCount}`, pageWidth / 2, pageHeight - 10, { align: "center" });
   }
 
-  // Save the PDF
+  // Save
   doc.save(`${data.personalInfo.name.replace(/\s+/g, "_")}_Resume.pdf`);
 }

@@ -31,7 +31,7 @@ export default function Hero() {
           {summary}
         </p>
 
-        {/* Download Resume Button */}
+        {/* Download Resume Button
         <motion.button
           onClick={handleDownloadResume}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
@@ -40,7 +40,7 @@ export default function Hero() {
         >
           <Download size={20} />
           Download Resume
-        </motion.button>
+        </motion.button> */}
 
         <div className="flex gap-4">
           <a
