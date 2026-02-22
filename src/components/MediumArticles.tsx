@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Clock, Calendar, BookOpen } from "lucide-react";
+import { ExternalLink, Clock, Calendar, BookOpen, PenLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 
 const MEDIUM_PROFILE_URL = "https://medium.com/@nyinyizaw.dev";
 
@@ -15,6 +16,14 @@ interface Article {
 }
 
 const articles: Article[] = [
+  {
+    title: "Running a Local LLM on an Old Phone",
+    description: "How I turned a retired Huawei nova 7i into a full AI edge server — local LLM inference, API gateway, and monitoring dashboard — all at zero cost.",
+    url: "/articles/local-llm-old-phone",
+    date: "Feb 2025",
+    readTime: "6 min read",
+    source: "Blog"
+  },
   {
     title: "Early Stage of My Developer Life",
     description: "အသိတစ်ယောက်က CDM ကလေးတွေစာသင်ပေးရင်းနဲ့ ကလေးတွေကို moti ပေးချင်လို့ code စရေးတုန်းက ကြုံခဲ့ရတဲ့အခက်ခဲတွေ ဘယ်လိုတွေ ဖြတ်ကျော်ခဲ့လဲဆိုတာနဲ့ ဘယ်လို အခက်ခဲတွေကျော်လွှားခဲ့လဲဆိုတာ ပြောပြပေးဖို့ လာပြောရင်းနဲ့ ကျွန်တော့် early developer life အကြောင်းပြန်တွေးမိတာလေးချရေးထားတာ။",
@@ -80,10 +89,8 @@ export default function MediumArticles() {
               transition={{ delay: index * 0.1 }}
               className="group relative bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700"
             >
-              <a
+              <Link
                 href={article.url}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="absolute inset-0 z-10"
                 aria-label={`Read article: ${article.title}`}
               />
@@ -92,7 +99,9 @@ export default function MediumArticles() {
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     <div className="flex items-center gap-2">
                       {article.title}
-                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      {article.source === "Medium" && (
+                        <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      )}
                     </div>
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
@@ -110,19 +119,28 @@ export default function MediumArticles() {
                   </div>
                 </div>
                 <div className="flex-shrink-0 relative z-20">
-                  <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-900 px-3 py-1.5 rounded-full">
-                    <div className="w-4 h-4 relative">
-                      <Image
-                        src="/medium-logo.svg"
-                        alt="Medium"
-                        fill
-                        className="object-contain dark:invert"
-                      />
+                  {article.source === "Medium" ? (
+                    <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-900 px-3 py-1.5 rounded-full">
+                      <div className="w-4 h-4 relative">
+                        <Image
+                          src="/medium-logo.svg"
+                          alt="Medium"
+                          fill
+                          className="object-contain dark:invert"
+                        />
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {article.source}
+                      </span>
                     </div>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {article.source}
-                    </span>
-                  </div>
+                  ) : (
+                    <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-950 px-3 py-1.5 rounded-full">
+                      <PenLine className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                        {article.source}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.article>

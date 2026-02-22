@@ -92,6 +92,12 @@ export const resumeData = {
   ],
   projects: [
     {
+      name: "2nd Brain",
+      description: "Turned a retired phone into a personal AI server — local LLM, Telegram bot, monitoring dashboard, all at zero cost.",
+      link: "/articles/local-llm-old-phone",
+      internal: true
+    },
+    {
       name: "OCTO",
       description: "OCTO is mainly developed for Thonburi Hospital. It is a communication platform for doctors and nurses.",
       link: "https://play.google.com/store/apps/details?id=com.mediverse.octopus&pcampaignid=web_share"
@@ -258,6 +264,11 @@ export const resumeData = {
     portfolio: "nyinyizaw.vercel.app",
     medium: "medium.com/@nyinyizaw.dev",
     projects: [
+      {
+        name: "2nd Brain Dashboard",
+        description: "AI-powered phone server with monitoring dashboard (Fastify + Alpine.js on Termux)",
+        url: "github.com/nyinyiz"
+      },
       {
         name: "Freelance Hours",
         description: "Time-tracking app for freelancers & developers",

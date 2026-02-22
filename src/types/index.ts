@@ -47,6 +47,11 @@ export interface ResumeData {
   projects: Array<{
     name: string;
     description: string;
+    link?: string;
+    featured?: boolean;
+    highlights?: string[];
+    tags?: string[];
+    stats?: Array<{ label: string; value: string }>;
   }>;
   communityContributions: Array<{
     event: string;

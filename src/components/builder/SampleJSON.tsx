@@ -367,14 +367,14 @@ export default function SampleJSON({ value, onChange }: SampleJSONProps) {
                 <Trash2 className="w-4 h-4" />
               </Button>
               <div className="grid gap-4 md:grid-cols-2">
-                {Object.entries(project).map(([key, val]) => (
+                {Object.entries(project).filter(([, val]) => typeof val === 'string').map(([key, val]) => (
                   <div key={key} className="space-y-2">
                     <label className="text-sm font-medium capitalize">
                       {key.replace(/([A-Z])/g, " $1").trim()}
                     </label>
                     <input
                       type="text"
-                      value={val}
+                      value={val as string}
                       onChange={(e) =>
                         handleArrayChange("projects", index, key, e.target.value)
                       }
