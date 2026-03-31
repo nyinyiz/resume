@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Check, X, Maximize2 } from "lucide-react";
 import type { ResumeData } from "@/types";
-import { generatePDF } from "@/lib/pdfGenerator";
+import { generatePDF } from "@/features/resume-builder/lib/pdfGenerator";
 import { cn } from "@/lib/utils";
 
 interface PDFPreviewProps {

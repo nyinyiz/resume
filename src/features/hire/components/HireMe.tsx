@@ -7,7 +7,7 @@ import {
   ChevronRight, X, ExternalLink, AlertTriangle,
   ArrowUpRight, Cpu, Layers, Zap, BookOpen, Ban, Mail,
 } from "lucide-react";
-import { analyzeJD, detectGibberish, type MatchResult } from "@/lib/jd-matcher";
+import { analyzeJD, detectGibberish, type MatchResult } from "@/features/hire/lib/jdMatcher";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const CLI_CMD = `npx create-agent --config https://nyinyizaw.vercel.app/nyi-agent.json`;

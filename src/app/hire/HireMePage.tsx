@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import HireMe from "@/components/HireMe";
+import HireMe from "@/features/hire/components/HireMe";
 
 export default function HireMePage() {
   return (

@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import MainWrapper from "@/components/MainWrapper";
+import MainWrapper from "@/features/shell/MainWrapper";
 
 const outfit = Outfit({
   subsets: ["latin"],
