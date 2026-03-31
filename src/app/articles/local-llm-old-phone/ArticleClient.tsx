@@ -139,13 +139,13 @@ export default function ArticleClient() {
         <div className="flex items-center justify-between mb-8">
           <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
             <Link
-              href="/articles"
+              href="/"
               className="group inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-foreground/40 hover:text-primary transition-colors"
             >
               <div className="p-2 rounded-full border border-foreground/10 group-hover:border-primary/30 transition-colors">
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               </div>
-              Back to Articles
+              Back to Portfolio
             </Link>
           </motion.div>
 
@@ -480,11 +480,11 @@ export default function ArticleClient() {
               {copied ? "Copied to Clipboard" : "Share Article"}
             </button>
             <Link
-              href="/articles"
+              href="/"
               className="flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-background rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all"
             >
               <ArrowLeft size={16} />
-              More Articles
+              Back to Portfolio
             </Link>
           </div>
         </motion.footer>
