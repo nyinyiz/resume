@@ -60,35 +60,35 @@ export default function Projects() {
   return (
     <section id="projects" className="relative z-10">
       {/* Header */}
-      <div className="max-w-2xl mb-5">
+      <div className="max-w-2xl mb-4">
         <motion.p
           initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.6, ease }}
-          className="section-label mb-4"
+          className="section-label mb-2"
         >
           Portfolio
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.05, ease }}
-          className="font-heading text-4xl md:text-6xl font-bold tracking-tighter text-foreground mb-5"
+          className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-2"
         >
           Selected Work
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.12, ease }}
-          className="text-lg text-foreground/55 leading-relaxed"
+          className="text-sm text-foreground/50 leading-relaxed"
         >
-          A curated selection of mobile products built across Android, iOS and beyond.
+          Mobile products built across Android, iOS and beyond.
         </motion.p>
       </div>
 
       {/* Main layout */}
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-14">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10">
 
         {/* Info panel — updates on hover/tap */}
-        <div className="flex-1 max-w-sm order-2 lg:order-1 min-h-[220px] flex items-center">
+        <div className="flex-1 max-w-sm order-2 lg:order-1 min-h-[180px] flex items-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={hoveredIndex}
@@ -96,7 +96,7 @@ export default function Projects() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: reduced ? 0 : -16 }}
               transition={{ duration: 0.22, ease }}
-              className="space-y-4 w-full"
+              className="space-y-3 w-full"
             >
               <span
                 className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white"
@@ -105,11 +105,11 @@ export default function Projects() {
                 {activeTheme.category}
               </span>
 
-              <h3 className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">
+              <h3 className="font-heading text-2xl md:text-3xl font-bold tracking-tight text-foreground leading-tight">
                 {active.name}
               </h3>
 
-              <p className="text-foreground/60 leading-relaxed text-base">
+              <p className="text-foreground/60 leading-relaxed text-sm">
                 {active.description}
               </p>
 
