@@ -288,32 +288,32 @@ export default function Experience() {
   return (
     <section id="experience" className="relative z-10">
       {/* Header */}
-      <div className="max-w-2xl mb-6">
+      <div className="max-w-2xl mb-4">
         <motion.p
           initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.6, ease }}
-          className="section-label mb-4"
+          className="section-label mb-2"
         >
           <Briefcase size={12} /> Career
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.05, ease }}
-          className="font-heading text-4xl md:text-6xl font-bold tracking-tighter text-foreground mb-5"
+          className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-2"
         >
           Work Experience
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.12, ease }}
-          className="text-lg text-foreground/55 leading-relaxed"
+          className="text-sm text-foreground/50 leading-relaxed"
         >
-          10+ years building high-performance mobile products across three countries.
+          High-performance mobile products across three countries.
         </motion.p>
       </div>
 
       {/* Carousel */}
-      <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-16">
+      <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-10">
 
         {/* ── Left: info panel ── */}
         <div className="flex-1 min-w-0">
@@ -324,7 +324,7 @@ export default function Experience() {
               variants={slideVariants}
               initial="enter" animate="center" exit="exit"
               transition={{ duration: 0.38, ease }}
-              className="space-y-6"
+              className="space-y-4"
             >
               {/* Counter */}
               <p className="text-xs font-bold tracking-widest uppercase text-foreground/30">
@@ -356,10 +356,10 @@ export default function Experience() {
                       {role.type || group.type}
                     </span>
                   </div>
-                  <p className="text-xs text-foreground/40 mb-3">
+                  <p className="text-xs text-foreground/40 mb-2">
                     {role.period} · {group.location}
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-1.5">
                     {role.responsibilities.map((r: string, j: number) => (
                       <li key={j} className="flex items-start gap-2.5">
                         <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{ background: theme.from }} />
@@ -372,7 +372,7 @@ export default function Experience() {
 
               {/* Skills */}
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 mb-2">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 mb-1.5">
                   Technologies
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -476,13 +476,13 @@ export default function Experience() {
       <motion.div
         initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }} transition={{ duration: 0.7, ease }}
-        className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3"
+        className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3"
       >
         {/* LinkedIn */}
         <Link
           href={resumeData.personalInfo.linkedin}
           target="_blank" rel="noopener noreferrer"
-          className="group flex items-center justify-between gap-4 p-6 rounded-2xl bg-foreground text-background hover:opacity-95 transition-opacity duration-200 shadow-xl"
+          className="group flex items-center justify-between gap-4 p-5 rounded-2xl bg-foreground text-background hover:opacity-95 transition-opacity duration-200 shadow-xl"
         >
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -501,7 +501,7 @@ export default function Experience() {
         <Link
           href={resumeData.personalInfo.github}
           target="_blank" rel="noopener noreferrer"
-          className="group flex items-center justify-between gap-4 p-6 rounded-2xl glass border border-foreground/10 hover:border-foreground/20 transition-all duration-200"
+          className="group flex items-center justify-between gap-4 p-5 rounded-2xl glass border border-foreground/10 hover:border-foreground/20 transition-all duration-200"
         >
           <div className="space-y-1">
             <div className="flex items-center gap-2">
