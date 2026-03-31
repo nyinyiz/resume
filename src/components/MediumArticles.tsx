@@ -64,8 +64,8 @@ export default function MediumArticles() {
     <section className="w-full flex flex-col relative z-10">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
         className="text-left mb-4 w-full"
       >
         <p className="section-label mb-2">
@@ -83,13 +83,26 @@ export default function MediumArticles() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
         {articles.map((article, index) => {
           const isExternal = article.url.startsWith("http");
+          const isShared = index < 4;
           return (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              {...(isShared
+                ? {
+                    layoutId: `skill-card-${index}`,
+                    layout: true,
+                    initial: { opacity: 0 },
+                    animate: { opacity: 1 },
+                    transition: {
+                      layout: { type: "spring", stiffness: 200, damping: 26 },
+                      duration: 0.4, delay: index * 0.05,
+                    },
+                  }
+                : {
+                    initial: { opacity: 0, y: 16 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: { duration: 0.5, delay: 0.3 },
+                  })}
               className="h-full"
             >
               <Link
@@ -163,10 +176,9 @@ export default function MediumArticles() {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
         className="mt-4 w-full"
       >
         <Link

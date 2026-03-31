@@ -24,7 +24,7 @@ export default function Slide({ children, scrollable }: SlideProps) {
     return (
       <div
         ref={scrollRef}
-        className="absolute inset-0 w-full bg-background overflow-y-auto overscroll-contain"
+        className="absolute inset-0 w-full overflow-y-auto overscroll-contain"
       >
         <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-16 pt-20 pb-16">
           {children}
@@ -34,7 +34,7 @@ export default function Slide({ children, scrollable }: SlideProps) {
   }
 
   return (
-    <div className="absolute inset-0 w-full bg-background overflow-hidden">
+    <div className="absolute inset-0 w-full overflow-hidden">
       <div className="relative h-full w-full max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-16 pt-20 pb-8 flex flex-col justify-center">
         {children}
       </div>

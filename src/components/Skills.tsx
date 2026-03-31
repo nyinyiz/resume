@@ -6,17 +6,28 @@ import { Code2, Smartphone, Terminal, Layers } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1];
 
-const categoryMeta: Record<string, { icon: any; label: string }> = {
-  languages:  { icon: Code2,      label: "Languages"     },
-  frameworks: { icon: Smartphone, label: "Frameworks"    },
-  tools:      { icon: Terminal,   label: "Tools & DevOps" },
-  concepts:   { icon: Layers,     label: "Architecture"  },
+const categoryMeta: Record<string, { icon: any; label: string; accent: string }> = {
+  languages:  { icon: Code2,      label: "Languages",      accent: "#60a5fa" },
+  frameworks: { icon: Smartphone, label: "Frameworks",     accent: "#a78bfa" },
+  tools:      { icon: Terminal,   label: "Tools & DevOps", accent: "#34d399" },
+  concepts:   { icon: Layers,     label: "Architecture",   accent: "#fb923c" },
 };
 
-function skillClass(level: number) {
-  if (level >= 5) return "tag-expert";
-  if (level >= 4) return "tag-proficient";
-  return "tag-familiar";
+function SkillDots({ level, accent }: { level: number; accent: string }) {
+  return (
+    <div className="flex gap-[3px] shrink-0">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <div
+          key={i}
+          className="w-[5px] h-[5px] rounded-full transition-colors duration-300"
+          style={{
+            background: i <= level ? accent : "hsl(var(--foreground) / 0.1)",
+            opacity: i <= level ? (level === 5 ? 1 : 0.75) : 1,
+          }}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default function Skills() {
@@ -26,118 +37,156 @@ export default function Skills() {
   const coreSkills = (Object.values(skills) as { name: string; level: number }[][])
     .flat()
     .filter((s) => s.level >= 4)
+    .slice(0, 10)
     .map((s) => s.name);
+
+  const entries = Object.entries(skills) as [string, { name: string; level: number }[]][];
 
   return (
     <section id="skills" className="relative z-10">
-      <div>
 
-        {/* Header */}
-        <div className="max-w-2xl mb-4">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease }}
-            className="section-label mb-2"
-          >
-            Expertise
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.05, ease }}
-            className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-2"
-          >
-            Skills & Stack
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.12, ease }}
-            className="text-sm text-foreground/50 leading-relaxed"
-          >
-            A toolkit refined over 10+ years of shipping mobile products.
-          </motion.p>
+      {/* Header */}
+      <div className="max-w-2xl mb-5">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease }}
+          className="section-label mb-2"
+        >
+          <Code2 size={12} /> Expertise
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.05, ease }}
+          className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-2"
+        >
+          Skills & Stack
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.12, ease }}
+          className="text-sm text-foreground/50 leading-relaxed"
+        >
+          A toolkit refined over 10+ years of shipping mobile products.
+        </motion.p>
+      </div>
+
+      {/* Main dashboard — expands from the phone mockup */}
+      <motion.div
+        layoutId="phone-mockup"
+        layout
+        transition={{ type: "spring", stiffness: 220, damping: 28 }}
+        className="rounded-2xl border border-foreground/[0.08] bg-background/50 backdrop-blur-sm overflow-hidden"
+      >
+
+        {/* Core stack strip */}
+        <div className="px-5 py-3.5 border-b border-foreground/[0.07] flex items-center gap-2 flex-wrap">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 mr-1 shrink-0">
+            Core Stack
+          </span>
+          {coreSkills.map((name) => (
+            <motion.span
+              key={name}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease }}
+              className="px-2.5 py-1 rounded-md bg-primary/[0.08] text-primary text-[11px] font-semibold border border-primary/[0.18]"
+            >
+              {name}
+            </motion.span>
+          ))}
         </div>
 
-        {/* Core expertise strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.1, ease }}
-          className="mb-4 p-4 rounded-2xl glass border border-foreground/[0.08] bg-background/30"
-        >
-          <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest mb-3">
-            Core Expertise
-          </p>
-          <div className="flex flex-wrap gap-2.5">
-            {coreSkills.map((skill, i) => (
-              <span key={i} className="tag-expert">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-
         {/* Category grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {Object.entries(skills).map(([category, items], catIdx) => {
-            const meta = categoryMeta[category] ?? { icon: Code2, label: category };
+        <div className="grid grid-cols-2 lg:grid-cols-4">
+          {entries.map(([category, items], catIdx) => {
+            const meta = categoryMeta[category] ?? { icon: Code2, label: category, accent: "#60a5fa" };
             const Icon = meta.icon;
+            const isLastRow = catIdx >= 2;
+            const isLastCol = [1, 3].includes(catIdx);
 
             return (
               <motion.div
                 key={category}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.7, delay: catIdx * 0.08, ease }}
-                className="group"
+                layoutId={`skill-card-${catIdx}`}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  layout: { type: "spring", stiffness: 200, damping: 26 },
+                  duration: 0.5, delay: 0.15 + catIdx * 0.07, ease,
+                }}
+                className={[
+                  "p-4 sm:p-5 space-y-3",
+                  !isLastCol ? "border-r border-foreground/[0.07]" : "",
+                  !isLastRow ? "border-b border-foreground/[0.07]" : "",
+                ].join(" ")}
               >
-                <div className="glass-card h-full p-4 rounded-2xl border border-foreground/[0.07] bg-background/30 flex flex-col gap-3">
-                  {/* Category header */}
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-foreground/[0.05] border border-foreground/[0.08] group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors duration-300">
-                      <Icon size={18} className="text-foreground/60 group-hover:text-primary transition-colors duration-300" />
-                    </div>
-                    <h3 className="font-heading font-semibold text-sm text-foreground/80 tracking-wide">
-                      {meta.label}
-                    </h3>
+                {/* Category header */}
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+                    style={{ background: meta.accent + "18" }}
+                  >
+                    <Icon size={13} style={{ color: meta.accent }} />
                   </div>
+                  <span
+                    className="text-[10px] font-bold uppercase tracking-widest"
+                    style={{ color: meta.accent + "cc" }}
+                  >
+                    {meta.label}
+                  </span>
+                </div>
 
-                  {/* Skills tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {(items as { name: string; level: number }[]).map((skill, i) => (
-                      <span key={i} className={skillClass(skill.level)}>
+                {/* Skills list */}
+                <div className="space-y-2.5">
+                  {items.map((skill, i) => (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.35, delay: 0.3 + catIdx * 0.06 + i * 0.04, ease }}
+                      className="flex items-center justify-between gap-3"
+                    >
+                      <span className="text-[13px] text-foreground/70 font-medium leading-none">
                         {skill.name}
                       </span>
-                    ))}
-                  </div>
+                      <SkillDots level={skill.level} accent={meta.accent} />
+                    </motion.div>
+                  ))}
                 </div>
               </motion.div>
             );
           })}
         </div>
 
-        {/* Legend */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4, ease }}
-          className="mt-4 flex items-center gap-6 flex-wrap"
-        >
-          <span className="text-[10px] font-bold text-foreground/30 uppercase tracking-widest">Proficiency:</span>
-          <span className="tag-expert text-[10px]">Expert</span>
-          <span className="tag-proficient text-[10px]">Proficient</span>
-          <span className="tag-familiar text-[10px]">Familiar</span>
-        </motion.div>
+        {/* Bottom legend */}
+        <div className="px-5 py-3 border-t border-foreground/[0.07] flex items-center gap-5 flex-wrap">
+          <span className="text-[9px] font-bold text-foreground/25 uppercase tracking-widest">Proficiency</span>
+          {[
+            { label: "Expert",     dots: 5 },
+            { label: "Proficient", dots: 4 },
+            { label: "Familiar",   dots: 3 },
+          ].map(({ label, dots }) => (
+            <div key={label} className="flex items-center gap-2">
+              <div className="flex gap-[3px]">
+                {[1,2,3,4,5].map((i) => (
+                  <div
+                    key={i}
+                    className="w-[5px] h-[5px] rounded-full"
+                    style={{ background: i <= dots ? "#60a5fa" : "hsl(var(--foreground) / 0.1)" }}
+                  />
+                ))}
+              </div>
+              <span className="text-[10px] text-foreground/35 font-medium">{label}</span>
+            </div>
+          ))}
+        </div>
 
-      </div>
+      </motion.div>
+
     </section>
   );
 }

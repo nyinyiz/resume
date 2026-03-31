@@ -60,20 +60,6 @@ export default function Hero() {
       {/* ── Left column ─────────────────────────── */}
       <div className="flex-1 space-y-6 max-w-xl text-center md:text-left z-10">
 
-        {/* Availability badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold tracking-wide"
-        >
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-          </span>
-          Available for new projects
-        </motion.div>
-
         {/* Name + title */}
         <motion.div
           initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
@@ -82,7 +68,7 @@ export default function Hero() {
           className="space-y-2"
         >
           <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1.05] text-foreground">
-            <span className="bg-gradient-to-r from-primary via-sky-400 to-cyan-300 bg-clip-text text-transparent">
+            <span className="text-foreground">
               {name}
             </span>
           </h1>
@@ -172,9 +158,14 @@ export default function Hero() {
 
       {/* ── Right column: 3D image ───────────────── */}
       <motion.div
+        layoutId="phone-mockup"
+        layout
         initial={{ opacity: 0, scale: 0.9, filter: "blur(16px)" }}
         animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-        transition={{ duration: 1.1, delay: 0.1, ease }}
+        transition={{
+          layout: { type: "spring", stiffness: 220, damping: 28 },
+          duration: 1.1, delay: 0.1, ease,
+        }}
         className="relative z-10 w-full max-w-[150px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-[380px]"
         style={{ perspective: 1200 }}
       >

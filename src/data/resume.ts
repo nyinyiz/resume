@@ -3,12 +3,12 @@ export const resumeData = {
     name: "Nyi Nyi Zaw",
     title: "Lead Mobile Engineer",
     email: "nyinyizaw.dev@gmail.com",
-    location: "Phra Khanong, Bangkok, Thailand",
+    location: "Bangkok, Thailand",
     phone: "+66 886841509",
     github: "https://github.com/nyinyiz",
     linkedin: "https://www.linkedin.com/in/nyinyiz/",
     profileImage: "/my_profile.jpg",
-    summary: "I've spent 10+ years crafting mobile experiences that people actually enjoy using. From building secure fintech apps to healthcare platforms that connect doctors, I've worked across Android and iOS to solve real problems. I love diving deep into clean architecture, optimizing performance, and turning complex ideas into smooth, intuitive apps. Whether it's leading a team or coding late into the night with Kotlin and Swift, I'm driven by creating software that makes a difference. Currently leading mobile innovation at PassKit, and always excited about the next challenge."
+    summary: "I've spent 10+ years crafting mobile experiences that people actually enjoy using. From building secure fintech apps to healthcare platforms that connect doctors, I've worked across Android and iOS to solve real problems. I love diving deep into clean architecture, optimizing performance, and turning complex ideas into smooth, intuitive apps. Whether it's leading a team or coding late into the night with Kotlin and Swift, I'm driven by creating software that makes a difference. Currently leading mobile innovation at PassKit."
   },
   experience: [
     {

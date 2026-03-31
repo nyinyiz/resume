@@ -29,7 +29,7 @@ export default function SlideDeck({ slides }: SlideDeckProps) {
 
   const canTrigger = useCallback(() => {
     const now = Date.now()
-    if (now - cooldownRef.current < 750) return false
+    if (now - cooldownRef.current < 1000) return false
     cooldownRef.current = now
     return true
   }, [])
