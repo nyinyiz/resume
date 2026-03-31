@@ -14,11 +14,11 @@ interface SlideProps {
 }
 
 export default function Slide({ children, scrollable }: SlideProps) {
-  const { next, prev } = useSlideDeck()
+  const { current, next, prev } = useSlideDeck()
   const scrollRef = useRef<HTMLDivElement>(null)
 
   // useInternalScroll is a no-op when scrollRef.current is null (non-scrollable case)
-  useInternalScroll(scrollable ? scrollRef : { current: null }, next, prev)
+  useInternalScroll(scrollable ? scrollRef : { current: null }, next, prev, current)
 
   if (scrollable) {
     return (

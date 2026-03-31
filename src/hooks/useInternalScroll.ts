@@ -10,17 +10,28 @@ export function useInternalScroll(
   containerRef: React.RefObject<HTMLElement | null>,
   onNext: () => void,
   onPrev: () => void,
+  resetKey?: number,
 ) {
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
 
     let touchStartY = 0
+    const settleUntil = Date.now() + 550
+
+    // Always start a newly visible scrollable slide from the top.
+    el.scrollTop = 0
 
     const atTop    = () => el.scrollTop <= 1
     const atBottom = () => el.scrollTop + el.clientHeight >= el.scrollHeight - 1
 
     const handleWheel = (e: WheelEvent) => {
+      // Swallow momentum from the previous slide so navigation advances one slide at a time.
+      if (Date.now() < settleUntil) {
+        e.preventDefault()
+        return
+      }
+
       if (e.deltaY < 0 && atTop()) {
         e.preventDefault()
         onPrev()
@@ -36,6 +47,8 @@ export function useInternalScroll(
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
+      if (Date.now() < settleUntil) return
+
       const deltaY = touchStartY - e.changedTouches[0].clientY
       if (Math.abs(deltaY) < 40) return
       if (deltaY < 0 && atTop())    onPrev()
@@ -51,5 +64,5 @@ export function useInternalScroll(
       el.removeEventListener("touchstart", handleTouchStart)
       el.removeEventListener("touchend", handleTouchEnd)
     }
-  }, [containerRef, onNext, onPrev])
+  }, [containerRef, onNext, onPrev, resetKey])
 }
