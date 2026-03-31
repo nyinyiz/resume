@@ -33,6 +33,49 @@ export default function Navbar() {
   if (!mounted) return null;
   const isHome = pathname === "/";
 
+  // ── Home route: edge-to-edge minimal bar ─────────────────────────────────────
+  if (isHome) {
+    return (
+      <motion.nav
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+        className="fixed top-0 left-0 right-0 z-[70] flex items-center justify-between px-6 sm:px-10 h-16"
+      >
+        {/* Brand */}
+        <Link
+          href="/"
+          className="font-heading text-base font-bold text-foreground/80 tracking-tight hover:text-foreground transition-colors duration-200"
+        >
+          {firstName}
+        </Link>
+
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <Link
+            href="/articles"
+            className="flex items-center gap-1.5 text-foreground/60 text-sm font-medium hover:text-foreground px-3 py-1.5 rounded-full hover:bg-foreground/[0.06] transition-all duration-200"
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Articles</span>
+          </Link>
+
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            aria-label="Toggle theme"
+            className="p-2 rounded-full text-foreground/50 hover:text-foreground hover:bg-foreground/[0.06] transition-all duration-200"
+          >
+            {theme === "dark"
+              ? <Sun size={16} />
+              : <Moon size={16} />
+            }
+          </button>
+        </div>
+      </motion.nav>
+    );
+  }
+
+  // ── Other routes: centered glass pill ────────────────────────────────────────
   return (
     <motion.nav
       variants={{ visible: { y: 0, opacity: 1 }, hidden: { y: "-120%", opacity: 0 } }}
@@ -50,20 +93,18 @@ export default function Navbar() {
           {firstName}
         </Link>
 
-        {/* Nav links — hidden on home route (SlideDots handles section navigation) */}
-        {!isHome && (
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors duration-200"
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-        )}
+        {/* Nav links */}
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors duration-200"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
 
         {/* Actions */}
         <div className="flex items-center gap-3">
