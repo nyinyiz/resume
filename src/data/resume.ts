@@ -8,7 +8,7 @@ export const resumeData = {
     github: "https://github.com/nyinyiz",
     linkedin: "https://www.linkedin.com/in/nyinyiz/",
     profileImage: "/my_profile.jpg",
-    summary: "I've spent nearly a decade crafting mobile experiences that people actually enjoy using. From building secure fintech apps to healthcare platforms that connect doctors, I've worked across Android and iOS to solve real problems. I love diving deep into clean architecture, optimizing performance, and turning complex ideas into smooth, intuitive apps. Whether it's leading a team or coding late into the night with Kotlin and Swift, I'm driven by creating software that makes a difference. Currently leading mobile innovation at PassKit, and always excited about the next challenge."
+    summary: "I've spent 10+ years crafting mobile experiences that people actually enjoy using. From building secure fintech apps to healthcare platforms that connect doctors, I've worked across Android and iOS to solve real problems. I love diving deep into clean architecture, optimizing performance, and turning complex ideas into smooth, intuitive apps. Whether it's leading a team or coding late into the night with Kotlin and Swift, I'm driven by creating software that makes a difference. Currently leading mobile innovation at PassKit, and always excited about the next challenge."
   },
   experience: [
     {
@@ -16,31 +16,36 @@ export const resumeData = {
       company: "PassKit",
       location: "Bangkok, Thailand",
       period: "October 2025 - Present",
+      type: "Full-time",
       responsibilities: [
-        "Leading mobile development initiatives and defining app architecture",
-        "Ensuring high performance and quality across Android and iOS platforms",
-        "Making key architectural decisions for scalable mobile solutions"
+        "Leading iOS and Android development of PassKit's Loyalty Scanner app — a cross-platform pass scanning solution for merchants",
+        "Building and maintaining PassReader, an advanced scanner supporting barcode, QR code, and NFC-based pass validation",
+        "Architecting camera integration pipelines for real-time pass recognition and redemption flows",
+        "Driving consistent UX and performance standards across both Android and iOS platforms",
+        "Making key architectural and technical decisions to improve app quality and release velocity"
       ],
-      skills: ["Android", "iOS", "Mobile Architecture", "Project Leadership", "Performance Optimization"]
+      skills: ["Android", "iOS", "Swift", "Kotlin", "CameraX", "AVFoundation", "Loyalty Scanner", "PassReader", "NFC", "Clean Architecture"]
     },
     {
       title: "Android Engineer",
       company: "PassKit",
       location: "Bangkok, Thailand",
       period: "July 2025 - October 2025",
+      type: "Full-time",
       responsibilities: [
-        "Improved Android app performance and overall user experience",
-        "Refactored legacy codebase for better maintainability",
-        "Implemented modern Android development practices",
-        "Enhanced app stability and reliability"
+        "Developed and maintained the Android Loyalty Scanner app for pass scanning and merchant validation",
+        "Integrated CameraX-based barcode and QR code scanning into PassReader's core scanning flow",
+        "Refactored legacy codebase to modern Kotlin and Jetpack standards for maintainability",
+        "Improved app stability, performance, and reduced crash rate through systematic testing"
       ],
-      skills: ["Kotlin", "Android SDK", "Code Refactoring", "Performance Optimization", "UX Enhancement"]
+      skills: ["Kotlin", "Android SDK", "CameraX", "Jetpack", "PassReader", "Code Refactoring", "Performance Optimization"]
     },
     {
       title: "Freelance Mobile Engineer · Tech Consultant · Fractional CTO",
       company: "Self-employed",
       location: "Bangkok, Thailand",
       period: "October 2024 - June 2025",
+      type: "Remote / Hybrid",
       responsibilities: [
         "Crypto social project (Thailand): Improved wallet integration, performance, and UX on web platform",
         "Printer Project (Singapore): Integrated Android SDK for secure device communication in enterprise printing solutions",
@@ -55,6 +60,7 @@ export const resumeData = {
       company: "Thonburi Hospital",
       location: "Bangkok, Thailand",
       period: "March 2023 - September 2024",
+      type: "Full-time",
       responsibilities: [
         "Spearheaded Android app development with a focus on modular architecture",
         "Integrated social networking features tailored for healthcare professionals",
@@ -69,6 +75,7 @@ export const resumeData = {
       company: "True Digital Group",
       location: "Bangkok, Thailand",
       period: "July 2022 - March 2023",
+      type: "Full-time",
       responsibilities: [
         "Focused on TrueID international products and features",
         "Collaborated with a team of developers to ensure timely and successful delivery of applications",
@@ -81,6 +88,7 @@ export const resumeData = {
       company: "GTRIIP",
       location: "Singapore",
       period: "September 2021 - July 2022",
+      type: "Full-time",
       responsibilities: [
         "Integrated and supported existing Flutter projects running in production",
         "Led the integration of an Android native SDK (door lock SDK for a company product)",
@@ -286,4 +294,4 @@ export const resumeData = {
       }
     ]
   }
-}; 
+};

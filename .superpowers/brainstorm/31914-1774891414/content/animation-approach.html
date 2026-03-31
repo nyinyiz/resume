@@ -1,0 +1,254 @@
+<h2>Animation & Page Architecture — 3 directions</h2>
+<p class="subtitle">The core question: how should the portfolio move and feel as one unified experience?</p>
+
+<style>
+  .approach-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 24px; }
+  .approach-card {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fff;
+  }
+  .approach-card:hover { border-color: #6366f1; box-shadow: 0 4px 20px rgba(99,102,241,0.12); }
+  .approach-card.selected { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+  .approach-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .approach-badge {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; color: #fff; flex-shrink: 0;
+  }
+  .approach-title { font-weight: 700; font-size: 14px; color: #0f172a; }
+  .approach-sub { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+  .approach-visual { padding: 16px 20px; background: #f8fafc; min-height: 200px; }
+  .approach-body { padding: 14px 20px 18px; }
+  .approach-desc { font-size: 12.5px; color: #475569; line-height: 1.6; margin-bottom: 10px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 99px; }
+  .tag-green { background: #dcfce7; color: #166534; }
+  .tag-yellow { background: #fef9c3; color: #854d0e; }
+  .tag-red { background: #fee2e2; color: #991b1b; }
+  .tag-blue { background: #dbeafe; color: #1e40af; }
+  .recommended-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 99px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    color: #fff; margin-left: 8px; vertical-align: middle;
+  }
+
+  /* Scroll diagram styles */
+  .scroll-diagram { display: flex; flex-direction: column; gap: 6px; }
+  .scroll-section {
+    border-radius: 8px; padding: 7px 10px;
+    font-size: 10px; font-weight: 600; color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .scroll-connector {
+    width: 2px; height: 8px; background: #cbd5e1;
+    margin: 0 auto; border-radius: 1px;
+  }
+  .scroll-connector.animated {
+    background: linear-gradient(180deg, #6366f1, #8b5cf6);
+    animation: pulse-line 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-line {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  .section-pill {
+    font-size: 9px; background: rgba(255,255,255,0.25);
+    padding: 1px 6px; border-radius: 99px;
+  }
+
+  /* Architecture diagram */
+  .arch-diagram { display: flex; flex-direction: column; gap: 5px; }
+  .arch-layer {
+    border-radius: 6px; padding: 5px 10px;
+    font-size: 10px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .arch-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Page flow diagram */
+  .page-flow { display: flex; flex-direction: row; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .page-block {
+    border-radius: 6px; padding: 4px 8px;
+    font-size: 9px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .page-arrow { color: #94a3b8; font-size: 12px; }
+</style>
+
+<div class="approach-grid">
+
+  <!-- Approach A -->
+  <div class="approach-card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="approach-header">
+      <div class="approach-badge" style="background: linear-gradient(135deg, #6366f1, #8b5cf6)">A</div>
+      <div>
+        <div class="approach-title">Unified Scroll Canvas <span class="recommended-badge">Recommended</span></div>
+        <div class="approach-sub">One continuous experience, scroll-driven</div>
+      </div>
+    </div>
+    <div class="approach-visual">
+      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">Page Flow</div>
+      <div class="scroll-diagram">
+        <div class="scroll-section" style="background: linear-gradient(90deg, #6366f1, #8b5cf6);">
+          Hero <span class="section-pill">entry stagger</span>
+        </div>
+        <div class="scroll-connector animated"></div>
+        <div class="scroll-section" style="background: linear-gradient(90deg, #3b82f6, #6366f1);">
+          Experience <span class="section-pill">parallax reveal</span>
+        </div>
+        <div class="scroll-connector animated"></div>
+        <div class="scroll-section" style="background: linear-gradient(90deg, #0ea5e9, #3b82f6);">
+          Projects <span class="section-pill">scale-in</span>
+        </div>
+        <div class="scroll-connector animated"></div>
+        <div class="scroll-section" style="background: linear-gradient(90deg, #6366f1, #a855f7);">
+          Skills <span class="section-pill">stagger grid</span>
+        </div>
+        <div class="scroll-connector animated"></div>
+        <div class="scroll-section" style="background: linear-gradient(90deg, #8b5cf6, #a855f7);">
+          Articles / Speaking / Certs <span class="section-pill">cascade</span>
+        </div>
+      </div>
+    </div>
+    <div class="approach-body">
+      <div class="approach-desc">
+        Lenis smooth scroll gives the whole page physical inertia. Every section enters via scroll-triggered spring animations. A thin progress bar ties it all together. Architecture splits into a motion layer (hooks + config) and a UI layer (components).
+      </div>
+      <div class="tag-row">
+        <span class="tag tag-green">Cinematic feel</span>
+        <span class="tag tag-green">Mobile-safe</span>
+        <span class="tag tag-blue">Lenis + Framer Motion</span>
+        <span class="tag tag-yellow">Medium refactor</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approach B -->
+  <div class="approach-card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="approach-header">
+      <div class="approach-badge" style="background: linear-gradient(135deg, #0ea5e9, #3b82f6)">B</div>
+      <div>
+        <div class="approach-title">Full-screen Section Slides</div>
+        <div class="approach-sub">Each section = a full-page slide</div>
+      </div>
+    </div>
+    <div class="approach-visual">
+      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">Navigation Model</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#0ea5e9;flex-shrink:0;"></div>
+          <div style="font-size:11px;font-weight:600;color:#0f172a;">Hero</div>
+          <div style="font-size:10px;color:#94a3b8;margin-left:auto;">— active</div>
+        </div>
+        <div style="width:2px;height:10px;background:#e2e8f0;margin-left:3.5px;"></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;"></div>
+          <div style="font-size:11px;color:#94a3b8;">Experience</div>
+        </div>
+        <div style="width:2px;height:10px;background:#e2e8f0;margin-left:3.5px;"></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;"></div>
+          <div style="font-size:11px;color:#94a3b8;">Projects</div>
+        </div>
+        <div style="width:2px;height:10px;background:#e2e8f0;margin-left:3.5px;"></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;"></div>
+          <div style="font-size:11px;color:#94a3b8;">Skills</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:10px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;">
+        <div style="font-size:10px;color:#64748b;font-weight:600;">Transition: page wipe</div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:3px;">AnimatePresence with layoutId shared elements</div>
+      </div>
+    </div>
+    <div class="approach-body">
+      <div class="approach-desc">
+        Page is divided into full-screen slides. Scroll triggers a snap to the next section with a wipe/reveal transition. Side-dots indicate progress. Feels app-like and dramatic.
+      </div>
+      <div class="tag-row">
+        <span class="tag tag-green">Very dramatic</span>
+        <span class="tag tag-red">Bad for long content</span>
+        <span class="tag tag-red">Breaks mobile scroll</span>
+        <span class="tag tag-yellow">Big refactor</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approach C -->
+  <div class="approach-card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="approach-header">
+      <div class="approach-badge" style="background: linear-gradient(135deg, #10b981, #0ea5e9)">C</div>
+      <div>
+        <div class="approach-title">Progressive Enhancement</div>
+        <div class="approach-sub">Refine what exists, add motion system</div>
+      </div>
+    </div>
+    <div class="approach-visual">
+      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">What Gets Added</div>
+      <div class="arch-diagram">
+        <div class="arch-layer" style="background:#f0fdf4;">
+          <div class="arch-dot" style="background:#22c55e;"></div>
+          <span style="font-size:10px;color:#166534;font-weight:600;">Global motion config (spring presets)</span>
+        </div>
+        <div class="arch-layer" style="background:#f0fdf4;">
+          <div class="arch-dot" style="background:#22c55e;"></div>
+          <span style="font-size:10px;color:#166534;font-weight:600;">Scroll progress indicator bar</span>
+        </div>
+        <div class="arch-layer" style="background:#f0fdf4;">
+          <div class="arch-dot" style="background:#22c55e;"></div>
+          <span style="font-size:10px;color:#166534;font-weight:600;">Better stagger on all section entries</span>
+        </div>
+        <div class="arch-layer" style="background:#fef9c3;">
+          <div class="arch-dot" style="background:#eab308;"></div>
+          <span style="font-size:10px;color:#854d0e;font-weight:600;">Page transitions between routes</span>
+        </div>
+        <div class="arch-layer" style="background:#fef9c3;">
+          <div class="arch-dot" style="background:#eab308;"></div>
+          <span style="font-size:10px;color:#854d0e;font-weight:600;">Smooth scroll (CSS scroll-behavior)</span>
+        </div>
+      </div>
+    </div>
+    <div class="approach-body">
+      <div class="approach-desc">
+        Keep current layout entirely. Add a centralized motion config, better section-entry stagger, a scroll progress bar, and page route transitions. Lowest risk, least refactoring.
+      </div>
+      <div class="tag-row">
+        <span class="tag tag-green">Safest</span>
+        <span class="tag tag-green">Minimal refactor</span>
+        <span class="tag tag-yellow">Less "wow" factor</span>
+        <span class="tag tag-blue">Pure Framer Motion</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top: 28px; padding: 16px 20px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+  <div style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Architecture goal (all approaches share this)</div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <div style="font-size: 11px; color: #475569; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;">
+      <strong>lib/motion.ts</strong> — spring presets, easing curves, variant factories
+    </div>
+    <div style="font-size: 11px; color: #475569; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;">
+      <strong>components/motion/</strong> — reusable animated primitives
+    </div>
+    <div style="font-size: 11px; color: #475569; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;">
+      <strong>hooks/useScrollProgress.ts</strong> — scroll state
+    </div>
+    <div style="font-size: 11px; color: #475569; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;">
+      <strong>app/template.tsx</strong> — page-level transitions
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top: 20px;">Click an approach to select it. I recommend <strong>A</strong> — it achieves cinematic feel while keeping the existing layout structure intact.</p>

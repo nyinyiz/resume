@@ -4,45 +4,120 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --background: 0 0% 99%;
+    --foreground: 222 47% 8%;
+    --primary: 217 91% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 47% 10%;
+    --muted: 220 14% 95%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 250 84% 62%;
+    --accent-foreground: 0 0% 100%;
+    --border: 220 13% 90%;
+    --input: 220 14% 94%;
+    --ring: 217 91% 52%;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --background: 222 47% 4%;
+    --foreground: 210 40% 97%;
+    --primary: 213 94% 65%;
+    --primary-foreground: 222 47% 4%;
+    --secondary: 217 33% 8%;
+    --secondary-foreground: 210 40% 97%;
+    --muted: 217 33% 10%;
+    --muted-foreground: 215 20% 52%;
+    --accent: 250 84% 68%;
+    --accent-foreground: 0 0% 100%;
+    --border: 217 33% 12%;
+    --input: 217 33% 10%;
+    --ring: 213 94% 65%;
   }
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary/50 ring-offset-2 ring-offset-background;
   }
+
+  body {
+    @apply bg-background text-foreground transition-colors duration-300 selection:bg-primary/20 selection:text-primary;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-outfit), sans-serif;
+    text-wrap: balance;
+  }
+}
+
+@layer utilities {
+  /* Glass morphism — true liquid glass with edge refraction */
+  .glass {
+    @apply bg-foreground/[0.04] backdrop-blur-xl border border-foreground/[0.08];
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl md:rounded-3xl overflow-hidden transition-all duration-300;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 12px -4px rgba(0, 0, 0, 0.1);
+  }
+  .glass-card:hover {
+    @apply bg-foreground/[0.07] border-foreground/[0.14];
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.05), 0 4px 20px -6px rgba(0, 0, 0, 0.14);
+  }
+
+  /* Gradient — blue to violet, used ONLY on hero name */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-blue-400 to-violet-400 bg-clip-text text-transparent;
+  }
+
+  /* Section label — the small "badge" above section headings */
+  .section-label {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-primary;
+  }
+
+  /* Clean tag pill */
+  .tag-expert {
+    @apply px-3 py-1.5 rounded-lg border bg-primary/10 text-primary border-primary/25 text-xs font-semibold;
+  }
+
+  .tag-proficient {
+    @apply px-3 py-1.5 rounded-lg border bg-primary/5 text-primary/75 border-primary/15 text-xs font-medium;
+  }
+
+  .tag-familiar {
+    @apply px-3 py-1.5 rounded-lg border bg-foreground/[0.05] text-foreground/55 border-foreground/[0.1] text-xs;
+  }
+
+  /* Divider line */
+  .divider {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-foreground/10 to-transparent;
+  }
+}
+
+/* Noise/grain overlay — add as a fixed child div with class "noise-grain" */
+.noise-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* Shimmer keyframe — used on CTAs */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
 @media print {
@@ -59,4 +134,4 @@
   nav, button, .hidden-print {
     display: none !important;
   }
-} 
+}

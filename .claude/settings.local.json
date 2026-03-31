@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(python3:*)",
+      "Bash(npx tsc:*)",
+      "Read(//Users/nyinyizaw/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/**)",
+      "Bash(bash scripts/start-server.sh --project-dir /Volumes/Nyi-Nyi-Sandisk/Resume/resume)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(ls /Volumes/Nyi-Nyi-Sandisk/Resume/resume/*.json)",
+      "Bash(git rm:*)"
+    ]
+  }
+}
