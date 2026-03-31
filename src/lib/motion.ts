@@ -26,12 +26,12 @@ export const curtainVariants: Variants = {
   }),
   animate: (_dir: 1 | -1) => ({
     clipPath: "inset(0 0% 0 0%)",
-    transition: { duration: 0.65, ease: [0.76, 0, 0.24, 1] },
+    transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] },
   }),
   exit: (_dir: 1 | -1) => ({
     // Hold the outgoing slide fully visible for the wipe duration, then remove
     clipPath: "inset(0 0% 0 0%)",
-    transition: { duration: 0.65 },
+    transition: { duration: 0.9 },
   }),
 }
 
