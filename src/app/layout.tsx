@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import MainWrapper from "@/components/MainWrapper";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -71,9 +72,7 @@ export default function RootLayout({
             <AnimatedBackground />
 
             <Navbar />
-            <main className="relative z-10 flex-1 px-4 sm:px-8 lg:px-16 pt-24 pb-16 w-full max-w-screen-2xl mx-auto">
-              {children}
-            </main>
+            <MainWrapper>{children}</MainWrapper>
           </div>
         </ThemeProvider>
       </body>

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Github, Linkedin, MapPin, ArrowRight } from "lucide-react";
 import { useResume } from "@/context/ResumeContext";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
@@ -134,6 +135,15 @@ export default function Hero() {
             Let's talk
             <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
           </motion.a>
+
+          {/* Work With Me */}
+          <Link
+            href="/hire"
+            className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-foreground/[0.14] text-foreground/70 font-semibold text-sm hover:border-foreground/30 hover:text-foreground hover:bg-foreground/[0.04] transition-all duration-200"
+          >
+            Recruiter? Skip the scroll
+            <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+          </Link>
 
           {/* Social links */}
           <div className="flex items-center gap-2.5">

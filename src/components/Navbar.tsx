@@ -25,6 +25,8 @@ export default function Navbar() {
   });
 
   if (!mounted) return null;
+  if (pathname.startsWith("/hire")) return null;
+
   const isHome     = pathname === "/";
   const isArticles = pathname.startsWith("/articles");
 
