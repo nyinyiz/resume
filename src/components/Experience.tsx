@@ -402,7 +402,12 @@ export default function Experience() {
               <ChevronLeft size={18} className="text-foreground/60" />
             </button>
 
-            <div className="relative">
+            <motion.div
+              layoutId="phone-mockup"
+              layout
+              transition={{ type: "spring", stiffness: 220, damping: 28 }}
+              className="relative"
+            >
               <PhoneMockup>
                 <AnimatePresence custom={direction} initial={false}>
                   <motion.div
@@ -432,7 +437,7 @@ export default function Experience() {
                   {renderImpact?.(theme)}
                 </motion.div>
               </AnimatePresence>
-            </div>
+            </motion.div>
 
             <button
               onClick={() => paginate(1)}

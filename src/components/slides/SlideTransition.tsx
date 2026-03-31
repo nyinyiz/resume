@@ -1,21 +1,31 @@
 // src/components/slides/SlideTransition.tsx
 // Wraps AnimatePresence with the curtain-wipe clip-path transition.
-// - Incoming slide (z-10): clips in via clip-path (forward=left, backward=right)
-// - Outgoing slide (z-1):  holds visible for the wipe duration then is removed
-// - mode="sync": both animate simultaneously so the wipe is seamless
+// transitionStyle="curtain": clip-path wipe (default for most slides)
+// transitionStyle="fade":    simple opacity fade — used for phone-bridge slides
+//   (Experience ↔ Projects) so layoutId phone can animate freely without being clipped
 "use client"
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { curtainVariants } from "@/lib/motion"
 
 interface SlideTransitionProps {
-  slideKey:  number
-  direction: 1 | -1
-  children:  React.ReactNode
+  slideKey:       number
+  direction:      1 | -1
+  children:       React.ReactNode
+  transitionStyle?: "curtain" | "fade"
 }
 
-export default function SlideTransition({ slideKey, direction, children }: SlideTransitionProps) {
+const fadeIn  = { opacity: 1, transition: { duration: 0.5,  ease: [0.22, 1, 0.36, 1] as number[] } }
+const fadeOut = { opacity: 0, transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1]  as number[] } }
+
+export default function SlideTransition({
+  slideKey,
+  direction,
+  children,
+  transitionStyle = "curtain",
+}: SlideTransitionProps) {
   const reduced = useReducedMotion()
+  const useFade = reduced || transitionStyle === "fade"
 
   return (
     <div className="relative w-full h-full overflow-hidden">
@@ -23,10 +33,10 @@ export default function SlideTransition({ slideKey, direction, children }: Slide
         <motion.div
           key={slideKey}
           custom={direction}
-          variants={reduced ? undefined : curtainVariants}
-          initial={reduced ? { opacity: 0 } : "initial"}
-          animate={reduced ? { opacity: 1 } : "animate"}
-          exit={reduced ? { opacity: 0 } : "exit"}
+          variants={useFade ? undefined : curtainVariants}
+          initial={useFade ? { opacity: 0 } : "initial"}
+          animate={useFade ? fadeIn    : "animate"}
+          exit={useFade    ? fadeOut   : "exit"}
           className="absolute inset-0"
           style={{ zIndex: 10 }}
         >

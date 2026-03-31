@@ -1,12 +1,8 @@
 // src/components/slides/SlideDeck.tsx
-// Orchestrates the slide-deck experience.
-// - Manages current index + direction state
-// - Exposes next/prev (with 750ms cooldown) and goTo (no cooldown) via context
-// - Registers keyboard + wheel + touch listeners via useSlideNavigation
-// - Renders SlideTransition > Slide > section component
 "use client"
 
 import { useState, useCallback, useRef, useEffect } from "react"
+import { LayoutGroup } from "framer-motion"
 import { SlideDeckContext } from "./SlideDeckContext"
 import SlideTransition from "./SlideTransition"
 import Slide from "./Slide"
@@ -24,11 +20,15 @@ interface SlideDeckProps {
   slides: SlideConfig[]
 }
 
-export default function SlideDeck({ slides }: SlideDeckProps) {
-  const [current,   setCurrent]   = useState(0)
-  const [direction, setDirection] = useState<1 | -1>(1)
+// Indices where both slides share a phone mockup — use fade so layoutId animates freely
+const isPhoneBridge = (a: number, b: number) =>
+  (a === 1 && b === 2) || (a === 2 && b === 1)
 
-  // Central cooldown shared by all navigation paths
+export default function SlideDeck({ slides }: SlideDeckProps) {
+  const [current,         setCurrent]         = useState(0)
+  const [direction,       setDirection]       = useState<1 | -1>(1)
+  const [transitionStyle, setTransitionStyle] = useState<"curtain" | "fade">("curtain")
+
   const cooldownRef = useRef(0)
 
   const canTrigger = useCallback(() => {
@@ -41,32 +41,34 @@ export default function SlideDeck({ slides }: SlideDeckProps) {
   const goTo = useCallback((index: number) => {
     if (index === current) return
     setDirection(index > current ? 1 : -1)
+    setTransitionStyle(isPhoneBridge(current, index) ? "fade" : "curtain")
     setCurrent(index)
   }, [current])
 
   const next = useCallback(() => {
     if (!canTrigger()) return
-    setCurrent(c => {
-      const n = Math.min(c + 1, slides.length - 1)
-      if (n !== c) setDirection(1)
-      return n
-    })
-  }, [canTrigger, slides.length])
+    const n = Math.min(current + 1, slides.length - 1)
+    if (n !== current) {
+      setDirection(1)
+      setTransitionStyle(isPhoneBridge(current, n) ? "fade" : "curtain")
+      setCurrent(n)
+    }
+  }, [canTrigger, slides.length, current])
 
   const prev = useCallback(() => {
     if (!canTrigger()) return
-    setCurrent(c => {
-      const n = Math.max(c - 1, 0)
-      if (n !== c) setDirection(-1)
-      return n
-    })
-  }, [canTrigger])
+    const n = Math.max(current - 1, 0)
+    if (n !== current) {
+      setDirection(-1)
+      setTransitionStyle(isPhoneBridge(current, n) ? "fade" : "curtain")
+      setCurrent(n)
+    }
+  }, [canTrigger, current])
 
   const isCurrentScrollable = slides[current]?.scrollable ?? false
 
   useSlideNavigation(next, prev, isCurrentScrollable)
 
-  // Lock page-level scroll while slide-deck is active
   useEffect(() => {
     const original = document.body.style.overflow
     document.body.style.overflow = "hidden"
@@ -75,17 +77,22 @@ export default function SlideDeck({ slides }: SlideDeckProps) {
 
   return (
     <SlideDeckContext.Provider value={{ current, total: slides.length, direction, next, prev, goTo }}>
-      {/* Full-screen fixed container — sits above layout, below navbar-level z-50 */}
-      <div className="fixed inset-0 z-20">
-        <SlideTransition slideKey={current} direction={direction}>
-          <Slide scrollable={isCurrentScrollable}>
-            {slides[current].component}
-          </Slide>
-        </SlideTransition>
+      <LayoutGroup id="portfolio-deck">
+        <div className="fixed inset-0 z-20">
+          <SlideTransition
+            slideKey={current}
+            direction={direction}
+            transitionStyle={transitionStyle}
+          >
+            <Slide scrollable={isCurrentScrollable}>
+              {slides[current].component}
+            </Slide>
+          </SlideTransition>
 
-        <ScrollProgress />
-        <SlideDots />
-      </div>
+          <ScrollProgress />
+          <SlideDots />
+        </div>
+      </LayoutGroup>
     </SlideDeckContext.Provider>
   )
 }

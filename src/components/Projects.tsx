@@ -130,6 +130,11 @@ export default function Projects() {
 
         {/* Phone with app grid */}
         <div className="order-1 lg:order-2 flex-shrink-0">
+          <motion.div
+            layoutId="phone-mockup"
+            layout
+            transition={{ type: "spring", stiffness: 220, damping: 28 }}
+          >
           <PhoneMockup>
             {/* Subtle wallpaper gradient */}
             <div className="absolute inset-0 opacity-30"
@@ -208,6 +213,7 @@ export default function Projects() {
               </p>
             </Link>
           </PhoneMockup>
+          </motion.div>
         </div>
 
       </div>
