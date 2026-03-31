@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Github, Linkedin, MapPin, ArrowRight, ChevronDown } from "lucide-react";
+import { Github, Linkedin, MapPin, ArrowRight } from "lucide-react";
 import { useResume } from "@/context/ResumeContext";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -55,10 +55,10 @@ export default function Hero() {
   }, [mouseX, mouseY]);
 
   return (
-    <section className="relative flex flex-col-reverse items-center justify-center gap-16 lg:gap-20 md:flex-row w-full h-full">
+    <section className="relative flex flex-col-reverse items-center justify-center gap-8 lg:gap-12 md:flex-row w-full h-full">
 
       {/* ── Left column ─────────────────────────── */}
-      <div className="flex-1 space-y-8 max-w-2xl text-center md:text-left z-10">
+      <div className="flex-1 space-y-5 max-w-2xl text-center md:text-left z-10">
 
 
         {/* Name + title */}
@@ -91,7 +91,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease }}
-          className="flex items-center justify-center md:justify-start pt-1"
+          className="flex items-center justify-center md:justify-start"
         >
           {stats.map((s, i) => (
             <div key={i} className="flex items-center">
@@ -115,7 +115,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35, ease }}
-          className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start pt-2"
+          className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start"
         >
           {/* Primary — magnetic button */}
           <motion.a
@@ -160,7 +160,7 @@ export default function Hero() {
         initial={{ opacity: 0, scale: 0.9, filter: "blur(16px)" }}
         animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
         transition={{ duration: 1.1, delay: 0.1, ease }}
-        className="relative z-10 w-full max-w-[200px] sm:max-w-xs md:max-w-sm lg:max-w-md"
+        className="relative z-10 w-full max-w-[160px] sm:max-w-[220px] md:max-w-[280px] lg:max-w-xs"
         style={{ perspective: 1200 }}
       >
         <motion.div
@@ -215,16 +215,6 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1.5 text-foreground/35"
-      >
-        <span className="text-[10px] tracking-widest uppercase font-medium">Scroll</span>
-        <ChevronDown size={14} />
-      </motion.div>
     </section>
   );
 }

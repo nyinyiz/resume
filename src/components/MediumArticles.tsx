@@ -1,8 +1,9 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { ExternalLink, Clock, Calendar, BookOpen, PenLine } from "lucide-react";
+import { ExternalLink, Clock, Calendar, BookOpen, PenLine, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
 
 const MEDIUM_PROFILE_URL = "https://medium.com/@nyinyizaw.dev";
 
@@ -60,155 +61,145 @@ const articles: Article[] = [
 
 export default function MediumArticles() {
   return (
-    <section className="py-16">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col items-center text-center"
-          >
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900 mb-4">
-              <BookOpen className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-            </div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Articles
-            </h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-400 max-w-lg">
-              Exploring ideas, sharing knowledge, and documenting my journey in software development
-            </p>
-          </motion.div>
-        </div>
-        <div className="space-y-6">
-          {articles.map((article, index) => (
-            <motion.article
+    <section className="w-full flex flex-col relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-left mb-6 w-full"
+      >
+        <p className="section-label mb-4">
+          <BookOpen size={12} />
+          Writing
+        </p>
+        <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-foreground mb-4">
+          Articles & Thoughts
+        </h2>
+        <p className="text-foreground/55 text-lg max-w-2xl">
+          Exploring ideas, sharing knowledge, and documenting my journey in software development.
+        </p>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        {articles.map((article, index) => {
+          const isExternal = article.url.startsWith("http");
+          return (
+            <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group relative bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700"
+              className="h-full"
             >
               <Link
                 href={article.url}
-                className="absolute inset-0 z-10"
-                aria-label={`Read article: ${article.title}`}
-              />
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    <div className="flex items-center gap-2">
-                      {article.title}
-                      {article.source === "Medium" && (
-                        <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                className="glass-card p-6 md:p-8 flex flex-col h-full group relative overflow-hidden block"
+              >
+                {/* Hover gradient effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-4 gap-4">
+                    <div className="flex-shrink-0">
+                      {article.source === "Medium" ? (
+                        <div className="flex items-center gap-2 bg-foreground/5 backdrop-blur-md border border-foreground/10 px-3 py-1.5 rounded-full">
+                          <div className="w-4 h-4 relative">
+                            <Image
+                              src="/medium-logo.svg"
+                              alt="Medium"
+                              fill
+                              className="object-contain dark:invert"
+                            />
+                          </div>
+                          <span className="text-xs font-semibold tracking-wide">
+                            {article.source}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-3 py-1.5 rounded-full">
+                          <PenLine className="w-4 h-4" />
+                          <span className="text-xs font-semibold tracking-wide">
+                            {article.source}
+                          </span>
+                        </div>
                       )}
                     </div>
+                    
+                    <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 flex-shrink-0">
+                      {isExternal ? (
+                        <ExternalLink className="w-4 h-4" />
+                      ) : (
+                        <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
+                      )}
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                    {article.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                  
+                  <p className="text-muted-foreground text-sm md:text-base mb-6 line-clamp-3 flex-grow">
                     {article.description}
                   </p>
-                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
+
+                  <div className="flex items-center gap-4 text-xs md:text-sm font-medium text-muted-foreground mt-auto pt-4 border-t border-foreground/5">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="w-4 h-4 text-primary/70" />
                       <span>{article.date}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-4 h-4 text-primary/70" />
                       <span>{article.readTime}</span>
                     </div>
                   </div>
                 </div>
-                <div className="flex-shrink-0 relative z-20">
-                  {article.source === "Medium" ? (
-                    <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-900 px-3 py-1.5 rounded-full">
-                      <div className="w-4 h-4 relative">
-                        <Image
-                          src="/medium-logo.svg"
-                          alt="Medium"
-                          fill
-                          className="object-contain dark:invert"
-                        />
-                      </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        {article.source}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-950 px-3 py-1.5 rounded-full">
-                      <PenLine className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                      <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                        {article.source}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </motion.article>
-          ))}
-          {/* See more on Medium box */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: articles.length * 0.1 }}
-            className="p-[2px] rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-[length:200%_100%] group relative overflow-hidden"
-          >
-            <motion.div
-              className="absolute inset-0"
-              animate={{
-                backgroundPosition: ["0% 0%", "200% 0%"],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-            <div className="p-8 rounded-xl bg-background flex flex-col items-center justify-center text-center">
-              <div className="mb-4 flex items-center gap-2">
+              </Link>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5 }}
+        className="mt-6 w-full"
+      >
+        <Link
+          href={MEDIUM_PROFILE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="glass-card p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-primary/50 transition-all duration-500"
+        >
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-foreground/10 transition-colors shrink-0">
+              <div className="w-8 h-8 relative">
                 <Image
                   src="/medium-logo.svg"
                   alt="Medium"
-                  width={32}
-                  height={32}
+                  fill
                   className="object-contain dark:invert"
                 />
-                <span className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                  See more on Medium
-                </span>
-              </div>
-              <p className="text-muted-foreground mb-6">
-                Discover more articles and stories on my Medium profile.
-              </p>
-              <div className="relative overflow-hidden rounded-full">
-                <motion.div
-                  className="absolute inset-0"
-                  style={{
-                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
-                    backgroundSize: "200% 100%",
-                  }}
-                  animate={{
-                    backgroundPosition: ["-200% 0", "200% 0"],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
-                <Link
-                  href={MEDIUM_PROFILE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white hover:opacity-90 transition-all duration-300"
-                >
-                  <span>Visit Medium Profile</span>
-                  <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
               </div>
             </div>
-          </motion.div>
-        </div>
-      </div>
+            <div className="text-center sm:text-left">
+              <h3 className="text-xl font-bold mb-1">More on Medium</h3>
+              <p className="text-muted-foreground text-sm">
+                Discover all my articles and stories
+              </p>
+            </div>
+          </div>
+          
+          <div className="px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold flex items-center gap-2 group-hover:gap-3 transition-all duration-300 whitespace-nowrap">
+            Visit Profile
+            <ArrowRight className="w-4 h-4" />
+          </div>
+        </Link>
+      </motion.div>
     </section>
   );
-} 
+}
