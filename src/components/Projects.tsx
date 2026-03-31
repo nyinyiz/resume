@@ -161,8 +161,8 @@ export default function Projects() {
                     <motion.div
                       key={i}
                       className="flex flex-col items-center gap-1.5 cursor-pointer"
-                      onHoverStart={() => setHoveredIndex(i)}
-                      onHoverEnd={() => setHoveredIndex(0)}
+                      onClick={() => setHoveredIndex(i)}
+                      whileTap={{ scale: 0.9 }}
                       animate={
                         reduced ? {} :
                         isActive
