@@ -29,7 +29,7 @@ export default function Speaking() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.05, ease }}
-          className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-foreground mb-5"
+          className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-5"
         >
           Talks & Contributions
         </motion.h2>
@@ -38,7 +38,7 @@ export default function Speaking() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.12, ease }}
-          className="text-lg text-foreground/55 leading-relaxed"
+          className="text-base text-foreground/55 leading-relaxed"
         >
           Sharing knowledge and giving back through speaking engagements and community events.
         </motion.p>
@@ -55,10 +55,10 @@ export default function Speaking() {
             className="group"
           >
             <div className="glass-card p-5 rounded-2xl border border-foreground/[0.07] bg-background/30 h-full flex flex-col gap-3 hover:border-primary/20 transition-colors duration-300">
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/8 text-primary border border-primary/15 text-xs font-semibold self-start leading-none py-1.5">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/8 text-primary border border-primary/15 text-[10px] font-semibold self-start leading-none py-1.5">
                 {contribution.topic}
               </span>
-              <h3 className="font-heading text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-200 leading-snug">
+              <h3 className="font-heading text-base font-bold text-foreground group-hover:text-primary transition-colors duration-200 leading-snug">
                 {contribution.event}
               </h3>
               {contribution.organization && (

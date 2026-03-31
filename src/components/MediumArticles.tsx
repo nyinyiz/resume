@@ -72,10 +72,10 @@ export default function MediumArticles() {
           <BookOpen size={12} />
           Writing
         </p>
-        <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-foreground mb-4">
+        <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-4">
           Articles & Thoughts
         </h2>
-        <p className="text-foreground/55 text-lg max-w-2xl">
+        <p className="text-foreground/55 text-base max-w-2xl">
           Exploring ideas, sharing knowledge, and documenting my journey in software development.
         </p>
       </motion.div>
@@ -96,7 +96,7 @@ export default function MediumArticles() {
                 href={article.url}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
-                className="glass-card p-6 md:p-8 flex flex-col h-full group relative overflow-hidden block"
+                className="glass-card p-5 md:p-6 flex flex-col h-full group relative overflow-hidden block"
               >
                 {/* Hover gradient effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -137,11 +137,11 @@ export default function MediumArticles() {
                     </div>
                   </div>
 
-                  <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="text-lg md:text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   
-                  <p className="text-muted-foreground text-sm md:text-base mb-6 line-clamp-3 flex-grow">
+                  <p className="text-muted-foreground text-xs md:text-sm mb-6 line-clamp-3 flex-grow">
                     {article.description}
                   </p>
 
@@ -173,11 +173,11 @@ export default function MediumArticles() {
           href={MEDIUM_PROFILE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="glass-card p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-primary/50 transition-all duration-500"
+          className="glass-card p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-primary/50 transition-all duration-500"
         >
           <div className="flex items-center gap-6">
-            <div className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-foreground/10 transition-colors shrink-0">
-              <div className="w-8 h-8 relative">
+            <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-foreground/10 transition-colors shrink-0">
+              <div className="w-5 h-5 relative">
                 <Image
                   src="/medium-logo.svg"
                   alt="Medium"

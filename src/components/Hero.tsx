@@ -58,7 +58,7 @@ export default function Hero() {
     <section className="relative flex flex-col-reverse items-center justify-center gap-8 lg:gap-12 md:flex-row w-full h-full">
 
       {/* ── Left column ─────────────────────────── */}
-      <div className="flex-1 space-y-5 max-w-2xl text-center md:text-left z-10">
+      <div className="flex-1 space-y-5 max-w-xl text-center md:text-left z-10">
 
 
         {/* Name + title */}
@@ -71,7 +71,7 @@ export default function Hero() {
           <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1.08] text-foreground">
             <span className="text-gradient">{name}</span>
           </h1>
-          <h2 className="text-xl sm:text-2xl font-medium text-foreground/55 tracking-tight">
+          <h2 className="text-lg sm:text-xl font-medium text-foreground/55 tracking-tight">
             {title}
           </h2>
         </motion.div>
@@ -81,7 +81,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.18, ease }}
-          className="text-base sm:text-lg text-foreground/65 leading-relaxed max-w-xl mx-auto md:mx-0 font-normal"
+          className="text-sm sm:text-base text-foreground/65 leading-relaxed max-w-xl mx-auto md:mx-0 font-normal"
         >
           {summary}
         </motion.p>
@@ -96,7 +96,7 @@ export default function Hero() {
           {stats.map((s, i) => (
             <div key={i} className="flex items-center">
               <div className="flex flex-col items-center md:items-start px-5 first:pl-0">
-                <span className="font-heading text-3xl sm:text-4xl font-bold text-foreground leading-none">
+                <span className="font-heading text-2xl sm:text-3xl font-bold text-foreground leading-none">
                   {s.value}
                 </span>
                 <span className="text-xs font-medium text-foreground/45 mt-1 tracking-wide">

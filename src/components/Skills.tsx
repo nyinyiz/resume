@@ -48,7 +48,7 @@ export default function Skills() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.05, ease }}
-            className="font-heading text-4xl md:text-6xl font-bold tracking-tighter text-foreground mb-5"
+            className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-5"
           >
             Skills & Stack
           </motion.h2>
@@ -57,7 +57,7 @@ export default function Skills() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.12, ease }}
-            className="text-lg text-foreground/55 font-normal leading-relaxed"
+            className="text-base text-foreground/55 font-normal leading-relaxed"
           >
             A toolkit refined over 10+ years of shipping high-performance mobile products.
           </motion.p>
@@ -101,7 +101,7 @@ export default function Skills() {
                 <div className="glass-card h-full p-5 rounded-2xl border border-foreground/[0.07] bg-background/30 flex flex-col gap-4">
                   {/* Category header */}
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-foreground/[0.05] border border-foreground/[0.08] group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors duration-300">
+                    <div className="p-2 rounded-lg bg-foreground/[0.05] border border-foreground/[0.08] group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors duration-300">
                       <Icon size={18} className="text-foreground/60 group-hover:text-primary transition-colors duration-300" />
                     </div>
                     <h3 className="font-heading font-semibold text-sm text-foreground/80 tracking-wide">

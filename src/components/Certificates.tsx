@@ -29,7 +29,7 @@ export default function Certificates() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.05, ease }}
-          className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-foreground mb-5"
+          className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-5"
         >
           Certifications
         </motion.h2>
@@ -38,7 +38,7 @@ export default function Certificates() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.12, ease }}
-          className="text-lg text-foreground/55 leading-relaxed"
+          className="text-base text-foreground/55 leading-relaxed"
         >
           Continuous learning and professional development to stay current with industry standards.
         </motion.p>
@@ -55,7 +55,7 @@ export default function Certificates() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.05, ease }}
-            className="glass-card p-5 flex items-center justify-between gap-4 group"
+            className="glass-card p-4 flex items-center justify-between gap-4 group"
           >
             <p className="font-medium text-sm text-foreground/75 group-hover:text-foreground transition-colors duration-200 leading-snug min-w-0">
               {cert.name}
