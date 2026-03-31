@@ -66,17 +66,17 @@ export default function MediumArticles() {
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-left mb-6 w-full"
+        className="text-left mb-4 w-full"
       >
-        <p className="section-label mb-4">
+        <p className="section-label mb-2">
           <BookOpen size={12} />
           Writing
         </p>
-        <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-4">
+        <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-2">
           Articles & Thoughts
         </h2>
-        <p className="text-foreground/55 text-base max-w-2xl">
-          Exploring ideas, sharing knowledge, and documenting my journey in software development.
+        <p className="text-foreground/50 text-sm max-w-2xl">
+          Ideas and lessons from 10+ years of building mobile products.
         </p>
       </motion.div>
 
@@ -96,13 +96,13 @@ export default function MediumArticles() {
                 href={article.url}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
-                className="glass-card p-5 md:p-6 flex flex-col h-full group relative overflow-hidden block"
+                className="glass-card p-4 md:p-5 flex flex-col h-full group relative overflow-hidden block"
               >
                 {/* Hover gradient effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex justify-between items-start mb-4 gap-4">
+                  <div className="flex justify-between items-start mb-3 gap-4">
                     <div className="flex-shrink-0">
                       {article.source === "Medium" ? (
                         <div className="flex items-center gap-2 bg-foreground/5 backdrop-blur-md border border-foreground/10 px-3 py-1.5 rounded-full">
@@ -141,7 +141,7 @@ export default function MediumArticles() {
                     {article.title}
                   </h3>
                   
-                  <p className="text-muted-foreground text-xs md:text-sm mb-6 line-clamp-3 flex-grow">
+                  <p className="text-muted-foreground text-xs md:text-sm mb-4 line-clamp-3 flex-grow">
                     {article.description}
                   </p>
 
@@ -167,7 +167,7 @@ export default function MediumArticles() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.5 }}
-        className="mt-6 w-full"
+        className="mt-4 w-full"
       >
         <Link
           href={MEDIUM_PROFILE_URL}

@@ -13,13 +13,13 @@ export default function Certificates() {
     <section id="certificates" className="relative z-10">
 
       {/* Header — left-aligned, consistent with all other sections */}
-      <div className="max-w-2xl mb-6">
+      <div className="max-w-2xl mb-4">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
-          className="section-label mb-4"
+          className="section-label mb-2"
         >
           <Award size={12} />
           Credentials
@@ -29,7 +29,7 @@ export default function Certificates() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.05, ease }}
-          className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-5"
+          className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-2"
         >
           Certifications
         </motion.h2>
@@ -38,9 +38,9 @@ export default function Certificates() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.12, ease }}
-          className="text-base text-foreground/55 leading-relaxed"
+          className="text-sm text-foreground/50 leading-relaxed"
         >
-          Continuous learning and professional development to stay current with industry standards.
+          Professional development and continuous learning.
         </motion.p>
       </div>
 

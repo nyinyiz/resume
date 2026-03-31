@@ -33,13 +33,13 @@ export default function Skills() {
       <div>
 
         {/* Header */}
-        <div className="max-w-2xl mb-5">
+        <div className="max-w-2xl mb-4">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
-            className="section-label mb-4"
+            className="section-label mb-2"
           >
             Expertise
           </motion.p>
@@ -48,7 +48,7 @@ export default function Skills() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.05, ease }}
-            className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-5"
+            className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-2"
           >
             Skills & Stack
           </motion.h2>
@@ -57,9 +57,9 @@ export default function Skills() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.12, ease }}
-            className="text-base text-foreground/55 font-normal leading-relaxed"
+            className="text-sm text-foreground/50 leading-relaxed"
           >
-            A toolkit refined over 10+ years of shipping high-performance mobile products.
+            A toolkit refined over 10+ years of shipping mobile products.
           </motion.p>
         </div>
 
@@ -69,9 +69,9 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1, ease }}
-          className="mb-5 p-5 rounded-2xl glass border border-foreground/[0.08] bg-background/30"
+          className="mb-4 p-4 rounded-2xl glass border border-foreground/[0.08] bg-background/30"
         >
-          <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest mb-5">
+          <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest mb-3">
             Core Expertise
           </p>
           <div className="flex flex-wrap gap-2.5">
@@ -84,7 +84,7 @@ export default function Skills() {
         </motion.div>
 
         {/* Category grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Object.entries(skills).map(([category, items], catIdx) => {
             const meta = categoryMeta[category] ?? { icon: Code2, label: category };
             const Icon = meta.icon;
@@ -98,7 +98,7 @@ export default function Skills() {
                 transition={{ duration: 0.7, delay: catIdx * 0.08, ease }}
                 className="group"
               >
-                <div className="glass-card h-full p-5 rounded-2xl border border-foreground/[0.07] bg-background/30 flex flex-col gap-4">
+                <div className="glass-card h-full p-4 rounded-2xl border border-foreground/[0.07] bg-background/30 flex flex-col gap-3">
                   {/* Category header */}
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-foreground/[0.05] border border-foreground/[0.08] group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors duration-300">
@@ -129,7 +129,7 @@ export default function Skills() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4, ease }}
-          className="mt-5 flex items-center gap-6 flex-wrap"
+          className="mt-4 flex items-center gap-6 flex-wrap"
         >
           <span className="text-[10px] font-bold text-foreground/30 uppercase tracking-widest">Proficiency:</span>
           <span className="tag-expert text-[10px]">Expert</span>
