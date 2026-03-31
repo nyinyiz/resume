@@ -1,8 +1,7 @@
 // src/components/slides/SlideTransition.tsx
-// Wraps AnimatePresence with the curtain-wipe clip-path transition.
-// transitionStyle="curtain": clip-path wipe (default for most slides)
-// transitionStyle="fade":    simple opacity fade — used for phone-bridge slides
-//   (Experience ↔ Projects) so layoutId phone can animate freely without being clipped
+// Wraps AnimatePresence with a fade transition between slides.
+// transitionStyle="fade" (default): opacity cross-fade — lets layoutId phone animate freely
+// transitionStyle="curtain": clip-path wipe (kept for future use / reduced-motion fallback)
 "use client"
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
@@ -22,7 +21,7 @@ export default function SlideTransition({
   slideKey,
   direction,
   children,
-  transitionStyle = "curtain",
+  transitionStyle = "fade",
 }: SlideTransitionProps) {
   const reduced = useReducedMotion()
   const useFade = reduced || transitionStyle === "fade"

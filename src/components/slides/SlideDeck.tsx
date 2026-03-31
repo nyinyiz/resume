@@ -20,14 +20,10 @@ interface SlideDeckProps {
   slides: SlideConfig[]
 }
 
-// Indices where both slides share a phone mockup — use fade so layoutId animates freely
-const isPhoneBridge = (a: number, b: number) =>
-  (a === 1 && b === 2) || (a === 2 && b === 1)
 
 export default function SlideDeck({ slides }: SlideDeckProps) {
-  const [current,         setCurrent]         = useState(0)
-  const [direction,       setDirection]       = useState<1 | -1>(1)
-  const [transitionStyle, setTransitionStyle] = useState<"curtain" | "fade">("curtain")
+  const [current,   setCurrent]   = useState(0)
+  const [direction, setDirection] = useState<1 | -1>(1)
 
   const cooldownRef = useRef(0)
 
@@ -41,28 +37,19 @@ export default function SlideDeck({ slides }: SlideDeckProps) {
   const goTo = useCallback((index: number) => {
     if (index === current) return
     setDirection(index > current ? 1 : -1)
-    setTransitionStyle(isPhoneBridge(current, index) ? "fade" : "curtain")
     setCurrent(index)
   }, [current])
 
   const next = useCallback(() => {
     if (!canTrigger()) return
     const n = Math.min(current + 1, slides.length - 1)
-    if (n !== current) {
-      setDirection(1)
-      setTransitionStyle(isPhoneBridge(current, n) ? "fade" : "curtain")
-      setCurrent(n)
-    }
+    if (n !== current) { setDirection(1); setCurrent(n) }
   }, [canTrigger, slides.length, current])
 
   const prev = useCallback(() => {
     if (!canTrigger()) return
     const n = Math.max(current - 1, 0)
-    if (n !== current) {
-      setDirection(-1)
-      setTransitionStyle(isPhoneBridge(current, n) ? "fade" : "curtain")
-      setCurrent(n)
-    }
+    if (n !== current) { setDirection(-1); setCurrent(n) }
   }, [canTrigger, current])
 
   const isCurrentScrollable = slides[current]?.scrollable ?? false
@@ -82,7 +69,7 @@ export default function SlideDeck({ slides }: SlideDeckProps) {
           <SlideTransition
             slideKey={current}
             direction={direction}
-            transitionStyle={transitionStyle}
+            transitionStyle="fade"
           >
             <Slide scrollable={isCurrentScrollable}>
               {slides[current].component}
