@@ -13,11 +13,11 @@ import { Analytics } from "@vercel/analytics/react"
 const slides: SlideConfig[] = [
   { component: <Hero />,           label: "Hero",         scrollable: false },
   { component: <Experience />,     label: "Experience",   scrollable: true  },
-  { component: <Projects />,       label: "Projects",     scrollable: false },
+  { component: <Projects />,       label: "Projects",     scrollable: true  },
   { component: <Skills />,         label: "Skills",       scrollable: true  },
   { component: <MediumArticles />, label: "Articles",     scrollable: true  },
-  { component: <Speaking />,       label: "Speaking",     scrollable: false },
-  { component: <Certificates />,   label: "Certificates", scrollable: false },
+  { component: <Speaking />,       label: "Speaking",     scrollable: true  },
+  { component: <Certificates />,   label: "Certificates", scrollable: true  },
 ]
 
 export default function Home() {

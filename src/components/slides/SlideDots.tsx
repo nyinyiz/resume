@@ -18,13 +18,13 @@ export default function SlideDots() {
   const { current, total, goTo } = useSlideDeck()
 
   return (
-    <div className="fixed right-5 top-1/2 -translate-y-1/2 z-[60] flex flex-col items-end gap-3">
+    <div className="fixed right-3 top-1/2 -translate-y-1/2 z-[60] flex flex-col items-end gap-1">
       {Array.from({ length: total }).map((_, i) => (
         <button
           key={i}
           onClick={() => goTo(i)}
           aria-label={`Go to ${LABELS[i] ?? `slide ${i + 1}`}`}
-          className="group flex items-center gap-2.5 cursor-pointer"
+          className="group flex items-center gap-2.5 cursor-pointer p-2"
         >
           {/* Label — desktop hover only */}
           <span

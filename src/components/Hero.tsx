@@ -55,7 +55,7 @@ export default function Hero() {
   }, [mouseX, mouseY]);
 
   return (
-    <section className="relative flex flex-col-reverse items-center justify-center gap-8 lg:gap-16 md:flex-row w-full h-full">
+    <section className="relative flex flex-col-reverse items-center justify-center gap-5 md:gap-16 md:flex-row w-full h-full">
 
       {/* ── Left column ─────────────────────────── */}
       <div className="flex-1 space-y-6 max-w-xl text-center md:text-left z-10">
@@ -175,7 +175,7 @@ export default function Hero() {
         initial={{ opacity: 0, scale: 0.9, filter: "blur(16px)" }}
         animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
         transition={{ duration: 1.1, delay: 0.1, ease }}
-        className="relative z-10 w-full max-w-[180px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-[380px]"
+        className="relative z-10 w-full max-w-[150px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-[380px]"
         style={{ perspective: 1200 }}
       >
         <motion.div
@@ -203,7 +203,7 @@ export default function Hero() {
                   src={profileImage || "/placeholder-avatar.png"}
                   alt={name}
                   fill
-                  sizes="(max-width: 768px) 240px, (max-width: 1024px) 300px, 380px"
+                  sizes="(max-width: 640px) 150px, (max-width: 768px) 240px, (max-width: 1024px) 300px, 380px"
                   className="object-cover scale-105"
                   priority
                 />

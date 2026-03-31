@@ -393,13 +393,13 @@ export default function Experience() {
         {/* ── Right: phone mockup + nav ── */}
         <div className="flex flex-col items-center gap-4 flex-shrink-0 self-center lg:self-start lg:sticky lg:top-24">
           {/* Left/right buttons + phone */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => paginate(-1)}
               aria-label="Previous company"
-              className="w-10 h-10 rounded-full glass border border-foreground/10 hover:border-foreground/25 hover:bg-foreground/[0.07] transition-all duration-200 flex items-center justify-center hover:-translate-x-0.5"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full glass border border-foreground/10 hover:border-foreground/25 hover:bg-foreground/[0.07] transition-all duration-200 flex items-center justify-center hover:-translate-x-0.5"
             >
-              <ChevronLeft size={18} className="text-foreground/60" />
+              <ChevronLeft size={16} className="text-foreground/60" />
             </button>
 
             <motion.div
@@ -442,9 +442,9 @@ export default function Experience() {
             <button
               onClick={() => paginate(1)}
               aria-label="Next company"
-              className="w-10 h-10 rounded-full glass border border-foreground/10 hover:border-foreground/25 hover:bg-foreground/[0.07] transition-all duration-200 flex items-center justify-center hover:translate-x-0.5"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full glass border border-foreground/10 hover:border-foreground/25 hover:bg-foreground/[0.07] transition-all duration-200 flex items-center justify-center hover:translate-x-0.5"
             >
-              <ChevronRight size={18} className="text-foreground/60" />
+              <ChevronRight size={16} className="text-foreground/60" />
             </button>
           </div>
 
@@ -455,6 +455,7 @@ export default function Experience() {
                 key={i}
                 onClick={() => setPage([i, i > current ? 1 : -1])}
                 aria-label={`Go to company ${i + 1}`}
+                className="p-2"
               >
                 <div
                   className={`h-1.5 rounded-full transition-all duration-300 ${i !== current ? "bg-foreground/15 w-1.5" : ""}`}
