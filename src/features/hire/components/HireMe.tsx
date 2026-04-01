@@ -17,7 +17,7 @@ import {
 import { analyzeJD, detectGibberish, type MatchResult } from "@/features/hire/lib/jdMatcher";
 import { agentConfig } from "@/features/hire/lib/agentConfig";
 
-const CLI_CMD = `npx create-agent --config https://nyinyizaw.vercel.app/nyi-agent.json`;
+const CLI_CMD = `npx create-agent --config https://nyinyizaw.dev/nyi-agent.json`;
 const ease = [0.22, 1, 0.36, 1];
 
 /* ─── CountUp ──────────────────────────────────────── */
@@ -503,7 +503,7 @@ function SkillPanel() {
               </p>
               <p className="break-all" style={{ color: "#34d399" }}>
                 npx create-agent <span style={{ color: "#60a5fa" }}>--config</span>{" "}
-                <span style={{ color: "#fb923c" }}>https://nyinyizaw.vercel.app/nyi-agent.json</span>
+                <span style={{ color: "#fb923c" }}>https://nyinyizaw.dev/nyi-agent.json</span>
               </p>
               <div className="mt-1.5 flex items-center gap-1.5">
                 <span className="inline-block h-3 w-0.5 animate-pulse bg-foreground/30" />

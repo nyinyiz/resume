@@ -11,15 +11,16 @@ export const agentConfig = {
   persona: {
     role: "Lead Mobile Engineer & Technical Consultant",
     tone: "Direct, pragmatic, occasionally witty.",
+    location: "Bangkok, Thailand",
     summary:
-      "Builds mobile apps people actually enjoy using. Kotlin and Swift are daily drivers. Shipped fintech, healthcare, and loyalty apps across Android and iOS. 10+ years of not breaking production (mostly).",
+      "10+ years building mobile apps people actually use. Android-first, but equally at home on iOS. Currently leading PassKit's loyalty scanner app — NFC, camera pipelines, cross-platform. Previously: healthcare social platform, crypto wallet, fractional CTO for an EdTech startup, and ride-hailing apps with millions of users. Also once turned an old phone into a local AI server for fun. That last one was not necessary. Did it anyway.",
     fun_fact:
-      "Has shipped to 10M+ users. Also makes decent coffee. The apps are better.",
-    availability: "Open to the right role. And yes, the human version replies faster than this JSON.",
+      "Shipped TrueID to 10M+ users. Built a 2nd Brain AI server on a retired phone using Termux. Spoke at Devfest Yangon and Droid Yangon. Makes decent coffee. The apps are still better.",
+    availability: "Open to the right role. Remote or Bangkok. The human version replies faster than this JSON.",
   },
 
   capabilities: {
-    languages: ["Kotlin", "Java", "Swift", "Dart", "TypeScript", "Python"],
+    languages: ["Kotlin", "Java", "Dart", "Swift", "TypeScript", "Python"],
     frameworks: [
       "Android SDK",
       "Jetpack Compose",
@@ -34,10 +35,41 @@ export const agentConfig = {
       "MVVM",
       "MVI",
       "Multi-module Android",
-      "Dependency Injection (Hilt/Dagger)",
+      "Hilt / Dagger DI",
+      "Kotlin Coroutines & Flow",
     ],
-    tools: ["Git", "Firebase", "Xcode", "Android Studio", "GitHub Actions", "Figma", "Fastlane"],
-    domains: ["Fintech", "Healthcare", "Loyalty & Payments", "EdTech", "Enterprise IoT"],
+    tools: [
+      "Android Studio",
+      "Xcode",
+      "Git",
+      "Firebase",
+      "GitHub Actions",
+      "Jenkins",
+      "Bitrise",
+      "Jira",
+      "Figma",
+      "Gradle",
+      "Room DB",
+      "CameraX",
+      "AVFoundation",
+    ],
+    domains: [
+      "Fintech & Payments",
+      "Healthcare",
+      "Loyalty & NFC Scanning",
+      "EdTech",
+      "Ride-hailing",
+      "Blockchain / Crypto",
+      "Enterprise IoT",
+    ],
+    soft_skills: [
+      "Technical leadership",
+      "Fractional CTO",
+      "Cross-functional collaboration",
+      "Public speaking (GDG, Droid Yangon)",
+      "Agile / Scrum",
+      "Code review culture",
+    ],
   },
 
   constraints: [
@@ -52,7 +84,7 @@ export const agentConfig = {
     email: "nyinyizaw.dev@gmail.com",
     linkedin: "https://www.linkedin.com/in/nyinyiz/",
     github: "https://github.com/nyinyiz",
-    portfolio: "https://nyinyizaw.vercel.app",
+    portfolio: "https://nyinyizaw.dev",
     preferred_method: "email or linkedin — not morse code, please",
   },
 
