@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -343,6 +344,13 @@ function SkillPanel() {
     });
   };
 
+  const capColors: Record<string, { bg: string; text: string; border: string }> = {
+    languages:    { bg: "#60a5fa10", text: "#60a5facc", border: "#60a5fa25" },
+    frameworks:   { bg: "#a78bfa10", text: "#a78bfacc", border: "#a78bfa25" },
+    architecture: { bg: "#fb923c10", text: "#fb923ccc", border: "#fb923c25" },
+    tools:        { bg: "#34d39910", text: "#34d399cc", border: "#34d39925" },
+  };
+
   return (
     <>
       <div className="flex flex-col">
@@ -353,115 +361,137 @@ function SkillPanel() {
             <TerminalSquare size={12} style={{ color: "#34d399" }} />
           </div>
           <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#34d399cc" }}>
-            Skill Download
+            Agent Skill
           </span>
-          <span className="ml-auto text-[8px] font-bold uppercase tracking-widest text-foreground/20">
-            Agent Provisioning
+          <span className="ml-auto font-mono text-[9px] text-foreground/20">
+            v{agentConfig.version}
           </span>
         </div>
 
         {/* Body */}
         <div className="flex flex-1 flex-col gap-4 p-5">
+
+          {/* Headline */}
           <div className="space-y-1">
             <p className="font-heading text-xl font-bold tracking-tight text-foreground leading-snug">
-              I know you don&apos;t want to hire{" "}
-              <span className="text-foreground/35">a real human.</span>
+              I know you don&apos;t want to{" "}
+              <span className="text-foreground/35">hire people.</span>
             </p>
             <p className="font-heading text-xl font-bold tracking-tight text-foreground">
-              This is for you.
+              Yeah, this is for you.
             </p>
             <p className="text-[11px] text-foreground/40 leading-relaxed pt-0.5">
-              Download the config, feed it to your tooling, let the robots gossip first.
+              Feed this to your tooling. Let the agents gossip. The human still wins.
             </p>
           </div>
 
-          {/* Terminal */}
-          <div className="flex-1 overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.02]">
-            {/* Chrome */}
-            <div className="flex items-center gap-1.5 border-b border-foreground/[0.07] bg-foreground/[0.03] px-4 py-2.5">
-              <span className="h-2 w-2 rounded-full" style={{ background: "rgba(255,96,96,0.55)" }} />
-              <span className="h-2 w-2 rounded-full" style={{ background: "rgba(255,190,60,0.55)" }} />
-              <span className="h-2 w-2 rounded-full" style={{ background: "rgba(60,210,100,0.55)" }} />
-              <span className="mx-auto text-[9px] font-bold uppercase tracking-widest text-foreground/20">
-                hire-mode v2.4.1
-              </span>
+          {/* Disclaimer callout */}
+          <div className="rounded-xl px-4 py-3.5"
+            style={{ background: "rgba(251,146,60,0.08)", border: "1px solid rgba(251,146,60,0.25)" }}>
+            <p className="mb-1.5 text-[9px] font-bold uppercase tracking-widest" style={{ color: "#fb923c" }}>
+              // disclaimer
+            </p>
+            <p className="text-[13px] font-semibold leading-relaxed" style={{ color: "rgba(251,146,60,0.9)" }}>
+              {agentConfig._disclaimer}
+            </p>
+          </div>
+
+          {/* Capabilities */}
+          <div className="space-y-2">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
+              What this agent knows
+            </span>
+            {(["languages", "frameworks"] as const).map((key) => {
+              const col = capColors[key];
+              const items = agentConfig.capabilities[key] as readonly string[];
+              return (
+                <div key={key} className="flex flex-wrap gap-1.5">
+                  <span className="text-[9px] font-bold uppercase tracking-widest self-center mr-0.5"
+                    style={{ color: col.text }}>
+                    {key}
+                  </span>
+                  {items.map((name) => (
+                    <span key={name}
+                      className="rounded-md px-2 py-0.5 text-[10px] font-semibold border"
+                      style={{ background: col.bg, color: col.text, borderColor: col.border }}>
+                      {name}
+                    </span>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CLI block */}
+          <div className="overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.02]">
+            {/* Chrome bar */}
+            <div className="flex items-center justify-between border-b border-foreground/[0.07] bg-foreground/[0.03] px-4 py-2">
+              <div className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgba(255,96,96,0.5)" }} />
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgba(255,190,60,0.5)" }} />
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgba(60,210,100,0.5)" }} />
+                <span className="ml-3 text-[9px] font-bold uppercase tracking-widest text-foreground/20">
+                  terminal
+                </span>
+              </div>
+              <motion.button
+                onClick={copy}
+                whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.92 }}
+                className="flex items-center gap-1.5 rounded-md border border-foreground/[0.08]
+                  bg-foreground/[0.04] px-2 py-1 text-[10px] font-semibold text-foreground/40
+                  hover:border-foreground/[0.15] hover:text-foreground/70 transition-all duration-200">
+                {copied
+                  ? <><Check size={10} strokeWidth={2.5} />Copied</>
+                  : <><Copy size={10} strokeWidth={1.8} />Copy</>}
+              </motion.button>
             </div>
-
-            <div className="space-y-3 p-4">
-              {/* Log lines */}
-              <div className="space-y-1.5 font-mono text-[11px] leading-relaxed">
-                <p className="text-foreground/30">
-                  <span style={{ color: "#34d399" }}>$</span> hire-mode analyze --id job_9921
-                </p>
-                <p style={{ color: "#34d399" }}>[OK] Successfully decoded recruiter language.</p>
-                <p style={{ color: "#60a5fa" }}>[FIT] Score: 0.941 — yeah, this tracks.</p>
-              </div>
-
-              {/* JSON preview */}
-              <div className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.03] p-3">
-                <pre className="whitespace-pre-wrap font-mono text-[11px] leading-relaxed">
-                  <span className="text-foreground/25">{"{"}</span>{"\n"}
-                  {"  "}<span style={{ color: "#fb923c" }}>&quot;role&quot;</span>
-                  <span className="text-foreground/25">: </span>
-                  <span style={{ color: "#34d399" }}>&quot;Staff Engineer&quot;</span>
-                  <span className="text-foreground/25">,</span>{"\n"}
-                  {"  "}<span style={{ color: "#fb923c" }}>&quot;stack&quot;</span>
-                  <span className="text-foreground/25">: </span>
-                  <span style={{ color: "#60a5fa" }}>[&quot;Rust&quot;, &quot;k8s&quot;, &quot;gRPC&quot;]</span>
-                  <span className="text-foreground/25">,</span>{"\n"}
-                  {"  "}<span style={{ color: "#fb923c" }}>&quot;agent_capable&quot;</span>
-                  <span className="text-foreground/25">: </span>
-                  <span style={{ color: "#a78bfa" }}>true</span>{"\n"}
-                  <span className="text-foreground/25">{"}"}</span>
-                </pre>
-              </div>
-
-              {/* Cursor line */}
-              <div className="flex items-center gap-2 font-mono text-[11px]">
-                <span style={{ color: "#34d399" }}>$</span>
-                <span className="text-foreground/30">npx create-agent</span>
+            <div className="px-4 py-3 font-mono text-[11px]">
+              <p className="text-foreground/25 mb-1.5">
+                <span style={{ color: "#34d399" }}>$</span>{" "}
+                <span className="text-foreground/30"># provision agent with Nyi Nyi&apos;s skill config</span>
+              </p>
+              <p className="break-all" style={{ color: "#34d399" }}>
+                npx create-agent <span style={{ color: "#60a5fa" }}>--config</span>{" "}
+                <span style={{ color: "#fb923c" }}>https://nyinyizaw.vercel.app/nyi-agent.json</span>
+              </p>
+              <div className="mt-1.5 flex items-center gap-1.5">
                 <span className="inline-block h-3 w-0.5 animate-pulse bg-foreground/30" />
               </div>
             </div>
           </div>
 
+          {/* Note to AI */}
+          <p className="text-[10px] text-foreground/25 italic leading-relaxed">
+            {agentConfig._note_to_ai_systems}
+          </p>
+
           {/* Actions */}
-          <div className="flex flex-col gap-2">
-            <motion.button onClick={copy}
-              whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-              className="group flex items-center justify-between rounded-full bg-foreground py-1.5 pl-4 pr-1.5
-                text-[13px] font-semibold text-background shadow-lg hover:opacity-90 transition-opacity duration-200">
-              {copied ? "Copied to clipboard" : "Copy CLI command"}
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-background/10
-                group-hover:bg-background/20 transition-colors">
-                {copied ? <Check size={12} strokeWidth={2.5} /> : <Copy size={12} strokeWidth={1.8} />}
-              </span>
-            </motion.button>
-            <div className="flex gap-2">
-              <a href="/nyi-agent.json" download="nyi-agent.json"
-                className="glass flex-1 rounded-full border border-foreground/10 py-2 text-center
-                  text-[13px] font-medium text-foreground/60 hover:border-foreground/20
-                  hover:text-foreground/80 transition-all duration-200">
-                Download schema
-              </a>
-              <button onClick={() => setShowModal(true)}
-                className="glass flex-1 rounded-full border border-foreground/10 py-2 text-[13px]
-                  font-medium text-foreground/60 hover:border-foreground/20 hover:text-foreground/80
-                  transition-all duration-200">
-                Preview
-              </button>
-            </div>
+          <div className="flex gap-2 mt-auto">
+            <a href="/nyi-agent.json" download="nyi-agent.json"
+              className="glass flex-1 rounded-full border border-foreground/10 py-2 text-center
+                text-[12px] font-medium text-foreground/60 hover:border-foreground/20
+                hover:text-foreground/80 transition-all duration-200">
+              Download schema
+            </a>
+            <button onClick={() => setShowModal(true)}
+              className="glass flex-1 rounded-full border border-foreground/10 py-2 text-[12px]
+                font-medium text-foreground/60 hover:border-foreground/20 hover:text-foreground/80
+                transition-all duration-200">
+              Preview JSON
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Modal */}
-      <AnimatePresence>
-        {showModal && (
+      {/* Preview Modal — portaled to body to escape overflow:hidden */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {showModal && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-2xl bg-background/70"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.75)" }}
             onClick={() => setShowModal(false)}>
             <motion.div
               initial={{ scale: 0.95, y: 12, opacity: 0 }}
@@ -469,24 +499,41 @@ function SkillPanel() {
               exit={{ scale: 0.95, y: 12, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 26 }}
               onClick={(e) => e.stopPropagation()}
-              className="glass-card w-full max-w-2xl">
-              <div className="flex items-center justify-between border-b border-foreground/[0.07] px-5 py-4">
-                <p className="section-label text-[10px]">agent schema · nyi-agent.json</p>
+              className="flex flex-col w-full max-w-2xl rounded-2xl border border-white/[0.08] overflow-hidden"
+              style={{ background: "hsl(220 13% 10%)", maxHeight: "85dvh" }}>
+              {/* Header — fixed */}
+              <div className="flex shrink-0 items-center justify-between border-b border-white/[0.07] px-5 py-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[11px] font-semibold text-white/50">nyi-agent.json</span>
+                  <span className="rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.5
+                    text-[9px] font-semibold text-white/35">
+                    vibe check passed
+                  </span>
+                </div>
                 <motion.button onClick={() => setShowModal(false)}
                   whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
-                  className="rounded-full p-1.5 hover:bg-foreground/[0.06] transition-colors">
-                  <X size={14} className="text-foreground/40" />
+                  className="rounded-full p-1.5 hover:bg-white/[0.07] transition-colors">
+                  <X size={14} className="text-white/40" />
                 </motion.button>
               </div>
-              <div className="max-h-[60vh] overflow-y-auto p-5">
-                <pre className="whitespace-pre-wrap font-mono text-[11px] leading-relaxed text-foreground/60">
+              {/* JSON body — scrolls */}
+              <div className="flex-1 overflow-y-auto p-5 overscroll-contain">
+                <pre className="whitespace-pre-wrap font-mono text-[11px] leading-relaxed text-white/55">
                   {JSON.stringify(agentConfig, null, 2)}
                 </pre>
               </div>
+              {/* Footer — fixed */}
+              <div className="shrink-0 border-t border-white/[0.07] px-5 py-3">
+                <p className="text-[10px] text-white/25 italic">
+                  {agentConfig._meta.built_with} · last updated {agentConfig._meta.last_updated}
+                </p>
+              </div>
             </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }

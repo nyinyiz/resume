@@ -9,7 +9,10 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(ls /Volumes/Nyi-Nyi-Sandisk/Resume/resume/*.json)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Skill(commit-commands:commit)",
+      "Bash(grep -r \"section-label\\\\|font-heading\\\\|\\\\.glass\" /Volumes/Nyi-Nyi-Sandisk/Resume/resume/tailwind.config*)",
+      "Bash(node:*)"
     ]
   }
 }
