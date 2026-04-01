@@ -83,7 +83,57 @@ function RecruiterPanel() {
       {/* Body */}
       <div className="flex flex-1 flex-col gap-4 p-5">
         <AnimatePresence mode="wait">
-          {!result ? (
+          {loading ? (
+            <motion.div key="loading" className="flex flex-1 flex-col items-center justify-center gap-5 py-10"
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25, ease }}>
+
+              {/* Pulsing ring */}
+              <div className="relative flex items-center justify-center">
+                <motion.div
+                  className="absolute h-16 w-16 rounded-full"
+                  style={{ border: "1.5px solid #60a5fa" }}
+                  animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="absolute h-10 w-10 rounded-full"
+                  style={{ border: "1.5px solid #60a5fa55" }}
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
+                  transition={{ duration: 1.6, delay: 0.3, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <Search size={18} style={{ color: "#60a5fa" }} strokeWidth={1.8} />
+              </div>
+
+              {/* Log lines */}
+              <div className="w-full max-w-xs space-y-1.5 font-mono text-[11px]">
+                {[
+                  { text: "Parsing job description…",     color: "#60a5fa", delay: 0 },
+                  { text: "Matching against skill map…",  color: "#a78bfa", delay: 0.18 },
+                  { text: "Calculating fit score…",       color: "#34d399", delay: 0.36 },
+                ].map(({ text, color, delay }) => (
+                  <motion.p key={text}
+                    initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay, ease }}
+                    style={{ color }}>
+                    <span className="text-foreground/25 mr-1">›</span>{text}
+                  </motion.p>
+                ))}
+              </div>
+
+              {/* Progress bar */}
+              <div className="w-full max-w-xs overflow-hidden rounded-full bg-foreground/[0.06] h-1">
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ background: "#60a5fa" }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 0.38, ease: "easeInOut" }}
+                />
+              </div>
+
+            </motion.div>
+          ) : !result ? (
             <motion.div key="input" className="flex flex-1 flex-col gap-3"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}>
@@ -174,7 +224,7 @@ function RecruiterPanel() {
                   }`}
                 >
                   <Search size={13} strokeWidth={1.8} />
-                  {loading ? "Checking…" : "Check fit"}
+                  Check fit
                 </motion.button>
               </div>
             </motion.div>

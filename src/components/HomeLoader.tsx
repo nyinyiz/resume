@@ -6,49 +6,51 @@ interface HomeLoaderProps {
   visible: boolean
 }
 
+const ease = [0.22, 1, 0.36, 1]
+
+const LINES = [
+  { text: "> booting portfolio...",                color: "text-foreground/50" },
+  { text: "> importing 10 years of experience...", color: "text-foreground/50" },
+  { text: "> calibrating coffee levels...  OK",    color: "text-foreground/50" },
+  { text: "> nyi nyi zaw — lead mobile engineer",  color: "text-foreground/80" },
+]
+
 export default function HomeLoader({ visible }: HomeLoaderProps) {
   return (
     <motion.div
       initial={{ opacity: 1 }}
       animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-background"
+      transition={{ duration: 0.45, ease }}
+      className="fixed inset-0 z-[90] flex items-center justify-center"
       style={{ pointerEvents: visible ? "auto" : "none" }}
       aria-hidden={!visible}
     >
-      <div className="relative flex w-full max-w-md flex-col items-center gap-6 px-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 18, filter: "blur(10px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="space-y-3"
-        >
-          <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-foreground/40">
-            Loading Portfolio
-          </p>
-          <h1 className="font-heading text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            Nyi Nyi Zaw
-          </h1>
-          <p className="text-sm text-foreground/55 sm:text-base">
-            Lead Mobile Engineer
-          </p>
-        </motion.div>
+      <div className="flex flex-col gap-2 px-8">
+        {LINES.map(({ text, color }, i) => (
+          <motion.p
+            key={text}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, delay: i * 0.18, ease }}
+            className={`font-mono text-[13px] tracking-tight ${color}`}
+          >
+            {text}
+          </motion.p>
+        ))}
 
-        <div className="w-full max-w-[260px] overflow-hidden rounded-full bg-foreground/[0.08]">
-          <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: "0%" }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-            className="h-1.5 rounded-full bg-gradient-to-r from-sky-400 via-primary to-cyan-300"
+        {/* Blinking cursor on last line */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: LINES.length * 0.18 + 0.1, duration: 0.2 }}
+          className="flex items-center gap-2 font-mono text-[13px] text-foreground/40"
+        >
+          <span>&gt;</span>
+          <motion.span
+            animate={{ opacity: [1, 0, 1] }}
+            transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+            className="inline-block h-[13px] w-[7px] rounded-sm bg-foreground/40"
           />
-        </div>
-
-        <motion.div
-          animate={{ opacity: [0.35, 0.8, 0.35] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-          className="text-xs tracking-[0.18em] text-foreground/35 uppercase"
-        >
-          Preparing slides
         </motion.div>
       </div>
     </motion.div>
