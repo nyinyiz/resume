@@ -29,18 +29,30 @@ const SKILL_MAP: Record<string, SkillEntry> = {
   "android sdk":        { category: "perfect", display: "Android SDK" },
   "android development":{ category: "perfect", display: "Android Development" },
   "android studio":     { category: "perfect", display: "Android Studio" },
+  mobile:               { category: "perfect", display: "Mobile Development" },
   "mobile development": { category: "perfect", display: "Mobile Development" },
   "mobile app":         { category: "perfect", display: "Mobile App Development" },
+  "mobile apps":        { category: "perfect", display: "Mobile App Development" },
   "mobile engineer":    { category: "perfect", display: "Mobile Engineering" },
+  "mobile engineering": { category: "perfect", display: "Mobile Engineering" },
+  "mobile first":       { category: "perfect", display: "Mobile-First" },
   java:                 { category: "perfect", display: "Java" },
   flutter:              { category: "perfect", display: "Flutter" },
   dart:                 { category: "perfect", display: "Dart" },
   ios:                  { category: "perfect", display: "iOS Development" },
   swift:                { category: "perfect", display: "Swift" },
   swiftui:              { category: "perfect", display: "SwiftUI" },
+  uikit:                { category: "perfect", display: "UIKit" },
   xcode:                { category: "perfect", display: "Xcode" },
+  "core data":          { category: "perfect", display: "Core Data" },
+  coredata:             { category: "perfect", display: "Core Data" },
+  "app store":          { category: "perfect", display: "App Store Shipping" },
+  "push notification":  { category: "perfect", display: "Push Notifications" },
+  "push notifications": { category: "perfect", display: "Push Notifications" },
+  apns:                 { category: "perfect", display: "APNs" },
   "react native":       { category: "perfect", display: "React Native" },
   reactnative:          { category: "perfect", display: "React Native" },
+  expo:                 { category: "perfect", display: "Expo (React Native)" },
   "jetpack compose":    { category: "perfect", display: "Jetpack Compose" },
   compose:              { category: "perfect", display: "Jetpack Compose" },
   coroutines:           { category: "perfect", display: "Kotlin Coroutines" },
@@ -52,6 +64,8 @@ const SKILL_MAP: Record<string, SkillEntry> = {
   room:                 { category: "perfect", display: "Room Database" },
   "room database":      { category: "perfect", display: "Room Database" },
   workmanager:          { category: "perfect", display: "WorkManager (Jetpack)" },
+  bluetooth:            { category: "perfect", display: "Bluetooth / BLE" },
+  ble:                  { category: "perfect", display: "BLE" },
 
   // ── Perfect Match — Languages & Web ────────────────────────────────────────
   typescript:           { category: "perfect", display: "TypeScript" },
@@ -99,6 +113,18 @@ const SKILL_MAP: Record<string, SkillEntry> = {
   nfc:                  { category: "perfect", display: "NFC Integration" },
 
   // ── Can Do — Adjacent ──────────────────────────────────────────────────────
+  architect:            { category: "adjacent", display: "Mobile Architect", reason: "Architected mobile systems at scale across iOS, Android, and React Native" },
+  "mobile architect":   { category: "adjacent", display: "Mobile Architect", reason: "Designed cross-platform mobile architectures for production apps" },
+  "technical strategy": { category: "adjacent", display: "Technical Strategy", reason: "Led mobile strategy as Fractional CTO across 3 countries" },
+  strategy:             { category: "adjacent", display: "Technical Strategy", reason: "Fractional CTO experience — end-to-end product & tech strategy" },
+  cto:                  { category: "adjacent", display: "CTO / Tech Leadership", reason: "Fractional CTO with full-cycle product ownership experience" },
+  "fractional cto":     { category: "adjacent", display: "Fractional CTO", reason: "Operated as Fractional CTO for startups across SE Asia" },
+  startup:              { category: "adjacent", display: "Startup Experience", reason: "Built products from 0→1 for startups in Thailand, Singapore, Myanmar" },
+  mentor:               { category: "adjacent", display: "Mentoring", reason: "Mentored junior engineers and led team upskilling initiatives" },
+  mentoring:            { category: "adjacent", display: "Mentoring", reason: "Mentored junior engineers and led team upskilling initiatives" },
+  "native modules":     { category: "adjacent", display: "Native Modules (RN)", reason: "Built custom native bridges for React Native projects" },
+  "cross platform":     { category: "adjacent", display: "Cross-Platform Mobile", reason: "Flutter + React Native — core expertise" },
+  hiring:               { category: "adjacent", display: "Technical Hiring", reason: "Hired and built mobile teams as Fractional CTO and tech lead" },
   react:                { category: "adjacent", display: "React", reason: "Strong React Native background — React is immediately accessible" },
   "vue.js":             { category: "adjacent", display: "Vue.js", reason: "TypeScript & component-model foundation" },
   vue:                  { category: "adjacent", display: "Vue.js", reason: "TypeScript & JavaScript expertise" },
@@ -289,10 +315,16 @@ export function analyzeJD(rawJD: string): MatchResult {
     }
   }
 
-  // Score: weighted sum capped at 100
-  const total = perfectMatch.length + canDo.length + canLearn.length + outOfScope.length;
-  const weighted = perfectMatch.length * 10 + canDo.length * 5 + canLearn.length * 1;
-  const score = total === 0 ? 0 : Math.min(100, Math.round(weighted));
+  // Score: 3 perfect hits → ~60, 4 → ~80, 5+ → ~90–100
+  // Adjacent adds up to +15 bonus; out-of-scope penalises hard
+  const rawScore =
+    perfectMatch.length * 20 +
+    Math.min(canDo.length * 5, 15) -
+    outOfScope.length * 20;
+  const floor = perfectMatch.length > 0 ? 30 : canDo.length > 0 ? 18 : 5;
+  const score = perfectMatch.length === 0 && canDo.length === 0 && canLearn.length === 0
+    ? 0
+    : Math.max(floor, Math.min(100, Math.round(rawScore)));
 
   return { perfectMatch, canDo, canLearn, outOfScope, score };
 }

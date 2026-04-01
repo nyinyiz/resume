@@ -1,30 +1,32 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
 import HireMe from "@/features/hire/components/HireMe";
+
+const ease = [0.22, 1, 0.36, 1];
 
 export default function HireMePage() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="w-full max-w-5xl mx-auto"
-    >
-      {/* Solid white card so text is always readable regardless of theme */}
-      <div className="rounded-3xl bg-white px-6 sm:px-10 pt-8 pb-12 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)]">
+    <div className="mx-auto w-full max-w-6xl">
+      <motion.div
+        initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, ease }}
+        className="mb-8"
+      >
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-700 transition-colors mb-10 group"
+          className="group inline-flex items-center gap-1.5 text-xs font-medium
+            text-foreground/35 hover:text-foreground/70 transition-colors duration-200"
         >
-          <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform duration-200" />
-          Back to the pretty portfolio
+          <ArrowLeft size={12}
+            className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+          Back to portfolio
         </Link>
+      </motion.div>
 
-        <HireMe />
-      </div>
-    </motion.div>
+      <HireMe />
+    </div>
   );
 }

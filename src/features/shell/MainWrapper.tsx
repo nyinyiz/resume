@@ -9,7 +9,7 @@ export default function MainWrapper({ children }: { children: React.ReactNode })
   return (
     <main
       className={`relative z-10 flex-1 px-4 sm:px-8 lg:px-16 pb-16 w-full max-w-screen-2xl mx-auto ${
-        isHire ? "pt-10" : "pt-24"
+        isHire ? "pt-6 lg:pt-4" : "pt-24"
       }`}
     >
       {children}
