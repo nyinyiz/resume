@@ -121,19 +121,20 @@ function RecruiterPanel() {
               </div>
 
               {/* Textarea */}
-              <div className="flex flex-1 flex-col overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.03]
-                focus-within:border-foreground/[0.18] focus-within:bg-foreground/[0.05] transition-all duration-300">
+              <div className="flex flex-1 flex-col overflow-hidden rounded-xl border border-foreground/[0.1]
+                focus-within:border-primary/40 transition-all duration-300"
+                style={{ background: "hsl(var(--foreground) / 0.04)" }}>
                 <textarea
                   ref={ref}
                   value={jd}
                   onChange={(e) => { setJd(e.target.value); setError(null); }}
                   placeholder="e.g. Looking for a Senior Engineer with React, Node, and AWS. Remote-first, 5+ years, startup mindset required."
-                  className="flex-1 w-full resize-none bg-transparent px-4 pt-3 pb-2 text-sm leading-relaxed
-                    text-foreground/70 placeholder:text-foreground/20 focus:outline-none min-h-[140px]"
+                  className="flex-1 w-full resize-none bg-transparent px-4 pt-4 pb-3 text-sm leading-relaxed
+                    text-foreground/80 placeholder:text-foreground/25 focus:outline-none min-h-[140px]"
                 />
-                <div className="flex items-center justify-between border-t border-foreground/[0.06] px-4 py-2">
-                  <span className="text-[10px] text-foreground/30">{hint}</span>
-                  <span className="font-mono text-[10px] text-foreground/20">{jd.length}c</span>
+                <div className="flex items-center justify-between border-t border-foreground/[0.07] px-4 py-3">
+                  <span className="text-[10px] text-foreground/40">{hint}</span>
+                  <span className="font-mono text-[10px] text-foreground/25">{jd.length}c</span>
                 </div>
               </div>
 
