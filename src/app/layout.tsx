@@ -17,6 +17,10 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata = {
   metadataBase: new URL('https://nyinyizaw.dev'),
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
   title: {
     default: 'Nyi Nyi Zaw — Lead Mobile Engineer',
     template: '%s | Nyi Nyi Zaw',
