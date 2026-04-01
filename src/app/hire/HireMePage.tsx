@@ -9,10 +9,15 @@ const ease = [0.22, 1, 0.36, 1];
 
 export default function HireMePage() {
   return (
-    <div className="mx-auto w-full max-w-6xl">
+    <motion.div
+      className="mx-auto w-full max-w-6xl"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease }}
+    >
       <motion.div
-        initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4, ease }}
+        initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.1, ease }}
         className="mb-8"
       >
         <Link
@@ -27,6 +32,6 @@ export default function HireMePage() {
       </motion.div>
 
       <HireMe />
-    </div>
+    </motion.div>
   );
 }

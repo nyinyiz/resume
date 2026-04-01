@@ -122,15 +122,15 @@ function RecruiterPanel() {
 
               {/* Textarea */}
               <div className="flex flex-1 flex-col overflow-hidden rounded-xl border border-foreground/[0.1]
-                focus-within:border-primary/40 transition-all duration-300"
-                style={{ background: "hsl(var(--foreground) / 0.04)" }}>
+                focus-within:border-primary/40 transition-all duration-300 bg-foreground/[0.04]">
                 <textarea
                   ref={ref}
                   value={jd}
                   onChange={(e) => { setJd(e.target.value); setError(null); }}
                   placeholder="e.g. Looking for a Senior Engineer with React, Node, and AWS. Remote-first, 5+ years, startup mindset required."
                   className="flex-1 w-full resize-none bg-transparent px-4 pt-4 pb-3 text-sm leading-relaxed
-                    text-foreground/80 placeholder:text-foreground/25 focus:outline-none min-h-[140px]"
+                    text-foreground/80 placeholder:text-foreground/25 focus:outline-none min-h-[160px]"
+                  rows={7}
                 />
                 <div className="flex items-center justify-between border-t border-foreground/[0.07] px-4 py-3">
                   <span className="text-[10px] text-foreground/40">{hint}</span>
@@ -543,52 +543,67 @@ function SkillPanel() {
 export default function HireMe() {
   return (
     <section className="relative z-10">
-      {/* Header — identical pattern to Skills / Experience */}
+      {/* Header */}
       <div className="max-w-2xl mb-5">
         <motion.p
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15, ease }}
           className="section-label mb-2">
           <UserRound size={12} /> Hire
         </motion.p>
         <motion.h2
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.05, ease }}
+          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22, ease }}
           className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-2">
           Work With Me
         </motion.h2>
         <motion.p
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.12, ease }}
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease }}
           className="text-sm text-foreground/50 leading-relaxed">
           Two ways in. Left for humans, right for robots. Either way — same answer.
         </motion.p>
       </div>
 
-      {/* Main panel — same glass card as Skills */}
+      {/* Main panel */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.15, ease }}
+        initial={{ opacity: 0, y: 28, scale: 0.99 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.65, delay: 0.35, ease }}
         className="rounded-2xl border border-foreground/[0.08] bg-background/50 backdrop-blur-sm overflow-hidden">
 
-        {/* Top strip — same as Skills core stack strip */}
-        <div className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-3.5">
+        {/* Top strip with staggered tags */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.55, ease }}
+          className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-3.5">
           <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 shrink-0">
             Hiring Mode
           </span>
-          {["Reads real JDs", "Robot-friendly", "No awkward calls"].map((tag) => (
-            <span key={tag}
+          {["Reads real JDs", "Robot-friendly", "No awkward calls"].map((tag, i) => (
+            <motion.span key={tag}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.35, delay: 0.6 + i * 0.07, ease }}
               className="px-2.5 py-1 rounded-md bg-primary/[0.08] text-primary text-[10px]
                 font-semibold border border-primary/[0.18]">
               {tag}
-            </span>
+            </motion.span>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Two-column grid — same as Skills category grid */}
+        {/* Two columns — slide in from opposite sides */}
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <RecruiterPanel />
-          <SkillPanel />
+          <motion.div
+            initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.55, delay: 0.5, ease }}>
+            <RecruiterPanel />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.55, delay: 0.58, ease }}>
+            <SkillPanel />
+          </motion.div>
         </div>
 
       </motion.div>
