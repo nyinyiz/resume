@@ -1,77 +1,66 @@
-# Nyi Nyi Zaw Portfolio
+# Nyi Nyi Zaw — Portfolio
 
-Personal portfolio and resume site built with Next.js 14, TypeScript, Tailwind CSS, and Framer Motion.
+Personal portfolio and resume site built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.
 
-Live site: [nyinyizaw.vercel.app](https://nyinyizaw.vercel.app/)
+Live: [nyinyizaw.vercel.app](https://nyinyizaw.vercel.app/)
 
-## What this project includes
+---
 
-- A full-screen slide-deck homepage for the portfolio experience
-- A recruiter-focused `/hire` route with a job-description matcher
-- Resume data-driven content sourced from a single file
-- In-browser resume builder and PDF export utilities
-- Article pages for longer-form writing and project breakdowns
+## Features
 
-## Tech stack
+- Full-screen slide-deck homepage with shared-element transitions and animated background
+- `/hire` page with a recruiter-facing JD matcher (NLP keyword scoring) and AI agent skill panel
+- Terminal-style loading screen on first visit
+- Resume data sourced from a single file — one edit updates the whole site
+- In-browser resume builder with PDF export
+- Dark mode by default, consistent design system across all pages
 
-- Next.js 14 App Router
-- React 18
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- jsPDF
-- Radix UI
+## Stack
+
+- **Next.js 15** App Router
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Lucide React** (icons)
+- **jsPDF** (PDF export)
 
 ## Project structure
 
-```text
+```
 src/
-  app/                         App routes and page entry points
-  components/
-    slides/                    Slide-deck presentation system
-    ui/                        Shared UI primitives
-  context/                     Lightweight shared React context
-  data/                        Resume and portfolio source content
+  app/                   Routes and page entry points
+  components/            Shared UI components and slide system
+  context/               Lightweight React context (resume data)
+  data/                  Resume and portfolio source content
   features/
-    hire/                      Recruiter-facing matching flow
-    resume-builder/            Resume editing and PDF generation tooling
-    shell/                     App-level layout helpers
-  hooks/                       Reusable interaction hooks
-  lib/                         Shared utilities not tied to a single feature
-  types/                       Shared TypeScript types
-docs/
-  architecture/                Design and architecture notes
-  plans/                       Implementation plans
-public/                        Static assets and downloadable files
+    hire/                JD matcher, agent config, recruiter flow
+    resume-builder/      Resume editing and PDF generation
+    shell/               App-level layout helpers
+  hooks/                 Reusable interaction hooks
+  lib/                   Shared utilities
+  types/                 Shared TypeScript types
+public/                  Static assets and downloadable files
 ```
 
-## Core routes
+## Routes
 
-- `/` slide-based portfolio homepage
-- `/hire` recruiter-oriented page with JD matching and agent config download
-- `/articles` article index
-- `/articles/local-llm-old-phone` featured article page
+| Route | Description |
+|-------|-------------|
+| `/` | Slide-based portfolio homepage |
+| `/hire` | Recruiter page — JD matcher + AI agent skill download |
+| `/articles` | Article index |
 
-## Local development
+## Getting started
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
-
 ```bash
 npm run build
 ```
 
-Note: Next.js currently warns that `eslint` is not installed as a dev dependency during build-time linting.
+## Content
 
-## Content model
-
-Most portfolio content is maintained in [`src/data/resume.ts`](./src/data/resume.ts). Presentation components read from that source directly or through the small context wrapper in [`src/context/ResumeContext.tsx`](./src/context/ResumeContext.tsx).
-
-## Documentation
-
-- Architecture notes: [`docs/architecture`](./docs/architecture)
-- Implementation plans: [`docs/plans`](./docs/plans)
+All portfolio content lives in [`src/data/resume.ts`](./src/data/resume.ts). Components read from it directly or through [`src/context/ResumeContext.tsx`](./src/context/ResumeContext.tsx).
