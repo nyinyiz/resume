@@ -17,7 +17,7 @@ import {
 import { analyzeJD, detectGibberish, type MatchResult } from "@/features/hire/lib/jdMatcher";
 import { agentConfig } from "@/features/hire/lib/agentConfig";
 
-const CLI_CMD = `npx skills add nyinyiz/resume --skill nyi-agent && cp ~/.claude/skills/nyi-agent/commands/*.md ~/.claude/commands/`;
+const CLI_CMD = `npx skills add nyinyiz/resume --skill nyi-agent && cp .agents/skills/nyi-agent/commands/*.md ~/.claude/commands/`;
 const ease = [0.22, 1, 0.36, 1];
 
 /* ─── CountUp ──────────────────────────────────────── */
@@ -580,7 +580,7 @@ function SkillPanel() {
                 <span className="text-foreground/30"># 2. enable slash commands</span>
               </p>
               <p className="break-all text-foreground/60">
-                cp ~/.claude/skills/nyi-agent/commands/*.md{" "}
+                cp .agents/skills/nyi-agent/commands/*.md{" "}
                 <span style={{ color: "#fb923c" }}>~/.claude/commands/</span>
               </p>
             </div>
