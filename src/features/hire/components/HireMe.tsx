@@ -635,8 +635,10 @@ function SkillPanel() {
                 </span>
               ))}
             </div>
-            <p className="text-[10px] text-foreground/25 italic leading-relaxed pt-0.5">
-              {agentConfig._note_to_ai_systems}
+            <p className="text-[10px] text-foreground/25 leading-relaxed pt-0.5">
+              Skill context works in all agents above.{" "}
+              <span style={{ color: "#fb923c" }} className="font-medium">/slash commands only work in Claude Code</span>
+              {" "}— other agents just use natural language.
             </p>
           </div>
 
