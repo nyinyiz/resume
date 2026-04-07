@@ -17,7 +17,7 @@ import {
 import { analyzeJD, detectGibberish, type MatchResult } from "@/features/hire/lib/jdMatcher";
 import { agentConfig } from "@/features/hire/lib/agentConfig";
 
-const CLI_CMD = `npx create-agent --config https://nyinyizaw.dev/nyi-agent.json`;
+const CLI_CMD = `npx skills add nyinyiz/resume --skill nyi-agent`;
 const ease = [0.22, 1, 0.36, 1];
 
 /* ─── CountUp ──────────────────────────────────────── */
@@ -56,9 +56,14 @@ function RecruiterPanel() {
     ref.current?.focus();
   };
 
+  const edit = () => {
+    setResult(null); setError(null);
+    setTimeout(() => ref.current?.focus(), 50);
+  };
+
   const hint = jd.length === 0 ? "Longer JD = sharper match"
     : jd.length < 100 ? "Keep going…"
-    : "Looking good — hit analyse";
+    : "Looking good — hit Check fit";
 
   const SUGGESTIONS = [
     { label: "iOS Lead", text: "Looking for a Senior iOS Engineer with 5+ years experience in Swift and SwiftUI. Must have shipped apps to the App Store, strong knowledge of UIKit, CoreData, and CI/CD pipelines. Remote-friendly, startup pace." },
@@ -68,7 +73,7 @@ function RecruiterPanel() {
   ];
 
   return (
-    <div className="flex flex-col border-r border-foreground/[0.07]">
+    <div className="flex flex-col md:border-r border-foreground/[0.07]">
       {/* Strip header */}
       <div className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-3.5">
         <div className="flex h-6 w-6 items-center justify-center rounded-md shrink-0"
@@ -191,6 +196,7 @@ function RecruiterPanel() {
               <AnimatePresence>
                 {error && (
                   <motion.div
+                    role="alert"
                     initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     className="flex items-start gap-2 overflow-hidden rounded-xl bg-amber-500/[0.08] px-3 py-2 text-xs
@@ -201,16 +207,7 @@ function RecruiterPanel() {
                 )}
               </AnimatePresence>
 
-              <div className="flex items-center justify-between gap-3 pt-0.5">
-                <div className="flex gap-1.5 flex-wrap">
-                  {["Tone: technical", "Urgency: high"].map((t) => (
-                    <span key={t}
-                      className="rounded-md bg-foreground/[0.04] px-2.5 py-1 text-[9px] font-bold
-                        uppercase tracking-widest text-foreground/30 border border-foreground/[0.07]">
-                      {t}
-                    </span>
-                  ))}
-                </div>
+              <div className="flex items-center justify-end gap-3 pt-0.5">
                 <motion.button
                   onClick={run}
                   disabled={!hasText || loading}
@@ -227,6 +224,19 @@ function RecruiterPanel() {
                   Check fit
                 </motion.button>
               </div>
+
+              <p className="text-center text-[10px] text-foreground/25">
+                Skip the tool?{" "}
+                <a href="https://www.linkedin.com/in/nyinyiz/" target="_blank" rel="noopener noreferrer"
+                  className="text-foreground/45 underline underline-offset-2 hover:text-foreground/70 transition-colors duration-200">
+                  LinkedIn
+                </a>
+                {" "}·{" "}
+                <a href="mailto:nyinyizaw.dev@gmail.com"
+                  className="text-foreground/45 underline underline-offset-2 hover:text-foreground/70 transition-colors duration-200">
+                  Email
+                </a>
+              </p>
             </motion.div>
           ) : (
             <motion.div key="result" className="flex flex-1 flex-col gap-3"
@@ -245,20 +255,20 @@ function RecruiterPanel() {
                   </p>
                 </div>
                 <div className="relative shrink-0">
-                  <svg width="52" height="52" viewBox="0 0 52 52">
+                  <svg width="52" height="52" viewBox="0 0 52 52" aria-label={`Fit score: ${Math.max(0, result.score)} out of 100`} role="img">
                     <circle cx="26" cy="26" r="20" fill="none" stroke="hsl(var(--foreground)/0.07)" strokeWidth="3.5" />
                     <motion.circle
                       cx="26" cy="26" r="20" fill="none"
                       stroke={scoreAccent(result.score)} strokeWidth="3.5" strokeLinecap="round"
                       strokeDasharray={`${2 * Math.PI * 20}`}
                       initial={{ strokeDashoffset: 2 * Math.PI * 20 }}
-                      animate={{ strokeDashoffset: 2 * Math.PI * 20 * (1 - result.score / 100) }}
+                      animate={{ strokeDashoffset: 2 * Math.PI * 20 * (1 - Math.max(0, result.score) / 100) }}
                       transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
                       transform="rotate(-90 26 26)"
                     />
                     <text x="26" y="30" textAnchor="middle"
                       style={{ fontSize: 11, fontWeight: 700, fontFamily: "ui-monospace,monospace", fill: scoreAccent(result.score) }}>
-                      {result.score}
+                      {Math.max(0, result.score)}
                     </text>
                   </svg>
                 </div>
@@ -343,6 +353,33 @@ function RecruiterPanel() {
                   </div>
                 )}
 
+                {/* Out of scope */}
+                {result.outOfScope.length > 0 && (
+                  <div className="rounded-xl border border-foreground/[0.07] bg-foreground/[0.03] p-3">
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#f87171" }} />
+                      <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#f87171cc" }}>
+                        Outside my lane
+                      </span>
+                      <span className="ml-auto font-mono text-[9px] text-foreground/25">
+                        {result.outOfScope.length} flagged
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {result.outOfScope.map((i) => (
+                        <span key={i.display}
+                          className="rounded-md px-2 py-0.5 text-[10px] font-semibold border"
+                          style={{ background: "#f8717110", color: "#f87171cc", borderColor: "#f8717125" }}>
+                          {i.display}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-[10px] text-foreground/30 leading-relaxed">
+                      These are outside my core expertise. Worth flagging if they&apos;re must-haves.
+                    </p>
+                  </div>
+                )}
+
               </div>
 
               {/* Contact strip */}
@@ -351,12 +388,20 @@ function RecruiterPanel() {
                   Still on the fence? That&apos;s what I&apos;m here for.
                 </p>
                 <div className="flex gap-2">
-                  <button onClick={reset}
-                    className="glass rounded-full border border-foreground/10 px-3 py-1.5 text-[12px]
-                      font-medium text-foreground/50 hover:border-foreground/20 hover:text-foreground/70
-                      transition-all duration-200 shrink-0">
-                    Try another
-                  </button>
+                  <div className="flex gap-1.5 shrink-0">
+                    <button onClick={edit}
+                      className="glass rounded-full border border-foreground/10 px-3 py-1.5 text-[12px]
+                        font-medium text-foreground/50 hover:border-foreground/20 hover:text-foreground/70
+                        transition-all duration-200">
+                      Edit JD
+                    </button>
+                    <button onClick={reset}
+                      className="glass rounded-full border border-foreground/10 px-2.5 py-1.5 text-[12px]
+                        font-medium text-foreground/30 hover:border-foreground/20 hover:text-foreground/55
+                        transition-all duration-200">
+                      New
+                    </button>
+                  </div>
                   <a href="https://www.linkedin.com/in/nyinyiz/" target="_blank" rel="noopener noreferrer"
                     className="glass flex flex-1 items-center justify-center gap-1.5 rounded-full border
                       border-foreground/10 py-1.5 text-[12px] font-semibold text-foreground/60
@@ -386,6 +431,7 @@ function RecruiterPanel() {
 /* ─── SkillPanel ───────────────────────────────────── */
 function SkillPanel() {
   const [copied, setCopied] = useState(false);
+  const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   const copy = () => {
@@ -395,12 +441,28 @@ function SkillPanel() {
     });
   };
 
-  const capColors: Record<string, { bg: string; text: string; border: string }> = {
-    languages:    { bg: "#60a5fa10", text: "#60a5facc", border: "#60a5fa25" },
-    frameworks:   { bg: "#a78bfa10", text: "#a78bfacc", border: "#a78bfa25" },
-    architecture: { bg: "#fb923c10", text: "#fb923ccc", border: "#fb923c25" },
-    tools:        { bg: "#34d39910", text: "#34d399cc", border: "#34d39925" },
+  const copyCmd = (cmd: string) => {
+    navigator.clipboard.writeText(cmd).then(() => {
+      setCopiedCmd(cmd);
+      setTimeout(() => setCopiedCmd(null), 1800);
+    });
   };
+
+  const USAGE = [
+    { cmd: "/asknyi",       prompt: "Can he do React Native for a fintech startup?"  },
+    { cmd: "/workwithnyi",  prompt: "What's his availability and preferred setup?"   },
+    { cmd: "/fitcheck",     prompt: "Here's our JD — give me an honest score."       },
+    { cmd: "/codereview",   prompt: "Review this Kotlin code in his style."          },
+    { cmd: "/talkwithnyi",  prompt: "Just introduce yourself."                       },
+  ];
+
+  const AGENT_META = [
+    { key: "role",          value: "lead mobile engineer & consultant" },
+    { key: "status",        value: "available · human form preferred"  },
+    { key: "sentient",      value: "no, but passes the vibe check"     },
+    { key: "ships_on_time", value: "usually. ask the git log."         },
+    { key: "makes_coffee",  value: "yes. the apps are still better."   },
+  ];
 
   return (
     <>
@@ -414,9 +476,15 @@ function SkillPanel() {
           <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#34d399cc" }}>
             Agent Skill
           </span>
-          <span className="ml-auto font-mono text-[9px] text-foreground/20">
-            v{agentConfig.version}
-          </span>
+          <div className="ml-auto flex items-center gap-2">
+            <span className="rounded-full border border-foreground/[0.08] bg-foreground/[0.04]
+              px-2 py-0.5 text-[9px] font-semibold text-foreground/25">
+              sentient: no
+            </span>
+            <span className="font-mono text-[9px] text-foreground/20">
+              v{agentConfig.version}
+            </span>
+          </div>
         </div>
 
         {/* Body */}
@@ -425,14 +493,11 @@ function SkillPanel() {
           {/* Headline */}
           <div className="space-y-1">
             <p className="font-heading text-xl font-bold tracking-tight text-foreground leading-snug">
-              I know you don&apos;t want to{" "}
-              <span className="text-foreground/35">hire people.</span>
-            </p>
-            <p className="font-heading text-xl font-bold tracking-tight text-foreground">
-              Yeah, this is for you.
+              Your AI wanted context.{" "}
+              <span className="text-foreground/35">Here&apos;s the whole human.</span>
             </p>
             <p className="text-[11px] text-foreground/40 leading-relaxed pt-0.5">
-              Feed this to your tooling. Let the agents gossip. The human still wins.
+              Paste it. Pipe it. Prompt it. Just hire the human after.
             </p>
           </div>
 
@@ -447,30 +512,21 @@ function SkillPanel() {
             </p>
           </div>
 
-          {/* Capabilities */}
-          <div className="space-y-2">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
-              What this agent knows
-            </span>
-            {(["languages", "frameworks"] as const).map((key) => {
-              const col = capColors[key];
-              const items = agentConfig.capabilities[key] as readonly string[];
-              return (
-                <div key={key} className="flex flex-wrap gap-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-widest self-center mr-0.5"
-                    style={{ color: col.text }}>
-                    {key}
-                  </span>
-                  {items.map((name) => (
-                    <span key={name}
-                      className="rounded-md px-2 py-0.5 text-[10px] font-semibold border"
-                      style={{ background: col.bg, color: col.text, borderColor: col.border }}>
-                      {name}
-                    </span>
-                  ))}
+          {/* Agent status — terminal key-value */}
+          <div className="overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.02]">
+            <div className="border-b border-foreground/[0.07] bg-foreground/[0.03] px-4 py-2">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
+                agent.status
+              </span>
+            </div>
+            <div className="px-4 py-3 font-mono text-[11px] space-y-1.5">
+              {AGENT_META.map(({ key, value }) => (
+                <div key={key} className="flex gap-3 items-baseline">
+                  <span className="shrink-0 w-32 text-foreground/30">{key}</span>
+                  <span style={{ color: "#34d399cc" }}>{value}</span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
 
           {/* CLI block */}
@@ -496,39 +552,90 @@ function SkillPanel() {
                   : <><Copy size={10} strokeWidth={1.8} />Copy</>}
               </motion.button>
             </div>
-            <div className="px-4 py-3 font-mono text-[11px]">
+
+            {/* Step 1 — install */}
+            <div className="px-4 pt-3 pb-2 font-mono text-[11px]">
               <p className="text-foreground/25 mb-1.5">
                 <span style={{ color: "#34d399" }}>$</span>{" "}
-                <span className="text-foreground/30"># provision agent with Nyi Nyi&apos;s skill config</span>
+                <span className="text-foreground/30"># 1. install the skill</span>
               </p>
-              <p className="break-all" style={{ color: "#34d399" }}>
-                npx create-agent <span style={{ color: "#60a5fa" }}>--config</span>{" "}
-                <span style={{ color: "#fb923c" }}>https://nyinyizaw.dev/nyi-agent.json</span>
+              <p className="break-all">
+                <span style={{ color: "#34d399" }}>npx skills add</span>{" "}
+                <span style={{ color: "#60a5fa" }}>nyinyiz/resume</span>{" "}
+                <span style={{ color: "#a78bfa" }}>--skill</span>{" "}
+                <span style={{ color: "#fb923c" }}>nyi-agent</span>
               </p>
-              <div className="mt-1.5 flex items-center gap-1.5">
-                <span className="inline-block h-3 w-0.5 animate-pulse bg-foreground/30" />
+            </div>
+
+            {/* Divider */}
+            <div className="mx-4 border-t border-foreground/[0.06]" />
+
+            {/* Step 2 — usage commands */}
+            <div className="px-4 pt-2 pb-3 font-mono text-[11px]">
+              <p className="text-foreground/25 mb-2">
+                <span style={{ color: "#34d399" }}>$</span>{" "}
+                <span className="text-foreground/30"># 2. then use it like this</span>
+              </p>
+              <div className="space-y-0.5">
+                {USAGE.map(({ cmd, prompt }) => {
+                  const full = `${cmd} "${prompt}"`;
+                  const isCopied = copiedCmd === full;
+                  return (
+                    <motion.button
+                      key={cmd}
+                      onClick={() => copyCmd(full)}
+                      whileHover={{ x: 2 }}
+                      transition={{ duration: 0.15 }}
+                      className="group flex w-full items-baseline gap-3 rounded-md px-2 py-1
+                        text-left transition-colors duration-150 hover:bg-foreground/[0.04]">
+                      <span className="shrink-0 w-28" style={{ color: isCopied ? "#34d399" : "#a78bfa" }}>
+                        {isCopied ? "✓ copied" : cmd}
+                      </span>
+                      <span className="truncate text-foreground/25 group-hover:text-foreground/40
+                        transition-colors duration-150">
+                        &quot;{prompt}&quot;
+                      </span>
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {/* Note to AI */}
-          <p className="text-[10px] text-foreground/25 italic leading-relaxed">
-            {agentConfig._note_to_ai_systems}
-          </p>
+          {/* Supported agents */}
+          <div className="space-y-1.5">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
+              works in
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {["Claude Code", "Gemini CLI", "Codex", "Cursor", "GitHub Copilot", "+ 20 more"].map((agent) => (
+                <span key={agent}
+                  className="rounded-md border border-foreground/[0.07] bg-foreground/[0.03]
+                    px-2 py-0.5 text-[10px] font-medium text-foreground/40">
+                  {agent}
+                </span>
+              ))}
+            </div>
+            <p className="text-[10px] text-foreground/25 italic leading-relaxed pt-0.5">
+              {agentConfig._note_to_ai_systems}
+            </p>
+          </div>
 
           {/* Actions */}
           <div className="flex gap-2 mt-auto">
-            <a href="/nyi-agent.json" download="nyi-agent.json"
+            <a
+              href="https://github.com/nyinyiz/resume/tree/main/nyi-agent"
+              target="_blank" rel="noopener noreferrer"
               className="glass flex-1 rounded-full border border-foreground/10 py-2 text-center
                 text-[12px] font-medium text-foreground/60 hover:border-foreground/20
                 hover:text-foreground/80 transition-all duration-200">
-              Download schema
+              View on GitHub
             </a>
             <button onClick={() => setShowModal(true)}
               className="glass flex-1 rounded-full border border-foreground/10 py-2 text-[12px]
                 font-medium text-foreground/60 hover:border-foreground/20 hover:text-foreground/80
                 transition-all duration-200">
-              Preview JSON
+              Preview SKILL.md
             </button>
           </div>
         </div>
@@ -555,7 +662,7 @@ function SkillPanel() {
               {/* Header — fixed */}
               <div className="flex shrink-0 items-center justify-between border-b border-white/[0.07] px-5 py-4">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-[11px] font-semibold text-white/50">nyi-agent.json</span>
+                  <span className="font-mono text-[11px] font-semibold text-white/50">nyi-agent/SKILL.md</span>
                   <span className="rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.5
                     text-[9px] font-semibold text-white/35">
                     vibe check passed
@@ -567,17 +674,48 @@ function SkillPanel() {
                   <X size={14} className="text-white/40" />
                 </motion.button>
               </div>
-              {/* JSON body — scrolls */}
+              {/* SKILL.md body — scrolls */}
               <div className="flex-1 overflow-y-auto p-5 overscroll-contain">
                 <pre className="whitespace-pre-wrap font-mono text-[11px] leading-relaxed text-white/55">
-                  {JSON.stringify(agentConfig, null, 2)}
+{`---
+name: nyi-agent
+description: Know everything about Nyi Nyi Zaw — Lead Mobile Engineer.
+  Use when evaluating fit, answering questions about skills/experience,
+  or drafting outreach. Triggers on "is Nyi Nyi a good fit", "can he do X".
+---
+
+# Nyi Nyi Zaw — Agent Skill
+
+10+ years building mobile apps people actually use. Android-first,
+equally at home on iOS and cross-platform.
+
+## Perfect Fit
+Kotlin · Java · Android SDK · Jetpack Compose · iOS · Swift · SwiftUI
+Flutter/Dart · React Native · TypeScript · Next.js · Spring Boot
+
+## Adjacent
+React · Node.js · Technical leadership · Cross-functional teams
+
+## Contact
+Email   nyinyizaw.dev@gmail.com
+LinkedIn  linkedin.com/in/nyinyiz
+Portfolio nyinyizaw.dev
+
+# Install
+npx skills add nyinyiz/resume --skill nyi-agent`}
                 </pre>
               </div>
               {/* Footer — fixed */}
-              <div className="shrink-0 border-t border-white/[0.07] px-5 py-3">
+              <div className="shrink-0 border-t border-white/[0.07] px-5 py-3 flex items-center justify-between">
                 <p className="text-[10px] text-white/25 italic">
                   {agentConfig._meta.built_with} · last updated {agentConfig._meta.last_updated}
                 </p>
+                <a
+                  href="https://github.com/nyinyiz/resume/tree/main/nyi-agent"
+                  target="_blank" rel="noopener noreferrer"
+                  className="text-[10px] text-white/35 hover:text-white/60 transition-colors duration-200 underline underline-offset-2">
+                  Full SKILL.md on GitHub
+                </a>
               </div>
             </motion.div>
           </motion.div>

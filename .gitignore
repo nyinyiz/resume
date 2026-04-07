@@ -33,3 +33,9 @@ firebase-debug.*.log
 .superpowers/
 
 tsconfig.tsbuildinfo
+
+# IDE config
+.idea/
+
+# Claude Code local settings (contains local machine paths)
+.claude/settings.local.json
