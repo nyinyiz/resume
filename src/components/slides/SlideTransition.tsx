@@ -1,21 +1,22 @@
 // src/components/slides/SlideTransition.tsx
 // Wraps AnimatePresence with a fade transition between slides.
-// transitionStyle="fade" (default): opacity cross-fade — lets layoutId phone animate freely
-// transitionStyle="curtain": clip-path wipe (kept for future use / reduced-motion fallback)
+// mode="wait" — exit completes before enter begins. Prevents two full-screen
+// composited layers overlapping, which causes stutter on mid/low-end devices.
 "use client"
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { curtainVariants } from "@/lib/motion"
 
 interface SlideTransitionProps {
-  slideKey:       number
-  direction:      1 | -1
-  children:       React.ReactNode
+  slideKey:         number
+  direction:        1 | -1
+  children:         React.ReactNode
   transitionStyle?: "curtain" | "fade"
 }
 
-const fadeIn  = { opacity: 1, transition: { duration: 0.5,  ease: [0.22, 1, 0.36, 1] as number[] } }
-const fadeOut = { opacity: 0, transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1]  as number[] } }
+// Tighter timings — exit fast, enter crisp. Total: ~0.55s vs old ~0.85s
+const fadeIn  = { opacity: 1, transition: { duration: 0.38, ease: [0.22, 1, 0.36, 1] as number[] } }
+const fadeOut = { opacity: 0, transition: { duration: 0.18, ease: [0.4, 0, 0.6, 1]  as number[] } }
 
 export default function SlideTransition({
   slideKey,
@@ -28,7 +29,7 @@ export default function SlideTransition({
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      <AnimatePresence mode="sync" custom={direction}>
+      <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={slideKey}
           custom={direction}
@@ -37,7 +38,6 @@ export default function SlideTransition({
           animate={useFade ? fadeIn    : "animate"}
           exit={useFade    ? fadeOut   : "exit"}
           className="absolute inset-0"
-          style={{ zIndex: 10 }}
         >
           {children}
         </motion.div>
