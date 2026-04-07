@@ -10,7 +10,7 @@ description: Know everything about Nyi Nyi Zaw — Lead Mobile Engineer & Techni
 npx skills add nyinyiz/resume --skill nyi-agent
 
 # Step 2 — enable slash commands (Claude Code)
-cp .agents/skills/nyi-agent/commands/*.md ~/.claude/commands/
+mkdir -p ~/.claude/commands && cp .agents/skills/nyi-agent/commands/*.md ~/.claude/commands/
 ```
 
 After both steps, the following commands are available in your agent:
