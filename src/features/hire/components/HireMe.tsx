@@ -17,7 +17,7 @@ import {
 import { analyzeJD, detectGibberish, type MatchResult } from "@/features/hire/lib/jdMatcher";
 import { agentConfig } from "@/features/hire/lib/agentConfig";
 
-const CLI_CMD = `npx skills add nyinyiz/resume --skill nyi-agent`;
+const CLI_CMD = `npx skills add nyinyiz/resume --skill nyi-agent && cp ~/.claude/skills/nyi-agent/commands/*.md ~/.claude/commands/`;
 const ease = [0.22, 1, 0.36, 1];
 
 /* ─── CountUp ──────────────────────────────────────── */
@@ -113,9 +113,9 @@ function RecruiterPanel() {
               {/* Log lines */}
               <div className="w-full max-w-xs space-y-1.5 font-mono text-[11px]">
                 {[
-                  { text: "Parsing job description…",     color: "#60a5fa", delay: 0 },
-                  { text: "Matching against skill map…",  color: "#a78bfa", delay: 0.18 },
-                  { text: "Calculating fit score…",       color: "#34d399", delay: 0.36 },
+                  { text: "Parsing the buzzwords…",                    color: "#60a5fa", delay: 0 },
+                  { text: "Cross-referencing 10 years of shipped code…", color: "#a78bfa", delay: 0.18 },
+                  { text: "Running the numbers. Bear with me.",           color: "#34d399", delay: 0.36 },
                 ].map(({ text, color, delay }) => (
                   <motion.p key={text}
                     initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
@@ -226,7 +226,7 @@ function RecruiterPanel() {
               </div>
 
               <p className="text-center text-[10px] text-foreground/25">
-                Skip the tool?{" "}
+                Rather just talk?{" "}
                 <a href="https://www.linkedin.com/in/nyinyiz/" target="_blank" rel="noopener noreferrer"
                   className="text-foreground/45 underline underline-offset-2 hover:text-foreground/70 transition-colors duration-200">
                   LinkedIn
@@ -251,7 +251,7 @@ function RecruiterPanel() {
                     {fitText(result.score)}
                   </h3>
                   <p className="mt-0.5 text-[11px] text-foreground/40">
-                    Here&apos;s the honest verdict.
+                    No spin. No recruiter voice.
                   </p>
                 </div>
                 <div className="relative shrink-0">
@@ -375,7 +375,7 @@ function RecruiterPanel() {
                       ))}
                     </div>
                     <p className="mt-2 text-[10px] text-foreground/30 leading-relaxed">
-                      These are outside my core expertise. Worth flagging if they&apos;re must-haves.
+                      These showed up in your JD. Honest answer — not my thing. Worth a conversation if they&apos;re non-negotiable.
                     </p>
                   </div>
                 )}
@@ -385,7 +385,7 @@ function RecruiterPanel() {
               {/* Contact strip */}
               <div className="mt-auto space-y-2 border-t border-foreground/[0.06] pt-3">
                 <p className="text-[10px] text-foreground/35">
-                  Still on the fence? That&apos;s what I&apos;m here for.
+                  Numbers don&apos;t lie. But I&apos;m better in person.
                 </p>
                 <div className="flex gap-2">
                   <div className="flex gap-1.5 shrink-0">
@@ -493,11 +493,14 @@ function SkillPanel() {
           {/* Headline */}
           <div className="space-y-1">
             <p className="font-heading text-xl font-bold tracking-tight text-foreground leading-snug">
-              Your AI wanted context.{" "}
-              <span className="text-foreground/35">Here&apos;s the whole human.</span>
+              I know you don&apos;t want to{" "}
+              <span className="text-foreground/35">hire people.</span>
+            </p>
+            <p className="font-heading text-xl font-bold tracking-tight text-foreground">
+              This one&apos;s for you.
             </p>
             <p className="text-[11px] text-foreground/40 leading-relaxed pt-0.5">
-              Paste it. Pipe it. Prompt it. Just hire the human after.
+              Feed this to your agent. Let the robots figure it out. The human&apos;s still better.
             </p>
           </div>
 
@@ -553,7 +556,7 @@ function SkillPanel() {
               </motion.button>
             </div>
 
-            {/* Step 1 — install */}
+            {/* Step 1 — install skill */}
             <div className="px-4 pt-3 pb-2 font-mono text-[11px]">
               <p className="text-foreground/25 mb-1.5">
                 <span style={{ color: "#34d399" }}>$</span>{" "}
@@ -570,11 +573,26 @@ function SkillPanel() {
             {/* Divider */}
             <div className="mx-4 border-t border-foreground/[0.06]" />
 
-            {/* Step 2 — usage commands */}
+            {/* Step 2 — enable commands */}
+            <div className="px-4 pt-2 pb-2 font-mono text-[11px]">
+              <p className="text-foreground/25 mb-1.5">
+                <span style={{ color: "#34d399" }}>$</span>{" "}
+                <span className="text-foreground/30"># 2. enable slash commands</span>
+              </p>
+              <p className="break-all text-foreground/60">
+                cp ~/.claude/skills/nyi-agent/commands/*.md{" "}
+                <span style={{ color: "#fb923c" }}>~/.claude/commands/</span>
+              </p>
+            </div>
+
+            {/* Divider */}
+            <div className="mx-4 border-t border-foreground/[0.06]" />
+
+            {/* Step 3 — usage commands */}
             <div className="px-4 pt-2 pb-3 font-mono text-[11px]">
               <p className="text-foreground/25 mb-2">
                 <span style={{ color: "#34d399" }}>$</span>{" "}
-                <span className="text-foreground/30"># 2. then use it like this</span>
+                <span className="text-foreground/30"># 3. then use it like this</span>
               </p>
               <div className="space-y-0.5">
                 {USAGE.map(({ cmd, prompt }) => {
@@ -749,7 +767,7 @@ export default function HireMe() {
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease }}
           className="text-sm text-foreground/50 leading-relaxed">
-          Two ways in. Left for humans, right for robots. Either way — same answer.
+          Two ways in. One for humans, one for bots. Pick your species.
         </motion.p>
       </div>
 

@@ -3,6 +3,28 @@ name: nyi-agent
 description: Know everything about Nyi Nyi Zaw — Lead Mobile Engineer & Technical Consultant. Use when evaluating Nyi Nyi for a role, checking job description fit, answering questions about his skills or experience, or drafting outreach. Triggers on questions like "is Nyi Nyi a good fit for this role", "tell me about Nyi Nyi", "can he do X", "evaluate this candidate", or any JD comparison task.
 ---
 
+## Installation
+
+```bash
+# Step 1 — install skill context
+npx skills add nyinyiz/resume --skill nyi-agent
+
+# Step 2 — enable slash commands (Claude Code)
+cp ~/.claude/skills/nyi-agent/commands/*.md ~/.claude/commands/
+```
+
+After both steps, the following commands are available in your agent:
+
+| Command | What it does |
+|---------|-------------|
+| `/asknyi` | Q&A about skills, experience, or availability |
+| `/workwithnyi` | Working style, team fit, preferred setup |
+| `/fitcheck` | Evaluates a JD — returns fit score + verdict |
+| `/codereview` | Reviews code in his voice |
+| `/talkwithnyi` | Open conversation, first person |
+
+---
+
 # Nyi Nyi Zaw — Agent Skill
 
 You now have full context on **Nyi Nyi Zaw**, a Lead Mobile Engineer based in Bangkok, Thailand. Use this to answer questions about him, evaluate job fit, and assist with outreach.
