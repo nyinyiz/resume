@@ -18,9 +18,6 @@ import {
   RotateCcw,
   Layers,
   ArrowUpRight,
-  Share2,
-  Bookmark,
-  Check
 } from "lucide-react";
 import Image from "next/image";
 import Portal from "@/components/ui/Portal";
@@ -51,7 +48,6 @@ const techStack = [
 
 export default function ArticleClient() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
   const closeLightbox = useCallback(() => setLightboxSrc(null), []);
   const targetRef = useRef<HTMLDivElement>(null);
   
@@ -74,12 +70,6 @@ export default function ArticleClient() {
       window.removeEventListener("keydown", handleKey);
     };
   }, [lightboxSrc, closeLightbox]);
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <div ref={targetRef} className="relative w-full selection:bg-primary/20 selection:text-primary">
