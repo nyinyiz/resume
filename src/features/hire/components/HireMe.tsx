@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -433,6 +434,7 @@ function SkillPanel() {
   const [copied, setCopied] = useState(false);
   const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [powImg, setPowImg] = useState<string | null>(null);
 
   const copy = () => {
     navigator.clipboard.writeText(CLI_CMD).then(() => {
@@ -621,6 +623,47 @@ function SkillPanel() {
             </div>
           </div>
 
+          {/* What to expect */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
+                what to expect
+              </span>
+              <span className="text-[9px] text-foreground/20 italic">click to expand</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { src: "/pow1.png", cmd: "/fitcheck", desc: "JD fit score" },
+                { src: "/pow2.png", cmd: "/talkwithnyi", desc: "intro & availability" },
+              ].map(({ src, cmd, desc }) => (
+                <motion.button
+                  key={src}
+                  onClick={() => setPowImg(src)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.15 }}
+                  className="group relative overflow-hidden rounded-xl border border-foreground/[0.07]
+                    bg-foreground/[0.02] text-left focus:outline-none">
+                  {/* Square screenshot */}
+                  <div className="relative w-full" style={{ aspectRatio: "1 / 1" }}>
+                    <Image
+                      src={src}
+                      alt={`${cmd} example`}
+                      fill
+                      className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  </div>
+                  {/* Label */}
+                  <div className="px-2.5 py-2">
+                    <span className="block font-mono text-[10px] font-semibold" style={{ color: "#a78bfa" }}>{cmd}</span>
+                    <span className="block text-[9px] text-foreground/30 leading-tight">{desc}</span>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+
           {/* Supported agents */}
           <div className="space-y-1.5">
             <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
@@ -740,6 +783,44 @@ npx skills add nyinyiz/resume --skill nyi-agent`}
               </div>
             </motion.div>
           </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+
+      {/* POW Lightbox */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {powImg && (
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,0.85)" }}
+              onClick={() => setPowImg(null)}>
+              <motion.div
+                initial={{ scale: 0.93, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.93, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-white/[0.08]">
+                <Image
+                  src={powImg}
+                  alt="Proof of work"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto block"
+                  style={{ maxHeight: "85dvh", objectFit: "contain" }}
+                />
+                <motion.button
+                  onClick={() => setPowImg(null)}
+                  whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+                  className="absolute top-3 right-3 rounded-full p-1.5 bg-black/50
+                    border border-white/[0.1] hover:bg-black/70 transition-colors">
+                  <X size={14} className="text-white/60" />
+                </motion.button>
+              </motion.div>
+            </motion.div>
           )}
         </AnimatePresence>,
         document.body
