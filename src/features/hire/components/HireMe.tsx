@@ -6,6 +6,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
+  HelpCircle,
   Check,
   Copy,
   LinkedinIcon,
@@ -435,6 +436,7 @@ function SkillPanel() {
   const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [powImg, setPowImg] = useState<string | null>(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   const copy = () => {
     navigator.clipboard.writeText(CLI_CMD).then(() => {
@@ -486,6 +488,40 @@ function SkillPanel() {
             <span className="font-mono text-[9px] text-foreground/20">
               v{agentConfig.version}
             </span>
+            <div className="relative">
+              <motion.button
+                onClick={() => setShowWarning(v => !v)}
+                whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+                className="flex items-center justify-center rounded-md p-1 transition-colors"
+                style={{ color: "rgba(251,146,60,0.5)" }}>
+                <HelpCircle size={13} strokeWidth={2} />
+              </motion.button>
+              <AnimatePresence>
+                {showWarning && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setShowWarning(false)} />
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.92, y: -4 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.92, y: -4 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-8 z-20 w-80 rounded-xl border p-4 shadow-xl"
+                      style={{
+                        background: "hsl(220 13% 10%)",
+                        borderColor: "rgba(251,146,60,0.25)",
+                        minWidth: "320px",
+                      }}>
+                      <p className="mb-1 text-[9px] font-bold uppercase tracking-widest" style={{ color: "#fb923c" }}>
+                        heads up
+                      </p>
+                      <p className="text-[12px] leading-relaxed text-foreground/60">
+                        Don&apos;t take this too seriously. It&apos;s a fun idea — a different personality tuned for different workspaces. The real me is still better with coffee.
+                      </p>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
