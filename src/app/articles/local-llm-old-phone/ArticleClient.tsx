@@ -9,7 +9,6 @@ import {
   Terminal,
   Globe,
   BarChart3,
-  ArrowLeft,
   Calendar,
   Clock,
   MessageCircle,
@@ -24,7 +23,6 @@ import {
   Check
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import Portal from "@/components/ui/Portal";
 
 const premiumEase = [0.22, 1, 0.36, 1];
@@ -136,35 +134,6 @@ export default function ArticleClient() {
       </Portal>
 
       <article className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 pb-12 relative z-10">
-        <div className="flex items-center justify-between mb-8">
-          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-foreground/40 hover:text-primary transition-colors"
-            >
-              <div className="p-2 rounded-full border border-foreground/10 group-hover:border-primary/30 transition-colors">
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              </div>
-              Back to Portfolio
-            </Link>
-          </motion.div>
-
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={copyToClipboard}
-              className="p-2.5 rounded-full border border-foreground/10 hover:border-primary/30 text-foreground/40 hover:text-primary transition-all relative group"
-              aria-label="Share article"
-            >
-              {copied ? <Check size={18} /> : <Share2 size={18} />}
-              <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-primary text-background text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                {copied ? "Copied!" : "Copy Link"}
-              </span>
-            </button>
-            <button className="p-2.5 rounded-full border border-foreground/10 hover:border-primary/30 text-foreground/40 hover:text-primary transition-all" aria-label="Bookmark article">
-              <Bookmark size={18} />
-            </button>
-          </div>
-        </div>
 
         <header className="mb-12 space-y-6">
           <motion.div
@@ -174,7 +143,7 @@ export default function ArticleClient() {
             className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-primary"
           >
             <span className="flex items-center gap-1.5 bg-primary/10 px-4 py-2 rounded-full border border-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.1)]">
-              <Calendar className="w-3.5 h-3.5" /> Feb 2025
+              <Calendar className="w-3.5 h-3.5" /> Jan 2026
             </span>
             <span className="flex items-center gap-1.5 bg-foreground/5 px-4 py-2 rounded-full border border-foreground/10">
               <Clock className="w-3.5 h-3.5" /> 6 min read
@@ -471,22 +440,6 @@ export default function ArticleClient() {
             <p className="text-base text-foreground/40 font-light">Share it with your fellow engineers or explore more experiments.</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              onClick={copyToClipboard}
-              className="flex items-center gap-2.5 px-7 py-3.5 bg-primary text-background rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all"
-            >
-              {copied ? <Check size={16} /> : <Share2 size={16} />}
-              {copied ? "Copied to Clipboard" : "Share Article"}
-            </button>
-            <Link
-              href="/"
-              className="flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-background rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all"
-            >
-              <ArrowLeft size={16} />
-              Back to Portfolio
-            </Link>
-          </div>
         </motion.footer>
       </article>
     </div>
