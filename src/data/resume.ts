@@ -1,3 +1,5 @@
+import type { ResumeData } from "@/types";
+
 export const resumeData = {
   personalInfo: {
     name: "Nyi Nyi Zaw",
@@ -117,17 +119,17 @@ export const resumeData = {
     },
     {
       name: "NUS Mobile Key",
-      description: "Developed while working in Gtriip company",
+      description: "Developed while working at GTRIIP",
       link: "https://play.google.com/store/apps/details?id=com.gtriip.android.nus_utown&pcampaignid=web_share"
     },
     {
       name: "NUS Mobile Key",
-      description: "Developed while working in Gtriip company",
+      description: "Developed while working at GTRIIP",
       link: "https://apps.apple.com/th/app/nus-mobile-key-utown-halls/id1560802152"
     },
     {
       name: "CDG Zig",
-      description: "Earlier know as comfortDelgro taxi app. Developed while working in Codigo",
+      description: "Earlier known as the ComfortDelGro taxi app. Developed while working at Codigo",
       link: "https://play.google.com/store/apps/details?id=com.codigo.comfort&pcampaignid=web_share"
     },
     {
@@ -156,11 +158,11 @@ export const resumeData = {
       topic: "Android 11 Privacy"
     },
     {
-      event: "Team sharing at Codigo company",
+      event: "Team sharing at Codigo",
       topic: "Sealed Classes and State Management"
     },
     {
-      event: "Team sharing in Codigo company",
+      event: "Team sharing at Codigo",
       topic: "Firebase Remote Config"
     },
     {
@@ -294,4 +296,4 @@ export const resumeData = {
       }
     ]
   }
-};
+} satisfies ResumeData;

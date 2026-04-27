@@ -16,7 +16,7 @@ export default function SampleJSON({ value, onChange }: SampleJSONProps) {
   const handleChange = (
     section: keyof ResumeData,
     subsection: string,
-    newValue: any
+    newValue: string
   ) => {
     onChange({
       ...value,
@@ -31,9 +31,9 @@ export default function SampleJSON({ value, onChange }: SampleJSONProps) {
     section: keyof ResumeData,
     index: number,
     field: string,
-    newValue: any
+    newValue: string | string[]
   ) => {
-    const newArray = [...(value[section] as any[])];
+    const newArray = [...(value[section] as Record<string, string | string[]>[])];
     newArray[index] = { ...newArray[index], [field]: newValue };
     onChange({
       ...value,
@@ -42,7 +42,7 @@ export default function SampleJSON({ value, onChange }: SampleJSONProps) {
   };
 
   const addItem = (section: keyof ResumeData) => {
-    const newArray = [...(value[section] as any[])];
+    const newArray = [...(value[section] as object[])];
     let newItem;
 
     switch (section) {
@@ -97,7 +97,7 @@ export default function SampleJSON({ value, onChange }: SampleJSONProps) {
   };
 
   const removeItem = (section: keyof ResumeData, index: number) => {
-    const newArray = [...(value[section] as any[])];
+    const newArray = [...(value[section] as object[])];
     newArray.splice(index, 1);
     onChange({
       ...value,

@@ -2,11 +2,11 @@
 
 import { useResume } from "@/context/ResumeContext";
 import { motion } from "framer-motion";
-import { Code2, Smartphone, Terminal, Layers } from "lucide-react";
+import { Code2, Smartphone, Terminal, Layers, type LucideIcon } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1];
 
-const categoryMeta: Record<string, { icon: any; label: string; accent: string }> = {
+const categoryMeta: Record<string, { icon: LucideIcon; label: string; accent: string }> = {
   languages:  { icon: Code2,      label: "Languages",      accent: "#60a5fa" },
   frameworks: { icon: Smartphone, label: "Frameworks",     accent: "#a78bfa" },
   tools:      { icon: Terminal,   label: "Tools & DevOps", accent: "#34d399" },

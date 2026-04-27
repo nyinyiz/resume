@@ -9,28 +9,21 @@ import Certificates from "./Certificates";
 import { ResumeContext } from "@/context/ResumeContext";
 import { motion } from "framer-motion";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
+import type { ResumeData } from "@/types";
 
 interface PreviewProps {
-  data: any;
+  data: ResumeData;
 }
 
 export default function Preview({ data }: PreviewProps) {
-  // Create a new context value with the updated data, including skills
-  const contextValue = {
-    personalInfo: data.personalInfo || {},
-    experience: data.experience || [],
-    projects: data.projects || [],
-    communityContributions: data.communityContributions || [],
-    certificates: data.certificates || [],
-    skills: data.skills || {
+  const contextValue: ResumeData = {
+    ...data,
+    skills: data.skills ?? {
       languages: [],
       frameworks: [],
       tools: [],
       concepts: []
     },
-    education: data.education || [],
-    detailedTechnicalExpertise: data.detailedTechnicalExpertise || {},
-    portfolioLinks: data.portfolioLinks || {}
   };
 
   return (

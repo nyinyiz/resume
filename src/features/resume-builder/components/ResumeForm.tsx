@@ -4,16 +4,32 @@ import { useState } from "react";
 import { Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import { Upload } from "lucide-react";
+import type { Experience, ResumeData, ResumeSkills, SkillRating } from "@/types";
 
 interface ResumeFormProps {
-  data: any;
-  onChange: (data: any) => void;
+  data: ResumeData;
+  onChange: (data: ResumeData) => void;
 }
+
+type PersonalInfoField = keyof ResumeData["personalInfo"];
+type ExperienceField = keyof Experience;
+type ProjectField = keyof ResumeData["projects"][number];
+type CommunityField = keyof ResumeData["communityContributions"][number];
+type CertificateField = keyof ResumeData["certificates"][number];
+type SkillCategory = keyof ResumeSkills;
+type SkillField = keyof SkillRating;
+
+const EMPTY_SKILLS: ResumeSkills = {
+  languages: [],
+  frameworks: [],
+  tools: [],
+  concepts: [],
+};
 
 export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   const [activeSection, setActiveSection] = useState<string>("personalInfo");
 
-  const updatePersonalInfo = (field: string, value: string) => {
+  const updatePersonalInfo = (field: PersonalInfoField, value: string) => {
     const newData = {
       ...data,
       personalInfo: {
@@ -42,7 +58,11 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     onChange(newData);
   };
 
-  const updateExperience = (index: number, field: string, value: any) => {
+  const updateExperience = (
+    index: number,
+    field: ExperienceField,
+    value: Experience[ExperienceField]
+  ) => {
     const newExperience = [...data.experience];
     newExperience[index] = {
       ...newExperience[index],
@@ -52,7 +72,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const removeExperience = (index: number) => {
-    const newExperience = data.experience.filter((_: any, i: number) => i !== index);
+    const newExperience = data.experience.filter((_, i) => i !== index);
     onChange({ ...data, experience: newExperience });
   };
 
@@ -70,7 +90,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     onChange(newData);
   };
 
-  const updateProject = (index: number, field: string, value: string) => {
+  const updateProject = (index: number, field: ProjectField, value: string) => {
     const newProjects = [...data.projects];
     newProjects[index] = {
       ...newProjects[index],
@@ -80,7 +100,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const removeProject = (index: number) => {
-    const newProjects = data.projects.filter((_: any, i: number) => i !== index);
+    const newProjects = data.projects.filter((_, i) => i !== index);
     onChange({ ...data, projects: newProjects });
   };
 
@@ -99,7 +119,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     onChange(newData);
   };
 
-  const updateCommunity = (index: number, field: string, value: string) => {
+  const updateCommunity = (index: number, field: CommunityField, value: string) => {
     const newCommunity = [...data.communityContributions];
     newCommunity[index] = {
       ...newCommunity[index],
@@ -109,7 +129,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const removeCommunity = (index: number) => {
-    const newCommunity = data.communityContributions.filter((_: any, i: number) => i !== index);
+    const newCommunity = data.communityContributions.filter((_, i) => i !== index);
     onChange({ ...data, communityContributions: newCommunity });
   };
 
@@ -127,7 +147,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     onChange(newData);
   };
 
-  const updateCertificate = (index: number, field: string, value: string) => {
+  const updateCertificate = (index: number, field: CertificateField, value: string) => {
     const newCertificates = [...data.certificates];
     newCertificates[index] = {
       ...newCertificates[index],
@@ -137,17 +157,18 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   };
 
   const removeCertificate = (index: number) => {
-    const newCertificates = data.certificates.filter((_: any, i: number) => i !== index);
+    const newCertificates = data.certificates.filter((_, i) => i !== index);
     onChange({ ...data, certificates: newCertificates });
   };
 
-  const addSkill = (category: string) => {
+  const addSkill = (category: SkillCategory) => {
+    const skills = data.skills ?? EMPTY_SKILLS;
     const newData = {
       ...data,
       skills: {
-        ...data.skills,
+        ...skills,
         [category]: [
-          ...(data.skills?.[category] || []),
+          ...skills[category],
           { name: "", level: 1 }
         ]
       }
@@ -155,8 +176,13 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     onChange(newData);
   };
 
-  const updateSkill = (category: string, index: number, field: string, value: any) => {
-    const newSkills = { ...data.skills };
+  const updateSkill = (
+    category: SkillCategory,
+    index: number,
+    field: SkillField,
+    value: string
+  ) => {
+    const newSkills: ResumeSkills = { ...(data.skills ?? EMPTY_SKILLS) };
     newSkills[category][index] = {
       ...newSkills[category][index],
       [field]: field === 'level' ? Number(value) : value
@@ -164,9 +190,9 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
     onChange({ ...data, skills: newSkills });
   };
 
-  const removeSkill = (category: string, index: number) => {
-    const newSkills = { ...data.skills };
-    newSkills[category] = newSkills[category].filter((_: any, i: number) => i !== index);
+  const removeSkill = (category: SkillCategory, index: number) => {
+    const newSkills: ResumeSkills = { ...(data.skills ?? EMPTY_SKILLS) };
+    newSkills[category] = newSkills[category].filter((_, i) => i !== index);
     onChange({ ...data, skills: newSkills });
   };
 
@@ -335,7 +361,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       {/* Experience Section */}
       {activeSection === "experience" && (
         <div className="space-y-6">
-          {data.experience.map((exp: any, index: number) => (
+          {data.experience.map((exp, index) => (
             <div key={index} className="p-4 border border-border rounded-lg relative">
               <button
                 onClick={() => removeExperience(index)}
@@ -419,7 +445,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
                         />
                         <button
                           onClick={() => {
-                            const newResp = exp.responsibilities.filter((_: any, i: number) => i !== respIndex);
+                            const newResp = exp.responsibilities.filter((_, i) => i !== respIndex);
                             updateExperience(index, "responsibilities", newResp);
                           }}
                           className="p-2 text-red-500 hover:bg-red-50 rounded"
@@ -463,7 +489,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
                         />
                         <button
                           onClick={() => {
-                            const newSkills = exp.skills.filter((_: any, i: number) => i !== skillIndex);
+                            const newSkills = exp.skills.filter((_, i) => i !== skillIndex);
                             updateExperience(index, "skills", newSkills);
                           }}
                           className="p-2 text-red-500 hover:bg-red-50 rounded"
@@ -500,11 +526,11 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       {/* Skills Section */}
       {activeSection === "skills" && (
         <div className="space-y-8">
-          {Object.entries(data.skills || {}).map(([category, items]) => (
+          {(Object.entries(data.skills ?? EMPTY_SKILLS) as [SkillCategory, SkillRating[]][]).map(([category, items]) => (
             <div key={category} className="space-y-4">
               <h3 className="text-xl font-semibold capitalize">{category}</h3>
               <div className="space-y-4">
-                {(items as Array<{name: string; level: number}>).map((skill, index: number) => (
+                {items.map((skill, index) => (
                   <div key={index} className="flex items-center gap-4">
                     <input
                       type="text"
@@ -548,7 +574,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       {/* Projects Section */}
       {activeSection === "projects" && (
         <div className="space-y-6">
-          {data.projects.map((project: any, index: number) => (
+          {data.projects.map((project, index) => (
             <div key={index} className="p-4 border border-border rounded-lg relative">
               <button
                 onClick={() => removeProject(index)}
@@ -591,7 +617,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       {/* Community Section */}
       {activeSection === "community" && (
         <div className="space-y-6">
-          {data.communityContributions.map((contribution: any, index: number) => (
+          {data.communityContributions.map((contribution, index) => (
             <div key={index} className="p-4 border border-border rounded-lg relative">
               <button
                 onClick={() => removeCommunity(index)}
@@ -643,7 +669,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       {/* Certificates Section */}
       {activeSection === "certificates" && (
         <div className="space-y-6">
-          {data.certificates.map((cert: any, index: number) => (
+          {data.certificates.map((cert, index) => (
             <div key={index} className="p-4 border border-border rounded-lg relative">
               <button
                 onClick={() => removeCertificate(index)}

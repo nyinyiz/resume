@@ -68,7 +68,7 @@ export default function RootLayout({
       <body className={`${plusJakartaSans.className} antialiased bg-background text-foreground selection:bg-primary/30 selection:text-primary`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >

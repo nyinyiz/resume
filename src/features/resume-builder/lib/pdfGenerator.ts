@@ -10,6 +10,10 @@ const TEMPLATES: Record<TemplateId, (doc: jsPDF, data: ResumeData) => void> = {
   minimal: generateMinimalTemplate,
 };
 
+function formatDegree(edu: ResumeData["education"][number]) {
+  return edu.field ? `${edu.degree} in ${edu.field}` : edu.degree;
+}
+
 export async function generatePDF(data: ResumeData, template: TemplateId = 'modern'): Promise<string> {
   const doc = new jsPDF();
   
@@ -91,7 +95,7 @@ function generateModernTemplate(doc: jsPDF, data: ResumeData) {
     // Degree and Location
     doc.setFontSize(12);
     doc.setTextColor(0, 0, 0);
-    doc.text(`${edu.degree} in ${edu.field}`, margin, yPos);
+    doc.text(formatDegree(edu), margin, yPos);
     doc.setTextColor(100, 100, 100);
     doc.text(edu.location, pageWidth - margin, yPos, { align: 'right' });
     yPos += 8;
@@ -339,7 +343,7 @@ function generateMinimalTemplate(doc: jsPDF, data: ResumeData) {
 
     // Degree and Field
     doc.setTextColor(0, 0, 0);
-    doc.text(`${edu.degree} in ${edu.field}`, margin, yPos);
+    doc.text(formatDegree(edu), margin, yPos);
     doc.setTextColor(100, 100, 100);
     doc.text(edu.location, pageWidth - margin, yPos, { align: 'right' });
     yPos += 8;
@@ -514,7 +518,7 @@ function generateMinimalTemplate(doc: jsPDF, data: ResumeData) {
   }
 
   // Add page numbers
-  const pageCount = (doc as any).internal.pages.length - 1;
+  const pageCount = doc.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(10);
@@ -575,7 +579,7 @@ function generateClassicTemplate(doc: jsPDF, data: ResumeData) {
     
     // Degree Details
     doc.setTextColor(60, 60, 60);
-    doc.text(`${edu.degree} in ${edu.field}`, margin, yPos);
+    doc.text(formatDegree(edu), margin, yPos);
     doc.text(edu.graduationYear, pageWidth - margin, yPos, { align: 'right' });
     yPos += 5;
     

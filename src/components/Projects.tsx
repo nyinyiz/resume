@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useResume } from "@/context/ResumeContext";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import type { Project } from "@/types";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -49,7 +50,7 @@ function PhoneMockup({ children }: { children: React.ReactNode }) {
 
 export default function Projects() {
   const resumeData = useResume();
-  const projects: any[] = resumeData.projects;
+  const projects: Project[] = resumeData.projects;
   const [hoveredIndex, setHoveredIndex] = useState<number>(0);
   const reduced = useReducedMotion();
 

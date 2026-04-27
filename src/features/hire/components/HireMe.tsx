@@ -546,7 +546,7 @@ function SkillPanel() {
           <div className="rounded-xl px-4 py-3.5"
             style={{ background: "rgba(251,146,60,0.08)", border: "1px solid rgba(251,146,60,0.25)" }}>
             <p className="mb-1.5 text-[9px] font-bold uppercase tracking-widest" style={{ color: "#fb923c" }}>
-              // disclaimer
+              {"// disclaimer"}
             </p>
             <p className="text-[13px] font-semibold leading-relaxed" style={{ color: "rgba(251,146,60,0.9)" }}>
               {agentConfig._disclaimer}

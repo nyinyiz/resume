@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useResume } from "@/context/ResumeContext";
 import { ArrowRight, Briefcase, Github, Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import type { Experience as ExperienceItem } from "@/types";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -36,9 +37,16 @@ const companyImpactContent: Record<string, (theme: { from: string; to: string })
 
 const fallbackTheme = { from: "#6B7280", to: "#9CA3AF" };
 
-function groupByCompany(experiences: any[]) {
-  const grouped: any[] = [];
-  let current: any = null;
+interface CompanyExperienceGroup {
+  company: string;
+  location: string;
+  type?: string;
+  roles: ExperienceItem[];
+}
+
+function groupByCompany(experiences: ExperienceItem[]) {
+  const grouped: CompanyExperienceGroup[] = [];
+  let current: CompanyExperienceGroup | null = null;
   experiences.forEach((exp) => {
     if (current && current.company === exp.company) {
       current.roles.push(exp);
@@ -345,7 +353,7 @@ export default function Experience() {
               </div>
 
               {/* Roles */}
-              {group?.roles.map((role: any, i: number) => (
+              {group?.roles.map((role, i) => (
                 <div key={i} className={i > 0 ? "pt-5 border-t border-foreground/[0.06]" : ""}>
                   <div className="flex flex-wrap items-center gap-2 mb-1">
                     <span className="font-semibold text-foreground text-base">{role.title}</span>
@@ -376,7 +384,7 @@ export default function Experience() {
                   Technologies
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {group?.roles.flatMap((r: any) => r.skills)
+                  {group?.roles.flatMap((r) => r.skills)
                     .filter((s: string, i: number, arr: string[]) => arr.indexOf(s) === i)
                     .map((skill: string, i: number) => (
                       <span key={i} className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-md bg-foreground/[0.04] text-foreground/45 border border-foreground/[0.07]">

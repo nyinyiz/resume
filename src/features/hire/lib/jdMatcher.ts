@@ -127,6 +127,7 @@ const SKILL_MAP: Record<string, SkillEntry> = {
   hiring:               { category: "adjacent", display: "Technical Hiring", reason: "Hired and built mobile teams as Fractional CTO and tech lead" },
   react:                { category: "adjacent", display: "React", reason: "Strong React Native background — React is immediately accessible" },
   "vue.js":             { category: "adjacent", display: "Vue.js", reason: "TypeScript & component-model foundation" },
+  vuejs:                { category: "adjacent", display: "Vue.js", reason: "TypeScript & component-model foundation" },
   vue:                  { category: "adjacent", display: "Vue.js", reason: "TypeScript & JavaScript expertise" },
   angular:              { category: "adjacent", display: "Angular", reason: "TypeScript expertise transfers directly" },
   svelte:               { category: "adjacent", display: "Svelte", reason: "Component-based UI experience (Flutter, Compose)" },
@@ -210,6 +211,7 @@ const SKILL_MAP: Record<string, SkillEntry> = {
   lawyer:               { category: "scope", display: "Legal Practice" },
   attorney:             { category: "scope", display: "Attorney / Law" },
   accountant:           { category: "scope", display: "Accounting" },
+  accounting:           { category: "scope", display: "Accounting" },
   copywriting:          { category: "scope", display: "Marketing Copywriting" },
   chef:                 { category: "scope", display: "Culinary Arts" },
   cooking:              { category: "scope", display: "Cooking" },
@@ -276,9 +278,9 @@ export function analyzeJD(rawJD: string): MatchResult {
     .replace(/\bci\/cd\b/g, "ci/cd")
     .replace(/next\.js/g, "nextjs")
     .replace(/node\.js/g, "nodejs")
-    .replace(/vue\.js/g, "vue.js")
+    .replace(/vue\.js/g, "vuejs")
     .replace(/\.net\b/g, "dotnet")
-    .replace(/[^\w\s./#+\-]/g, " ")
+    .replace(/[^\w\s/#+\-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
