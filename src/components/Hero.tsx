@@ -6,14 +6,7 @@ import { Github, Linkedin, MapPin, ArrowRight } from "lucide-react";
 import { useResume } from "@/context/ResumeContext";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-
 const ease = [0.22, 1, 0.36, 1];
-
-const stats = [
-  { value: "10+", label: "Years exp." },
-  { value: "3",   label: "Countries" },
-  { value: "15+", label: "Apps shipped" },
-];
 
 export default function Hero() {
   const resumeData = useResume();
@@ -96,30 +89,6 @@ export default function Hero() {
         >
           {summary}
         </motion.p>
-
-        {/* Stats row */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.28, ease }}
-          className="flex items-center justify-center md:justify-start gap-0"
-        >
-          {stats.map((s, i) => (
-            <div key={i} className="flex items-center">
-              <div className="flex flex-col items-center md:items-start px-5 first:pl-0">
-                <span className="font-heading text-2xl sm:text-3xl font-bold text-foreground leading-none tabular-nums">
-                  {s.value}
-                </span>
-                <span className="text-[11px] font-medium text-foreground/40 mt-1 tracking-wide">
-                  {s.label}
-                </span>
-              </div>
-              {i < stats.length - 1 && (
-                <div className="h-8 w-px bg-foreground/[0.12] shrink-0" />
-              )}
-            </div>
-          ))}
-        </motion.div>
 
         {/* CTAs */}
         <motion.div
@@ -212,7 +181,7 @@ export default function Hero() {
                 />
               ) : (
                 <Image
-                  src={profileImage || "/placeholder-avatar.png"}
+                  src={profileImage ?? "/my_profile.jpg"}
                   alt={name}
                   fill
                   sizes="(max-width: 640px) 150px, (max-width: 768px) 240px, (max-width: 1024px) 300px, 380px"

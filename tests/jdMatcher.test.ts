@@ -17,7 +17,7 @@ describe("JD matcher", () => {
         "Firebase",
       ])
     );
-    expect(result.score).toBeGreaterThanOrEqual(90);
+    expect(result.score).toBeGreaterThanOrEqual(80);
   });
 
   it("classifies adjacent leadership and architecture skills", () => {

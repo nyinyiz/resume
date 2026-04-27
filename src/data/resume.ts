@@ -297,3 +297,9 @@ export const resumeData = {
     ]
   }
 } satisfies ResumeData;
+
+export const heroStats = [
+  { value: "10+", label: "Years exp." },
+  { value: "3",   label: "Countries" },
+  { value: "15+", label: "Apps shipped" },
+] as const;

@@ -234,35 +234,39 @@ const FUNNY_REJECTIONS = [
 
 const TEST_STRINGS = new Set(["test", "hello", "hi", "asdf", "qwerty", "foo", "bar", "baz", "123", "aaa", "abc"]);
 
+function randomRejection(): string {
+  return FUNNY_REJECTIONS[Math.floor(Math.random() * FUNNY_REJECTIONS.length)];
+}
+
 export function detectGibberish(input: string): string | null {
   const trimmed = input.trim();
 
   if (trimmed.length < 30) {
-    return FUNNY_REJECTIONS[0];
+    return randomRejection();
   }
 
   const words = trimmed.split(/\s+/).filter(Boolean);
 
   if (words.length < 5) {
-    return FUNNY_REJECTIONS[1];
+    return randomRejection();
   }
 
   // Too many short / repeated words → probably test input
   const uniqueWords = new Set(words.map(w => w.toLowerCase().replace(/[^a-z]/g, "")));
   if (uniqueWords.size <= 3) {
-    return FUNNY_REJECTIONS[2];
+    return randomRejection();
   }
 
   // Obvious test strings
   const firstFew = words.slice(0, 4).map(w => w.toLowerCase().replace(/[^a-z]/g, ""));
   if (firstFew.every(w => TEST_STRINGS.has(w))) {
-    return FUNNY_REJECTIONS[3];
+    return randomRejection();
   }
 
   // High ratio of non-letter characters → gibberish
   const letterCount = (trimmed.match(/[a-zA-Z]/g) ?? []).length;
   if (letterCount / trimmed.length < 0.45) {
-    return FUNNY_REJECTIONS[4];
+    return randomRejection();
   }
 
   return null;
@@ -317,13 +321,41 @@ export function analyzeJD(rawJD: string): MatchResult {
     }
   }
 
-  // Score: 3 perfect hits → ~60, 4 → ~80, 5+ → ~90–100
-  // Adjacent adds up to +15 bonus; out-of-scope penalises hard
+  // ── Weighted scoring ──────────────────────────────────────────────────────
+  // High-value: niche/mobile-specific keywords (20pts each)
+  // Mid-value:  meaningful but common skills (12pts each)
+  // Low-value:  universal boilerplate that appears in nearly every JD (4pts)
+  // Defaults to mid-value (12) if not explicitly mapped.
+  const SCORE_HIGH = new Set([
+    "Kotlin", "Swift", "SwiftUI", "UIKit", "Jetpack Compose", "Kotlin Coroutines",
+    "Kotlin Flow", "Hilt (DI)", "Dagger (DI)", "Flutter", "React Native",
+    "Expo (React Native)", "Clean Architecture", "MVVM", "MVI Architecture",
+    "Multi-module Architecture", "WorkManager (Jetpack)", "NFC Integration",
+    "BLE", "Bluetooth / BLE", "CameraX", "AVFoundation", "Room Database",
+    "Core Data", "App Store Shipping", "APNs", "Android SDK", "Android Development",
+    "iOS Development", "Mobile Development", "Firebase",
+    "Kotlin Multiplatform", "Mobile App Development", "Mobile Engineering",
+  ]);
+  const SCORE_LOW = new Set([
+    "REST APIs", "RESTful APIs", "Git", "GitHub", "GitLab", "Bitbucket",
+    "Agile", "Scrum", "Kanban", "Unit Testing", "Integration Testing", "Jira",
+    "Figma", "VS Code", "CI/CD", "Continuous Integration",
+    "Test-Driven Development", "SOLID Principles",
+  ]);
+
+  const getWeight = (display: string) => {
+    if (SCORE_HIGH.has(display)) return 20;
+    if (SCORE_LOW.has(display)) return 4;
+    return 12;
+  };
+
+  const perfectScore = perfectMatch.reduce((sum, item) => sum + getWeight(item.display), 0);
+  // Adjacent strengths add a capped bonus; out-of-scope penalises hard
   const rawScore =
-    perfectMatch.length * 20 +
+    perfectScore +
     Math.min(canDo.length * 5, 15) -
     outOfScope.length * 20;
-  const floor = perfectMatch.length > 0 ? 30 : canDo.length > 0 ? 18 : 5;
+  const floor = perfectMatch.length > 0 ? 25 : canDo.length > 0 ? 14 : 5;
   const score = perfectMatch.length === 0 && canDo.length === 0 && canLearn.length === 0
     ? 0
     : Math.max(floor, Math.min(100, Math.round(rawScore)));
