@@ -24,16 +24,50 @@ const ease = [0.22, 1, 0.36, 1];
 
 /* ─── CountUp ──────────────────────────────────────── */
 
-function fitText(s: number) {
-  if (s >= 75) return "Not gonna lie — this looks good.";
-  if (s >= 50) return "Workable. I've shipped with less.";
-  return "We'd need coffee, optimism, and a miracle.";
-}
-
 function scoreAccent(s: number) {
   if (s >= 75) return "#34d399";
   if (s >= 50) return "#fb923c";
   return "#f87171";
+}
+
+function resultLabel(score: number) {
+  if (score >= 85) return "Strong mobile fit";
+  if (score >= 65) return "Worth a serious conversation";
+  if (score >= 40) return "Possible stretch role";
+  return "Probably not the right lane";
+}
+
+function resultSummary(result: MatchResult) {
+  const topMatches = result.perfectMatch.slice(0, 3).map((item) => item.display);
+  const risks = [
+    ...result.outOfScope.slice(0, 2).map((item) => item.display),
+    ...result.canLearn.slice(0, Math.max(0, 2 - result.outOfScope.length)).map((item) => item.display),
+  ];
+
+  if (result.score >= 75) {
+    return `Strong fit for ${topMatches.join(", ") || "the core role"}. Best next step: send the role over and talk through team context.`;
+  }
+
+  if (result.score >= 50) {
+    return `Good overlap, especially around ${topMatches.join(", ") || "mobile/product work"}. Main risk: ${risks.join(", ") || "scope clarity"}.`;
+  }
+
+  return `Low-confidence match. Useful overlap: ${topMatches.join(", ") || "limited"}. Watch-outs: ${risks.join(", ") || "requirements may sit outside my lane"}.`;
+}
+
+function buildFitSummary(result: MatchResult) {
+  const strong = result.perfectMatch.slice(0, 5).map((item) => item.display).join(", ") || "None detected";
+  const adjacent = result.canDo.slice(0, 4).map((item) => item.display).join(", ") || "None detected";
+  const risks = [...result.canLearn, ...result.outOfScope].slice(0, 4).map((item) => item.display).join(", ") || "No major risks detected";
+
+  return [
+    `Nyi Nyi Zaw fit score: ${result.score}/100`,
+    `Verdict: ${resultLabel(result.score)}`,
+    `Strong matches: ${strong}`,
+    `Adjacent strengths: ${adjacent}`,
+    `Risks or stretch areas: ${risks}`,
+    `Contact: nyinyizaw.dev@gmail.com`,
+  ].join("\n");
 }
 
 /* ─── RecruiterPanel ───────────────────────────────── */
@@ -42,6 +76,7 @@ function RecruiterPanel() {
   const [result, setResult] = useState<MatchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [copiedSummary, setCopiedSummary] = useState(false);
   const ref = useRef<HTMLTextAreaElement>(null);
   const hasText = jd.trim().length >= 10;
 
@@ -63,6 +98,13 @@ function RecruiterPanel() {
     setTimeout(() => ref.current?.focus(), 50);
   };
 
+  const copySummary = (match: MatchResult) => {
+    navigator.clipboard.writeText(buildFitSummary(match)).then(() => {
+      setCopiedSummary(true);
+      setTimeout(() => setCopiedSummary(false), 1800);
+    });
+  };
+
   const hint = jd.length === 0 ? "Longer JD = sharper match"
     : jd.length < 100 ? "Keep going…"
     : "Looking good — hit Check fit";
@@ -75,23 +117,26 @@ function RecruiterPanel() {
   ];
 
   return (
-    <div className="flex flex-col md:border-r border-foreground/[0.07]">
+    <div className="flex h-full flex-col border-b border-foreground/[0.07] bg-white/70 dark:bg-background/40 lg:border-b-0 lg:border-r">
       {/* Strip header */}
-      <div className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-3.5">
-        <div className="flex h-6 w-6 items-center justify-center rounded-md shrink-0"
+      <div className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-4 sm:px-6">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg shrink-0"
           style={{ background: "#60a5fa18" }}>
-          <UserRound size={12} style={{ color: "#60a5fa" }} />
+          <UserRound size={15} style={{ color: "#2563eb" }} />
         </div>
-        <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#60a5facc" }}>
-          Recruiter View
-        </span>
+        <div>
+          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#2563eb" }}>
+            Recruiter View
+          </span>
+          <p className="mt-0.5 text-xs text-foreground/40">Paste a real JD and get a direct signal.</p>
+        </div>
       </div>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col gap-4 p-5">
+      <div className="flex flex-1 flex-col gap-5 p-5 sm:p-6">
         <AnimatePresence mode="wait">
           {loading ? (
-            <motion.div key="loading" className="flex flex-1 flex-col items-center justify-center gap-5 py-10"
+            <motion.div key="loading" className="flex min-h-[430px] flex-1 flex-col items-center justify-center gap-5 py-10"
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25, ease }}>
 
@@ -141,35 +186,32 @@ function RecruiterPanel() {
 
             </motion.div>
           ) : !result ? (
-            <motion.div key="input" className="flex flex-1 flex-col gap-3"
+            <motion.div key="input" className="flex min-h-[430px] flex-1 flex-col gap-4"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}>
 
-              <div className="space-y-1">
-                <p className="font-heading text-xl font-bold tracking-tight text-foreground leading-snug">
-                  Don&apos;t want to talk?{" "}
-                  <span className="text-foreground/35">Don&apos;t want to text?</span>
+              <div className="space-y-2">
+                <p className="font-heading text-2xl font-bold tracking-tight text-foreground leading-tight sm:text-3xl">
+                  Fit check before the first call.
                 </p>
-                <p className="font-heading text-xl font-bold tracking-tight text-foreground">
-                  No worries.
-                </p>
-                <p className="text-[11px] text-foreground/40 leading-relaxed pt-0.5">
-                  Drop the JD here — plain English works.
+                <p className="max-w-xl text-sm text-foreground/52 leading-relaxed">
+                  Drop in the job description. I&apos;ll split the requirements into strong matches, adjacent strengths, learn-fast areas, and honest no-go zones.
                 </p>
               </div>
 
               {/* Suggestion chips */}
               <div className="flex flex-wrap gap-1.5">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25 self-center mr-0.5">
-                  Try
+                <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/35 self-center mr-0.5">
+                  Samples
                 </span>
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s.label}
                     onClick={() => { setJd(s.text); setError(null); ref.current?.focus(); }}
-                    className="rounded-full border border-foreground/[0.1] bg-foreground/[0.04] px-2.5 py-1
-                      text-[10px] font-semibold text-foreground/50 transition-all duration-200
-                      hover:border-foreground/[0.2] hover:bg-foreground/[0.08] hover:text-foreground/80
+                    className="rounded-full border border-foreground/[0.1] bg-white/75 px-3 py-1.5
+                      text-[10px] font-semibold text-foreground/55 shadow-sm shadow-black/[0.02] transition-all duration-200
+                      hover:border-primary/25 hover:bg-primary/[0.04] hover:text-foreground/80
+                      dark:bg-foreground/[0.04]
                       active:scale-95"
                   >
                     {s.label}
@@ -178,18 +220,20 @@ function RecruiterPanel() {
               </div>
 
               {/* Textarea */}
-              <div className="flex flex-1 flex-col overflow-hidden rounded-xl border border-foreground/[0.1]
-                focus-within:border-primary/40 transition-all duration-300 bg-foreground/[0.04]">
+              <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-foreground/[0.1]
+                bg-white shadow-[0_18px_50px_-35px_rgba(15,23,42,0.45)] transition-all duration-300
+                focus-within:border-primary/45 focus-within:shadow-[0_24px_60px_-36px_rgba(37,99,235,0.45)]
+                dark:bg-foreground/[0.04]">
                 <textarea
                   ref={ref}
                   value={jd}
                   onChange={(e) => { setJd(e.target.value); setError(null); }}
                   placeholder="e.g. Looking for a Senior Engineer with React, Node, and AWS. Remote-first, 5+ years, startup mindset required."
                   className="flex-1 w-full resize-none bg-transparent px-4 pt-4 pb-3 text-sm leading-relaxed
-                    text-foreground/80 placeholder:text-foreground/25 focus:outline-none min-h-[160px]"
+                    text-foreground/80 placeholder:text-foreground/25 focus:outline-none min-h-[230px]"
                   rows={7}
                 />
-                <div className="flex items-center justify-between border-t border-foreground/[0.07] px-4 py-3">
+                <div className="flex items-center justify-between border-t border-foreground/[0.07] bg-foreground/[0.015] px-4 py-3">
                   <span className="text-[10px] text-foreground/40">{hint}</span>
                   <span className="font-mono text-[10px] text-foreground/25">{jd.length}c</span>
                 </div>
@@ -218,7 +262,7 @@ function RecruiterPanel() {
                   className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold
                     transition-all duration-300 shrink-0 ${
                     hasText
-                      ? "bg-foreground text-background shadow-lg hover:opacity-90"
+                      ? "bg-foreground text-background shadow-lg shadow-black/10 hover:opacity-90"
                       : "bg-foreground/[0.05] text-foreground/20 cursor-not-allowed"
                   }`}
                 >
@@ -227,7 +271,7 @@ function RecruiterPanel() {
                 </motion.button>
               </div>
 
-              <p className="text-center text-[10px] text-foreground/25">
+              <p className="text-center text-[10px] text-foreground/35">
                 Rather just talk?{" "}
                 <a href="https://www.linkedin.com/in/nyinyiz/" target="_blank" rel="noopener noreferrer"
                   className="text-foreground/45 underline underline-offset-2 hover:text-foreground/70 transition-colors duration-200">
@@ -241,38 +285,71 @@ function RecruiterPanel() {
               </p>
             </motion.div>
           ) : (
-            <motion.div key="result" className="flex flex-1 flex-col gap-3"
+            <motion.div key="result" className="flex min-h-[430px] flex-1 flex-col gap-4"
               initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3, ease }}>
 
               {/* Score headline */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-4 rounded-2xl border border-foreground/[0.08] bg-white p-4 shadow-[0_18px_50px_-38px_rgba(15,23,42,0.5)] dark:bg-foreground/[0.04]">
                 <div>
-                  <h3 className="font-heading text-xl font-bold tracking-tight text-foreground">
-                    {fitText(result.score)}
+                  <p className="mb-1 text-[9px] font-bold uppercase tracking-widest text-foreground/35">
+                    Fit verdict
+                  </p>
+                  <h3 className="font-heading text-2xl font-bold tracking-tight text-foreground">
+                    {resultLabel(result.score)}
                   </h3>
-                  <p className="mt-0.5 text-[11px] text-foreground/40">
-                    No spin. No recruiter voice.
+                  <p className="mt-1 max-w-md text-xs text-foreground/48">
+                    {resultSummary(result)}
                   </p>
                 </div>
                 <div className="relative shrink-0">
-                  <svg width="52" height="52" viewBox="0 0 52 52" aria-label={`Fit score: ${Math.max(0, result.score)} out of 100`} role="img">
-                    <circle cx="26" cy="26" r="20" fill="none" stroke="hsl(var(--foreground)/0.07)" strokeWidth="3.5" />
+                  <svg width="72" height="72" viewBox="0 0 72 72" aria-label={`Fit score: ${Math.max(0, result.score)} out of 100`} role="img">
+                    <circle cx="36" cy="36" r="28" fill="none" stroke="hsl(var(--foreground)/0.07)" strokeWidth="5" />
                     <motion.circle
-                      cx="26" cy="26" r="20" fill="none"
-                      stroke={scoreAccent(result.score)} strokeWidth="3.5" strokeLinecap="round"
-                      strokeDasharray={`${2 * Math.PI * 20}`}
-                      initial={{ strokeDashoffset: 2 * Math.PI * 20 }}
-                      animate={{ strokeDashoffset: 2 * Math.PI * 20 * (1 - Math.max(0, result.score) / 100) }}
+                      cx="36" cy="36" r="28" fill="none"
+                      stroke={scoreAccent(result.score)} strokeWidth="5" strokeLinecap="round"
+                      strokeDasharray={`${2 * Math.PI * 28}`}
+                      initial={{ strokeDashoffset: 2 * Math.PI * 28 }}
+                      animate={{ strokeDashoffset: 2 * Math.PI * 28 * (1 - Math.max(0, result.score) / 100) }}
                       transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                      transform="rotate(-90 26 26)"
+                      transform="rotate(-90 36 36)"
                     />
-                    <text x="26" y="30" textAnchor="middle"
-                      style={{ fontSize: 11, fontWeight: 700, fontFamily: "ui-monospace,monospace", fill: scoreAccent(result.score) }}>
+                    <text x="36" y="40" textAnchor="middle"
+                      style={{ fontSize: 16, fontWeight: 800, fontFamily: "ui-monospace,monospace", fill: scoreAccent(result.score) }}>
                       {Math.max(0, result.score)}
                     </text>
                   </svg>
+                </div>
+              </div>
+
+              <div className="grid gap-2 sm:grid-cols-2">
+                <div className="rounded-xl border border-foreground/[0.07] bg-white/70 p-3 dark:bg-foreground/[0.03]">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-foreground/30">Top matches</p>
+                  <div className="mt-2 space-y-1.5">
+                    {result.perfectMatch.slice(0, 3).length > 0 ? result.perfectMatch.slice(0, 3).map((item) => (
+                      <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/65">
+                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#34d399" }} />
+                        {item.display}
+                      </div>
+                    )) : (
+                      <p className="text-xs text-foreground/35">No clear hard-skill hits yet.</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-foreground/[0.07] bg-white/70 p-3 dark:bg-foreground/[0.03]">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-foreground/30">Watch-outs</p>
+                  <div className="mt-2 space-y-1.5">
+                    {[...result.outOfScope, ...result.canLearn].slice(0, 3).length > 0 ? [...result.outOfScope, ...result.canLearn].slice(0, 3).map((item) => (
+                      <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/65">
+                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: result.outOfScope.includes(item) ? "#f87171" : "#fb923c" }} />
+                        {item.display}
+                      </div>
+                    )) : (
+                      <p className="text-xs text-foreground/35">Nothing scary in the detected keywords.</p>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -280,7 +357,7 @@ function RecruiterPanel() {
               <div className="flex flex-1 flex-col gap-2 overflow-auto">
 
                 {/* Perfect match */}
-                <div className="rounded-xl border border-foreground/[0.07] bg-foreground/[0.03] p-3">
+                <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#34d399" }} />
                     <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#34d399cc" }}>
@@ -306,7 +383,7 @@ function RecruiterPanel() {
                 </div>
 
                 {/* Can do / needs work */}
-                <div className="rounded-xl border border-foreground/[0.07] bg-foreground/[0.03] p-3">
+                <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#60a5fa" }} />
                     <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#60a5facc" }}>
@@ -333,7 +410,7 @@ function RecruiterPanel() {
 
                 {/* Will learn */}
                 {result.canLearn.length > 0 && (
-                  <div className="rounded-xl border border-foreground/[0.07] bg-foreground/[0.03] p-3">
+                  <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                     <div className="mb-2 flex items-center gap-2">
                       <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#fb923c" }} />
                       <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#fb923ccc" }}>
@@ -357,7 +434,7 @@ function RecruiterPanel() {
 
                 {/* Out of scope */}
                 {result.outOfScope.length > 0 && (
-                  <div className="rounded-xl border border-foreground/[0.07] bg-foreground/[0.03] p-3">
+                  <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                     <div className="mb-2 flex items-center gap-2">
                       <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#f87171" }} />
                       <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#f87171cc" }}>
@@ -389,7 +466,7 @@ function RecruiterPanel() {
                 <p className="text-[10px] text-foreground/35">
                   Numbers don&apos;t lie. But I&apos;m better in person.
                 </p>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <div className="flex gap-1.5 shrink-0">
                     <button onClick={edit}
                       className="glass rounded-full border border-foreground/10 px-3 py-1.5 text-[12px]
@@ -404,8 +481,15 @@ function RecruiterPanel() {
                       New
                     </button>
                   </div>
+                  <button onClick={() => copySummary(result)}
+                    className="glass flex min-w-[132px] flex-1 items-center justify-center gap-1.5 rounded-full border
+                      border-foreground/10 py-1.5 text-[12px] font-semibold text-foreground/60
+                      hover:border-foreground/20 hover:text-foreground/80 transition-all duration-200">
+                    {copiedSummary ? <Check size={12} strokeWidth={2.2} /> : <Copy size={12} strokeWidth={1.8} />}
+                    {copiedSummary ? "Copied" : "Copy summary"}
+                  </button>
                   <a href="https://www.linkedin.com/in/nyinyiz/" target="_blank" rel="noopener noreferrer"
-                    className="glass flex flex-1 items-center justify-center gap-1.5 rounded-full border
+                    className="glass flex min-w-[112px] flex-1 items-center justify-center gap-1.5 rounded-full border
                       border-foreground/10 py-1.5 text-[12px] font-semibold text-foreground/60
                       hover:border-foreground/20 hover:text-foreground/80 transition-all duration-200">
                     <LinkedinIcon size={12} strokeWidth={1.8} />
@@ -414,7 +498,7 @@ function RecruiterPanel() {
                   <motion.a
                     href="mailto:nyinyizaw.dev@gmail.com?subject=Role%20Fit%20Discussion"
                     whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                    className="flex flex-1 items-center justify-center gap-1.5 rounded-full
+                    className="flex min-w-[112px] flex-1 items-center justify-center gap-1.5 rounded-full
                       bg-foreground py-1.5 px-3.5 text-[12px] font-semibold text-background shadow-lg
                       hover:opacity-90 transition-opacity duration-200">
                     <Mail size={12} strokeWidth={1.8} />
@@ -437,6 +521,7 @@ function SkillPanel() {
   const [showModal, setShowModal] = useState(false);
   const [powImg, setPowImg] = useState<string | null>(null);
   const [showWarning, setShowWarning] = useState(false);
+  const [showExamples, setShowExamples] = useState(false);
 
   const copy = () => {
     navigator.clipboard.writeText(CLI_CMD).then(() => {
@@ -456,33 +541,26 @@ function SkillPanel() {
     { cmd: "/asknyi",       prompt: "Can he do React Native for a fintech startup?"  },
     { cmd: "/workwithnyi",  prompt: "What's his availability and preferred setup?"   },
     { cmd: "/fitcheck",     prompt: "Here's our JD — give me an honest score."       },
-    { cmd: "/codereview",   prompt: "Review this Kotlin code in his style."          },
-    { cmd: "/talkwithnyi",  prompt: "Just introduce yourself."                       },
-  ];
-
-  const AGENT_META = [
-    { key: "role",          value: "lead mobile engineer & consultant" },
-    { key: "status",        value: "available · human form preferred"  },
-    { key: "sentient",      value: "no, but passes the vibe check"     },
-    { key: "ships_on_time", value: "usually. ask the git log."         },
-    { key: "makes_coffee",  value: "yes. the apps are still better."   },
   ];
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex h-full flex-col bg-background/55">
         {/* Strip header */}
-        <div className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-3.5">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md shrink-0"
+        <div className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-4">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg shrink-0"
             style={{ background: "#34d39918" }}>
-            <TerminalSquare size={12} style={{ color: "#34d399" }} />
+            <TerminalSquare size={15} style={{ color: "#059669" }} />
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#34d399cc" }}>
-            Agent Skill
-          </span>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#059669" }}>
+              Agent Skill
+            </span>
+            <p className="mt-0.5 text-xs text-foreground/40">Install my work profile into your AI tool.</p>
+          </div>
           <div className="ml-auto flex items-center gap-2">
-            <span className="rounded-full border border-foreground/[0.08] bg-foreground/[0.04]
-              px-2 py-0.5 text-[9px] font-semibold text-foreground/25">
+            <span className="hidden rounded-full border border-foreground/[0.08] bg-white/70
+              px-2 py-0.5 text-[9px] font-semibold text-foreground/35 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.04] sm:inline-flex">
               sentient: no
             </span>
             <span className="font-mono text-[9px] text-foreground/20">
@@ -529,22 +607,18 @@ function SkillPanel() {
         <div className="flex flex-1 flex-col gap-4 p-5">
 
           {/* Headline */}
-          <div className="space-y-1">
-            <p className="font-heading text-xl font-bold tracking-tight text-foreground leading-snug">
-              I know you don&apos;t want to{" "}
-              <span className="text-foreground/35">hire people.</span>
+          <div className="space-y-2">
+            <p className="font-heading text-2xl font-bold tracking-tight text-foreground leading-tight">
+              Prefer agent-to-agent?
             </p>
-            <p className="font-heading text-xl font-bold tracking-tight text-foreground">
-              This one&apos;s for you.
-            </p>
-            <p className="text-[11px] text-foreground/40 leading-relaxed pt-0.5">
-              Feed this to your agent. Let the robots figure it out. The human&apos;s still better.
+            <p className="text-sm text-foreground/50 leading-relaxed">
+              Give your assistant my profile, ask it fit questions, then reach out when the signal is clear.
             </p>
           </div>
 
           {/* Disclaimer callout */}
-          <div className="rounded-xl px-4 py-3.5"
-            style={{ background: "rgba(251,146,60,0.08)", border: "1px solid rgba(251,146,60,0.25)" }}>
+          <div className="rounded-2xl px-4 py-3.5"
+            style={{ background: "rgba(251,146,60,0.07)", border: "1px solid rgba(251,146,60,0.22)" }}>
             <p className="mb-1.5 text-[9px] font-bold uppercase tracking-widest" style={{ color: "#fb923c" }}>
               {"// disclaimer"}
             </p>
@@ -553,27 +627,10 @@ function SkillPanel() {
             </p>
           </div>
 
-          {/* Agent status — terminal key-value */}
-          <div className="overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.02]">
-            <div className="border-b border-foreground/[0.07] bg-foreground/[0.03] px-4 py-2">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
-                agent.status
-              </span>
-            </div>
-            <div className="px-4 py-3 font-mono text-[11px] space-y-1.5">
-              {AGENT_META.map(({ key, value }) => (
-                <div key={key} className="flex gap-3 items-baseline">
-                  <span className="shrink-0 w-32 text-foreground/30">{key}</span>
-                  <span style={{ color: "#34d399cc" }}>{value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* CLI block */}
-          <div className="overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.02]">
+          <div className="overflow-hidden rounded-2xl border border-foreground/[0.07] bg-white shadow-[0_18px_45px_-36px_rgba(15,23,42,0.45)] dark:bg-foreground/[0.02]">
             {/* Chrome bar */}
-            <div className="flex items-center justify-between border-b border-foreground/[0.07] bg-foreground/[0.03] px-4 py-2">
+            <div className="flex items-center justify-between border-b border-foreground/[0.07] bg-foreground/[0.02] px-4 py-2">
               <div className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgba(255,96,96,0.5)" }} />
                 <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgba(255,190,60,0.5)" }} />
@@ -586,7 +643,7 @@ function SkillPanel() {
                 onClick={copy}
                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.92 }}
                 className="flex items-center gap-1.5 rounded-md border border-foreground/[0.08]
-                  bg-foreground/[0.04] px-2 py-1 text-[10px] font-semibold text-foreground/40
+                  bg-white/70 px-2 py-1 text-[10px] font-semibold text-foreground/45 shadow-sm shadow-black/[0.02]
                   hover:border-foreground/[0.15] hover:text-foreground/70 transition-all duration-200">
                 {copied
                   ? <><Check size={10} strokeWidth={2.5} />Copied</>
@@ -646,7 +703,7 @@ function SkillPanel() {
                       className="group flex w-full items-baseline gap-3 rounded-md px-2 py-1
                         text-left transition-colors duration-150 hover:bg-foreground/[0.04]">
                       <span className="shrink-0 w-28" style={{ color: isCopied ? "#34d399" : "#a78bfa" }}>
-                        {isCopied ? "✓ copied" : cmd}
+                        {isCopied ? "copied" : cmd}
                       </span>
                       <span className="truncate text-foreground/25 group-hover:text-foreground/40
                         transition-colors duration-150">
@@ -663,50 +720,68 @@ function SkillPanel() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
-                what to expect
+                proof examples
               </span>
-              <span className="text-[9px] text-foreground/20 italic">click to expand</span>
+              <button
+                onClick={() => setShowExamples((value) => !value)}
+                className="rounded-full border border-foreground/[0.08] px-2.5 py-1 text-[10px] font-semibold text-foreground/45 transition-colors hover:border-foreground/[0.16] hover:text-foreground/70"
+              >
+                {showExamples ? "Hide" : "Show"}
+              </button>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                { src: "/pow1.png", cmd: "/fitcheck", desc: "JD fit score" },
-                { src: "/pow2.png", cmd: "/talkwithnyi", desc: "intro & availability" },
-              ].map(({ src, cmd, desc }) => (
-                <motion.button
-                  key={src}
-                  onClick={() => setPowImg(src)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.15 }}
-                  className="group relative overflow-hidden rounded-xl border border-foreground/[0.07]
-                    bg-foreground/[0.02] text-left focus:outline-none">
-                  {/* Square screenshot */}
-                  <div className="relative w-full" style={{ aspectRatio: "1 / 1" }}>
-                    <Image
-                      src={src}
-                      alt={`${cmd} example`}
-                      fill
-                      className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <AnimatePresence initial={false}>
+              {showExamples && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.24, ease }}
+                  className="overflow-hidden"
+                >
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    {[
+                      { src: "/pow1.png", cmd: "/fitcheck", desc: "JD fit score" },
+                      { src: "/pow2.png", cmd: "/talkwithnyi", desc: "intro & availability" },
+                    ].map(({ src, cmd, desc }) => (
+                      <motion.button
+                        key={src}
+                        onClick={() => setPowImg(src)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ duration: 0.15 }}
+                        className="group relative overflow-hidden rounded-xl border border-foreground/[0.07]
+                          bg-white/70 text-left focus:outline-none dark:bg-foreground/[0.02]">
+                        <div className="relative w-full" style={{ aspectRatio: "1 / 1" }}>
+                          <Image
+                            src={src}
+                            alt={`${cmd} example`}
+                            fill
+                            className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        </div>
+                        <div className="px-2.5 py-2">
+                          <span className="block font-mono text-[10px] font-semibold" style={{ color: "#7c3aed" }}>{cmd}</span>
+                          <span className="block text-[9px] text-foreground/35 leading-tight">{desc}</span>
+                        </div>
+                      </motion.button>
+                    ))}
                   </div>
-                  {/* Label */}
-                  <div className="px-2.5 py-2">
-                    <span className="block font-mono text-[10px] font-semibold" style={{ color: "#a78bfa" }}>{cmd}</span>
-                    <span className="block text-[9px] text-foreground/30 leading-tight">{desc}</span>
-                  </div>
-                </motion.button>
-              ))}
-            </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Supported agents */}
-          <div className="space-y-1.5">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
-              works in
-            </span>
+          <div className="space-y-1.5 rounded-2xl border border-foreground/[0.07] bg-white/55 p-3 dark:bg-foreground/[0.02]">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/25">
+                works in
+              </span>
+              <span className="font-mono text-[9px] text-foreground/25">context: yes</span>
+            </div>
             <div className="flex flex-wrap gap-1.5">
-              {["Claude Code", "Gemini CLI", "Codex", "Cursor", "GitHub Copilot", "+ 20 more"].map((agent) => (
+              {["Claude Code", "Codex", "Cursor", "Gemini CLI", "+ 20 more"].map((agent) => (
                 <span key={agent}
                   className="rounded-md border border-foreground/[0.07] bg-foreground/[0.03]
                     px-2 py-0.5 text-[10px] font-medium text-foreground/40">
@@ -870,25 +945,43 @@ export default function HireMe() {
   return (
     <section className="relative z-10">
       {/* Header */}
-      <div className="max-w-2xl mb-5">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15, ease }}
-          className="section-label mb-2">
-          <UserRound size={12} /> Hire
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.22, ease }}
-          className="font-heading text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-2">
-          Work With Me
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease }}
-          className="text-sm text-foreground/50 leading-relaxed">
-          Two ways in. One for humans, one for bots. Pick your species.
-        </motion.p>
+      <div className="mb-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+        <div className="max-w-3xl">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease }}
+            className="section-label mb-3">
+            <UserRound size={12} /> Hire
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.22, ease }}
+            className="font-heading text-4xl font-bold tracking-tight text-foreground md:text-6xl md:leading-[0.98]">
+            Paste the JD. Get the honest fit check.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease }}
+            className="mt-4 max-w-2xl text-base text-foreground/55 leading-relaxed">
+            A faster hiring lane for mobile, product, and AI-adjacent teams. Use the checker yourself, or install my agent profile and let your tools ask the first questions.
+          </motion.p>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.34, ease }}
+          className="grid grid-cols-3 overflow-hidden rounded-2xl border border-foreground/[0.08] bg-white/70 shadow-sm shadow-black/[0.03] dark:bg-foreground/[0.03]">
+          {[
+            { value: "10+", label: "years" },
+            { value: "15+", label: "apps" },
+            { value: "3", label: "countries" },
+          ].map((item, index) => (
+            <div key={item.label} className={index > 0 ? "border-l border-foreground/[0.07] p-4" : "p-4"}>
+              <p className="font-mono text-2xl font-bold text-foreground">{item.value}</p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-widest text-foreground/35">{item.label}</p>
+            </div>
+          ))}
+        </motion.div>
       </div>
 
       {/* Main panel */}
@@ -896,13 +989,13 @@ export default function HireMe() {
         initial={{ opacity: 0, y: 28, scale: 0.99 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.65, delay: 0.35, ease }}
-        className="rounded-2xl border border-foreground/[0.08] bg-background/50 backdrop-blur-sm overflow-hidden">
+        className="overflow-hidden rounded-[1.75rem] border border-foreground/[0.08] bg-background/70 shadow-[0_30px_90px_-60px_rgba(15,23,42,0.55)] backdrop-blur-sm">
 
         {/* Top strip with staggered tags */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.55, ease }}
-          className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-3.5">
+          className="flex flex-wrap items-center gap-3 border-b border-foreground/[0.07] bg-white/55 px-5 py-3.5 dark:bg-foreground/[0.02]">
           <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 shrink-0">
             Hiring Mode
           </span>
@@ -911,15 +1004,15 @@ export default function HireMe() {
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.35, delay: 0.6 + i * 0.07, ease }}
-              className="px-2.5 py-1 rounded-md bg-primary/[0.08] text-primary text-[10px]
-                font-semibold border border-primary/[0.18]">
+              className="px-2.5 py-1 rounded-md bg-primary/[0.07] text-primary text-[10px]
+                font-semibold border border-primary/[0.16]">
               {tag}
             </motion.span>
           ))}
         </motion.div>
 
         {/* Two columns — slide in from opposite sides */}
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(380px,0.85fr)]">
           <motion.div
             initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.55, delay: 0.5, ease }}>
