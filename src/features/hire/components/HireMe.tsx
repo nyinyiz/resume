@@ -1,39 +1,57 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { UserRound } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { UserRound, TerminalSquare } from "lucide-react";
 import { RecruiterPanel } from "./RecruiterPanel";
 import { SkillPanel } from "./SkillPanel";
 
 const ease = [0.22, 1, 0.36, 1];
 
+const TABS = [
+  {
+    id:    "human",
+    label: "Fit Check",
+    icon:  UserRound,
+    desc:  "Paste a JD and get an honest match score",
+  },
+  {
+    id:    "agent",
+    label: "Agent Install",
+    icon:  TerminalSquare,
+    desc:  "Give your AI my profile and let it ask first",
+  },
+] as const;
+
+type Tab = (typeof TABS)[number]["id"];
+
 /* ─── Root ─────────────────────────────────────────── */
 export default function HireMe() {
+  const [activeTab, setActiveTab] = useState<Tab>("human");
+
   return (
     <section className="relative z-10">
-      {/* Header */}
-      <div className="mb-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
-        <div className="max-w-3xl">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15, ease }}
-            className="section-label mb-3">
-            <UserRound size={12} /> Hire
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.22, ease }}
-            className="font-heading text-4xl font-bold tracking-tight text-foreground md:text-6xl md:leading-[0.98]">
-            Paste the JD. Get the honest fit check.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease }}
-            className="mt-4 max-w-2xl text-base text-foreground/55 leading-relaxed">
-            A faster hiring lane for mobile, product, and AI-adjacent teams. Use the checker yourself, or install my agent profile and let your tools ask the first questions.
-          </motion.p>
-        </div>
 
+      {/* Header */}
+      <div className="mb-7 max-w-3xl">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15, ease }}
+          className="section-label mb-3">
+          <UserRound size={12} /> Hire
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22, ease }}
+          className="font-heading text-4xl font-bold tracking-tight text-foreground md:text-6xl md:leading-[0.98]">
+          Paste the JD. Get the honest fit check.
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease }}
+          className="mt-4 max-w-2xl text-base text-foreground/55 leading-relaxed">
+          A faster hiring lane for mobile, product, and AI-adjacent teams. Use the checker yourself, or install my agent profile and let your tools ask the first questions.
+        </motion.p>
       </div>
 
       {/* Main panel */}
@@ -43,39 +61,70 @@ export default function HireMe() {
         transition={{ duration: 0.65, delay: 0.35, ease }}
         className="overflow-hidden rounded-[1.75rem] border border-foreground/[0.08] bg-background/70 shadow-[0_30px_90px_-60px_rgba(15,23,42,0.55)] backdrop-blur-sm">
 
-        {/* Top strip with staggered tags */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.55, ease }}
-          className="flex flex-wrap items-center gap-3 border-b border-foreground/[0.07] bg-white/55 px-5 py-3.5 dark:bg-foreground/[0.02]">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 shrink-0">
-            Hiring Mode
-          </span>
-          {["Reads real JDs", "Robot-friendly", "No awkward calls"].map((tag, i) => (
-            <motion.span key={tag}
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.35, delay: 0.6 + i * 0.07, ease }}
-              className="px-2.5 py-1 rounded-md bg-primary/[0.07] text-primary text-[10px]
-                font-semibold border border-primary/[0.16]">
-              {tag}
-            </motion.span>
-          ))}
-        </motion.div>
+        {/* Tab bar */}
+        <div className="flex items-stretch border-b border-foreground/[0.07] bg-foreground/[0.015]">
+          {TABS.map(({ id, label, icon: Icon, desc }) => {
+            const active = activeTab === id;
+            return (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`relative flex flex-1 items-center gap-3 px-6 py-4 text-left transition-colors duration-150
+                  ${active ? "text-foreground" : "text-foreground/35 hover:text-foreground/60"}`}
+              >
+                {/* Active indicator */}
+                {active && (
+                  <motion.div
+                    layoutId="hire-tab-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-[2px]"
+                    style={{ background: "#34d399" }}
+                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                  />
+                )}
 
-        {/* Two columns — slide in from opposite sides */}
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(380px,0.85fr)]">
-          <motion.div
-            initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.55, delay: 0.5, ease }}>
-            <RecruiterPanel />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.55, delay: 0.58, ease }}>
-            <SkillPanel />
-          </motion.div>
+                {/* Icon */}
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-150
+                  ${active ? "bg-foreground/[0.06]" : "bg-transparent"}`}>
+                  <Icon size={15} className={active ? "text-foreground/70" : "text-foreground/30"} />
+                </div>
+
+                {/* Label + desc */}
+                <div className="min-w-0">
+                  <p className={`text-sm font-semibold leading-none transition-colors duration-150
+                    ${active ? "text-foreground" : "text-foreground/40"}`}>
+                    {label}
+                  </p>
+                  <p className="mt-1 truncate text-xs text-foreground/30">{desc}</p>
+                </div>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Panel content */}
+        <AnimatePresence mode="wait" initial={false}>
+          {activeTab === "human" ? (
+            <motion.div
+              key="human"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2, ease }}
+            >
+              <RecruiterPanel />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="agent"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2, ease }}
+            >
+              <SkillPanel />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </motion.div>
     </section>
