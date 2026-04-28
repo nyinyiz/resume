@@ -49,7 +49,7 @@ export default function HireMe() {
         <motion.p
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease }}
-          className="mt-4 max-w-2xl text-base text-foreground/55 leading-relaxed">
+          className="mt-4 max-w-2xl text-base text-foreground/75 leading-relaxed">
           A faster hiring lane for mobile, product, and AI-adjacent teams. Use the checker yourself, or install my agent profile and let your tools ask the first questions.
         </motion.p>
       </div>
@@ -70,7 +70,7 @@ export default function HireMe() {
                 key={id}
                 onClick={() => setActiveTab(id)}
                 className={`relative flex flex-1 items-center gap-3 px-6 py-4 text-left transition-colors duration-150
-                  ${active ? "text-foreground" : "text-foreground/35 hover:text-foreground/60"}`}
+                  ${active ? "text-foreground" : "text-foreground/50 hover:text-foreground/70"}`}
               >
                 {/* Active indicator */}
                 {active && (
@@ -85,16 +85,16 @@ export default function HireMe() {
                 {/* Icon */}
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-150
                   ${active ? "bg-foreground/[0.06]" : "bg-transparent"}`}>
-                  <Icon size={15} className={active ? "text-foreground/70" : "text-foreground/30"} />
+                  <Icon size={15} className={active ? "text-foreground/70" : "text-foreground/40"} />
                 </div>
 
                 {/* Label + desc */}
                 <div className="min-w-0">
                   <p className={`text-sm font-semibold leading-none transition-colors duration-150
-                    ${active ? "text-foreground" : "text-foreground/40"}`}>
+                    ${active ? "text-foreground" : "text-foreground/55"}`}>
                     {label}
                   </p>
-                  <p className="mt-1 truncate text-xs text-foreground/30">{desc}</p>
+                  <p className="mt-1 truncate text-[13px] text-foreground/45">{desc}</p>
                 </div>
               </button>
             );

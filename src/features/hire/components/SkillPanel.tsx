@@ -90,112 +90,120 @@ export function SkillPanel() {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-foreground/[0.06]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-foreground/[0.08] bg-background/40">
 
-        {/* ── Left: Installation ───────────────────── */}
-        <div className="p-6 md:p-8 space-y-8">
-          <h3 className="text-xl font-bold tracking-tight text-foreground">Installation</h3>
-
-          {/* Step 1 */}
-          <div className="space-y-3">
-            <div className="flex items-start gap-3">
-              <StepBadge n={1} />
-              <div>
-                <p className="text-sm font-semibold text-foreground">Install Skill</p>
-                <p className="mt-0.5 text-xs text-foreground/45 leading-relaxed">
-                  Run the following command to add the resume agent to your local environment.
-                </p>
-              </div>
-            </div>
-            <DarkTerminal copyKey="install" copiedKey={copiedKey} onCopy={() => copy(INSTALL_CMD, "install")}>
-              <span className="text-emerald-400">$</span>{" "}
-              <span className="text-emerald-400">npx skills add</span>{" "}
-              <span className="text-sky-400">nyinyiz/resume</span>{" "}
-              <span className="text-violet-400">--skill</span>{" "}
-              <span className="text-orange-400">nyi-agent</span>
-            </DarkTerminal>
+        {/* ── Left: Installation Timeline ───────────────────── */}
+        <div className="p-8 md:p-12 space-y-12">
+          <div>
+            <h3 className="font-heading text-2xl font-bold tracking-tight text-foreground">
+              Direct Installation
+            </h3>
+            <p className="mt-2 text-[14px] text-foreground/60 leading-relaxed">
+              Add the resume intelligence to your local workspace in two steps.
+            </p>
           </div>
 
-          {/* Step 2 */}
-          <div className="space-y-3">
-            <div className="flex items-start gap-3">
-              <StepBadge n={2} />
+          <div className="relative space-y-12">
+            {/* Structural timeline line */}
+            <div className="absolute left-[13px] top-2 bottom-2 w-px bg-gradient-to-b from-emerald-500/50 via-emerald-500/20 to-transparent" />
+
+            {/* Step 1 */}
+            <div className="relative pl-10 space-y-4">
+              <div className="absolute left-0 top-0">
+                <StepBadge n={1} />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-foreground">Enable Slash Commands</p>
-                <p className="mt-0.5 text-xs text-foreground/45 leading-relaxed">
-                  Point your agent to the profile directory to register new command definitions.
+                <p className="text-[15px] font-bold text-foreground">Deploy Resume Skill</p>
+                <p className="mt-1 text-[13px] text-foreground/55 leading-relaxed">
+                  Fetches the latest profile manifest and registers it with your local agent.
                 </p>
               </div>
+              <DarkTerminal copyKey="install" copiedKey={copiedKey} onCopy={() => copy(INSTALL_CMD, "install")}>
+                <span className="text-emerald-400">$</span>{" "}
+                <span className="text-emerald-400">npx skills add</span>{" "}
+                <span className="text-sky-400">nyinyiz/resume</span>{" "}
+                <span className="text-violet-400">--skill</span>{" "}
+                <span className="text-orange-400">nyi-agent</span>
+              </DarkTerminal>
             </div>
-            <DarkTerminal copyKey="cmds" copiedKey={copiedKey} onCopy={() => copy(COMMANDS_CMD, "cmds")}>
-              <span className="text-white/35 text-[10px]"># Register local skill definitions</span>
-              <br />
-              <span className="text-emerald-400">skill config</span>
-              <span className="text-white/55"> --path </span>
-              <span className="text-orange-400">~/.skills/nyinyiz/resume</span>
-            </DarkTerminal>
+
+            {/* Step 2 */}
+            <div className="relative pl-10 space-y-4">
+              <div className="absolute left-0 top-0">
+                <StepBadge n={2} />
+              </div>
+              <div>
+                <p className="text-[15px] font-bold text-foreground">Activate Context</p>
+                <p className="mt-1 text-[13px] text-foreground/55 leading-relaxed">
+                  Link your agent to the local manifest to enable personality-aware responses.
+                </p>
+              </div>
+              <DarkTerminal copyKey="cmds" copiedKey={copiedKey} onCopy={() => copy(COMMANDS_CMD, "cmds")}>
+                <span className="text-white/40 text-[11px]"># Register local profile context</span>
+                <br />
+                <span className="text-emerald-400">skill config</span>
+                <span className="text-white/70"> --path </span>
+                <span className="text-orange-400">~/.skills/nyinyiz/resume</span>
+              </DarkTerminal>
+            </div>
           </div>
 
-          {/* Supported agents */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="flex h-5 w-5 items-center justify-center rounded-full"
-                style={{ background: "rgba(52,211,153,0.15)" }}>
-                <Check size={10} strokeWidth={3} style={{ color: "#34d399" }} />
+          {/* Supported interfaces with better badge design */}
+          <div className="space-y-4 pt-4">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15">
+                <Check size={11} strokeWidth={3} className="text-emerald-500" />
               </div>
-              <p className="text-sm font-semibold text-foreground">Supported AI Interfaces</p>
+              <p className="text-[13px] font-bold uppercase tracking-wider text-foreground/70">Native Integration</p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {["Claude Code", "Codex", "Cursor", "Gemini CLI", "GitHub Copilot"].map((a) => (
+            <div className="flex flex-wrap gap-2.5">
+              {["Claude Code", "Cursor", "Windsurf", "Codex", "Gemini CLI", "Copilot"].map((a) => (
                 <span key={a}
-                  className="rounded-full border border-foreground/[0.08] bg-foreground/[0.03] px-3 py-1 text-[12px] text-foreground/60">
+                  className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.02] px-3.5 py-1.5 text-[12px] font-medium text-foreground/60 transition-colors hover:border-foreground/20 hover:text-foreground">
                   {a}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* SKILL.MD Preview */}
-          <div className="space-y-3">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-foreground/50">
-              SKILL.MD Preview
+          {/* SKILL.MD Preview Redesign */}
+          <div className="space-y-4 pt-4">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-foreground/40">
+              Agent Manifest (SKILL.MD)
             </p>
             <div
-              className="overflow-hidden rounded-2xl border"
-              style={{ background: "hsl(222 20% 8%)", borderColor: "rgba(255,255,255,0.07)" }}
+              className="overflow-hidden rounded-2xl border shadow-xl"
+              style={{ background: "#020617", borderColor: "rgba(255,255,255,0.08)" }}
             >
-              {/* Editor chrome */}
               <div
-                className="flex items-center justify-between border-b px-4 py-2.5"
+                className="flex items-center justify-between border-b px-5 py-3"
                 style={{ borderColor: "rgba(255,255,255,0.06)" }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1">
-                    <span className="h-2 w-2 rounded-full bg-red-500/40" />
-                    <span className="h-2 w-2 rounded-full bg-yellow-500/40" />
-                    <span className="h-2 w-2 rounded-full bg-green-500/40" />
+                <div className="flex items-center gap-2.5">
+                  <div className="flex gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-red-500/20" />
+                    <span className="h-2 w-2 rounded-full bg-yellow-500/20" />
+                    <span className="h-2 w-2 rounded-full bg-green-500/20" />
                   </div>
-                  <span className="font-mono text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    SKILL.MD PREVIEW
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-white/30">
+                    Manifest Preview
                   </span>
                 </div>
                 <a
                   href="https://github.com/nyinyiz/resume/tree/main/nyi-agent"
                   target="_blank" rel="noopener noreferrer"
-                  className="font-mono text-[10px] transition-opacity hover:opacity-70"
-                  style={{ color: "rgba(255,255,255,0.35)" }}
+                  className="font-mono text-[10px] text-white/20 hover:text-white/50 transition-colors"
                 >
-                  GitHub ↗
+                  SOURCE ↗
                 </a>
               </div>
-              {/* Sections */}
-              <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+              <div className="divide-y divide-white/[0.04]">
                 {SKILL_SECTIONS.map(({ heading, body }) => (
-                  <div key={heading} className="px-4 py-3.5">
-                    <p className="font-mono text-[12px] font-semibold mb-1.5" style={{ color: "#34d399" }}>
+                  <div key={heading} className="px-6 py-4">
+                    <p className="font-mono text-[12px] font-bold text-emerald-500/90 mb-2">
                       # {heading}
                     </p>
-                    <p className="font-mono text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+                    <p className="font-mono text-[12px] leading-relaxed text-white/50">
                       {body}
                     </p>
                   </div>
@@ -205,79 +213,100 @@ export function SkillPanel() {
           </div>
         </div>
 
-        {/* ── Right: Slash Commands ────────────────── */}
-        <div className="p-6 md:p-8 space-y-6">
+        {/* ── Right: Command Registry ────────────────── */}
+        <div className="p-8 md:p-12 space-y-10">
           <div>
-            <h3 className="text-xl font-bold tracking-tight text-foreground">Slash Commands</h3>
-            <p className="mt-1 text-[12px] text-foreground/50">Available directives for the agent</p>
+            <h3 className="font-heading text-2xl font-bold tracking-tight text-foreground">
+              Command Registry
+            </h3>
+            <p className="mt-2 text-[14px] text-foreground/60 leading-relaxed">
+              Native directives available to your agent post-installation.
+            </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             {COMMANDS.map((item) => {
               const isCopied = copiedKey === item.cmd;
               return (
                 <div
                   key={item.cmd}
-                  className="overflow-hidden rounded-2xl border border-foreground/[0.07] bg-foreground/[0.015]"
+                  className="group relative overflow-hidden rounded-3xl border border-foreground/[0.06] bg-foreground/[0.015] transition-all duration-300 hover:border-emerald-500/30 hover:bg-foreground/[0.02]"
                 >
+                  {/* Focus line effect */}
+                  <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-emerald-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
                   {/* Command header */}
-                  <div className="flex items-center justify-between px-4 py-3">
-                    <span className="font-mono text-[14px] font-semibold" style={{ color: "#a78bfa" }}>
-                      {item.cmd}
-                    </span>
+                  <div className="flex items-center justify-between px-6 pt-5 pb-4">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-[16px] font-bold tracking-tight text-emerald-500/90">
+                        {item.cmd}
+                      </span>
+                    </div>
                     <button
                       onClick={() => copy(item.example, item.cmd)}
-                      className="rounded-lg border border-foreground/[0.07] bg-foreground/[0.03] p-1.5 text-foreground/40
-                        hover:border-foreground/20 hover:text-foreground/70 transition-all duration-150"
+                      className="rounded-xl border border-foreground/[0.08] bg-foreground/[0.03] px-3 py-1.5 text-foreground/40
+                        hover:border-emerald-500/40 hover:text-emerald-500 transition-all duration-200"
                     >
                       {isCopied
-                        ? <Check size={12} strokeWidth={2.5} />
-                        : <Copy size={12} strokeWidth={1.8} />}
+                        ? <Check size={13} strokeWidth={3} />
+                        : <Copy size={13} strokeWidth={2} />}
                     </button>
                   </div>
 
                   {/* Description */}
-                  <p className="px-4 pb-3 text-[12px] text-foreground/60 leading-relaxed">{item.desc}</p>
+                  <p className="px-6 pb-5 text-[14px] text-foreground/60 leading-relaxed max-w-md">
+                    {item.desc}
+                  </p>
 
-                  {/* Visual — proof screenshot or terminal simulation */}
+                  {/* Visual Proof / Terminal Simulation */}
                   {item.pow ? (
-                    <motion.button
-                      onClick={() => setPowImg(item.pow!)}
-                      whileHover={{ scale: 1.005 }}
-                      whileTap={{ scale: 0.995 }}
-                      transition={{ duration: 0.15 }}
-                      className="group relative block w-full overflow-hidden focus:outline-none"
-                      style={{ aspectRatio: "16 / 9" }}
-                    >
-                      <Image
-                        src={item.pow}
-                        alt={`${item.cmd} output example`}
-                        fill
-                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    </motion.button>
+                    <div className="px-6 pb-6">
+                      <motion.button
+                        onClick={() => setPowImg(item.pow!)}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className="group/pow relative block w-full overflow-hidden rounded-2xl border border-foreground/[0.06] focus:outline-none shadow-lg"
+                        style={{ aspectRatio: "16 / 9" }}
+                      >
+                        <Image
+                          src={item.pow}
+                          alt={`${item.cmd} output example`}
+                          fill
+                          className="object-cover object-top transition-transform duration-700 group-hover/pow:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60 transition-opacity group-hover/pow:opacity-80" />
+                        <div className="absolute bottom-4 left-5 flex items-center gap-2">
+                          <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                          <span className="font-mono text-[10px] uppercase tracking-widest text-white/70">
+                            View Console Output
+                          </span>
+                        </div>
+                      </motion.button>
+                    </div>
                   ) : (
                     "terminal" in item && item.terminal && (
-                      <div
-                        className="mx-4 mb-4 overflow-hidden rounded-xl border p-4"
-                        style={{ background: "hsl(222 20% 8%)", borderColor: "rgba(255,255,255,0.07)" }}
-                      >
-                        {item.terminal.map((line, i) => (
-                          <p
-                            key={i}
-                            className="font-mono text-[11px] leading-[1.7]"
-                            style={{
-                              color: i === 0
-                                ? "#a78bfa"
-                                : line === ""
-                                  ? "transparent"
-                                  : "rgba(255,255,255,0.55)",
-                            }}
-                          >
-                            {line || "\u00a0"}
-                          </p>
-                        ))}
+                      <div className="px-6 pb-6">
+                        <div
+                          className="overflow-hidden rounded-2xl border p-5 shadow-inner"
+                          style={{ background: "#020617", borderColor: "rgba(255,255,255,0.06)" }}
+                        >
+                          {item.terminal.map((line, i) => (
+                            <p
+                              key={i}
+                              className="font-mono text-[12px] leading-[1.8] tracking-tight"
+                              style={{
+                                color: i === 0
+                                  ? "#38bdf8" // Sky for command
+                                  : line === ""
+                                    ? "transparent"
+                                    : "rgba(255,255,255,0.6)",
+                              }}
+                            >
+                              {line || "\u00a0"}
+                            </p>
+                          ))}
+                        </div>
                       </div>
                     )
                   )}
@@ -286,9 +315,11 @@ export function SkillPanel() {
             })}
           </div>
 
-          <p className="text-[11px] text-foreground/35 leading-relaxed italic">
-            {agentConfig._disclaimer}
-          </p>
+          <div className="pt-6 border-t border-foreground/[0.06]">
+            <p className="text-[12px] text-foreground/45 leading-relaxed italic max-w-sm">
+              {agentConfig._disclaimer}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -341,8 +372,8 @@ export function SkillPanel() {
 function StepBadge({ n }: { n: number }) {
   return (
     <div
-      className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px] font-bold mt-0.5"
-      style={{ background: "rgba(52,211,153,0.15)", color: "#34d399" }}
+      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-[12px] font-bold mt-0.5 border border-emerald-500/20"
+      style={{ background: "rgba(16, 185, 129, 0.1)", color: "#10b981" }}
     >
       {n}
     </div>
@@ -363,31 +394,31 @@ function DarkTerminal({
   const isCopied = copiedKey === copyKey;
   return (
     <div
-      className="overflow-hidden rounded-2xl border"
-      style={{ background: "hsl(222 20% 8%)", borderColor: "rgba(255,255,255,0.07)" }}
+      className="overflow-hidden rounded-2xl border shadow-2xl"
+      style={{ background: "#020617", borderColor: "rgba(255,255,255,0.08)" }}
     >
       {/* Chrome */}
       <div
-        className="flex items-center justify-between border-b px-4 py-2"
+        className="flex items-center justify-between border-b px-5 py-2.5"
         style={{ borderColor: "rgba(255,255,255,0.06)" }}
       >
-        <div className="flex gap-1.5">
-          <span className="h-2 w-2 rounded-full bg-red-500/40" />
-          <span className="h-2 w-2 rounded-full bg-yellow-500/40" />
-          <span className="h-2 w-2 rounded-full bg-green-500/40" />
+        <div className="flex gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-red-500/30" />
+          <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/30" />
+          <span className="h-2.5 w-2.5 rounded-full bg-green-500/30" />
         </div>
         <button
           onClick={onCopy}
-          className="flex items-center gap-1 font-mono text-[9px] transition-colors duration-150"
-          style={{ color: isCopied ? "#34d399" : "rgba(255,255,255,0.25)" }}
+          className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider transition-all duration-200"
+          style={{ color: isCopied ? "#10b981" : "rgba(255,255,255,0.4)" }}
         >
           {isCopied
-            ? <><Check size={9} strokeWidth={2.5} />copied</>
-            : <><Copy size={9} strokeWidth={1.8} />copy</>}
+            ? <><Check size={11} strokeWidth={3} />copied</>
+            : <><Copy size={11} strokeWidth={2} />copy</>}
         </button>
       </div>
       {/* Content */}
-      <div className="px-5 py-4 font-mono text-[12px] leading-relaxed">
+      <div className="px-6 py-5 font-mono text-[13px] leading-relaxed selection:bg-emerald-500/30">
         {children}
       </div>
     </div>
