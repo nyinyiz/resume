@@ -149,7 +149,7 @@ export default function Projects() {
 
             {/* Time display */}
             <div className="relative z-10 flex flex-col items-center pt-6 pb-2">
-              <p className="text-foreground/20 text-[10px] font-medium tracking-widest uppercase">Portfolio</p>
+              <p className="text-foreground/40 text-[12px] font-medium tracking-widest uppercase">Portfolio</p>
             </div>
 
             {/* App icon grid */}
@@ -190,8 +190,8 @@ export default function Projects() {
 
                       {/* Label */}
                       <span
-                        className="text-[9px] font-medium text-center leading-tight w-[60px] truncate transition-colors duration-200"
-                        style={{ color: isActive ? "var(--foreground)" : "color-mix(in srgb, var(--foreground) 45%, transparent)" }}
+                        className="text-[11px] font-medium text-center leading-tight w-[60px] truncate transition-colors duration-200"
+                        style={{ color: isActive ? "var(--foreground)" : "color-mix(in srgb, var(--foreground) 60%, transparent)" }}
                       >
                         {project.name}
                       </span>
@@ -208,8 +208,8 @@ export default function Projects() {
               rel="noopener noreferrer"
               className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[220px] h-[68px] rounded-[22px] bg-foreground/[0.06] border border-foreground/[0.08] backdrop-blur-sm flex items-center justify-center gap-2 hover:bg-foreground/[0.1] transition-colors duration-200"
             >
-              <ArrowUpRight size={11} className="text-foreground/35" />
-              <p className="text-[9px] font-medium text-foreground/35 tracking-widest uppercase">
+              <ArrowUpRight size={11} className="text-foreground/45" />
+              <p className="text-[11px] font-medium text-foreground/45 tracking-widest uppercase">
                 See more on GitHub
               </p>
             </Link>

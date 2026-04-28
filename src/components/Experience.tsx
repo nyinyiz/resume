@@ -21,8 +21,8 @@ const companyThemes: Record<string, { from: string; to: string }> = {
 function TextImpact({ text }: { text: string }) {
   return (
     <>
-      <p className="text-[8px] font-bold uppercase tracking-widest text-white/60 mb-1.5">Impact</p>
-      <p className="text-white text-[11px] font-semibold leading-snug">{text}</p>
+      <p className="text-[11px] font-bold uppercase tracking-widest text-white/80 mb-1.5">Impact</p>
+      <p className="text-white text-[12px] font-semibold leading-snug">{text}</p>
     </>
   );
 }
@@ -85,7 +85,7 @@ function PassKitUI({ theme }: { theme: { from: string; to: string } }) {
             <div className="w-16 h-1 rounded-full bg-white/25" />
             <div className="w-10 h-2 rounded-full bg-white/60" />
           </div>
-          <div className="text-white/70 text-[8px] font-bold">NFC</div>
+          <div className="text-white/80 text-[11px] font-bold">NFC</div>
         </div>
       </div>
       {/* Pass list */}
@@ -124,7 +124,7 @@ function FreelanceUI({ theme }: { theme: { from: string; to: string } }) {
         <div key={i} className="flex items-center gap-2 p-2 rounded-xl bg-foreground/[0.03] border border-foreground/[0.05]">
           <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: [theme.from, theme.to, "#F59E0B"][i] }} />
           <div className="flex-1">
-            <div className="text-[9px] font-medium text-foreground/40">{label}</div>
+            <div className="text-[11px] font-medium text-foreground/50">{label}</div>
           </div>
           <div className="w-8 h-1.5 rounded-full bg-foreground/8" />
         </div>
@@ -153,7 +153,7 @@ function HospitalUI({ theme }: { theme: { from: string; to: string } }) {
       <div className="grid grid-cols-3 gap-1.5">
         {[{ color: "#EF4444", icon: "♥" }, { color: theme.from, icon: "⚡" }, { color: "#10B981", icon: "◎" }].map((v, i) => (
           <div key={i} className="rounded-xl p-2 text-center border border-foreground/5" style={{ background: v.color + "12" }}>
-            <div className="text-[10px] mb-0.5" style={{ color: v.color }}>{v.icon}</div>
+            <div className="text-[11px] mb-0.5" style={{ color: v.color }}>{v.icon}</div>
             <div className="w-8 h-2 rounded-full mx-auto" style={{ background: v.color + "40" }} />
           </div>
         ))}
@@ -166,7 +166,7 @@ function HospitalUI({ theme }: { theme: { from: string; to: string } }) {
             <div className="w-16 h-1.5 rounded-full bg-foreground/12" />
             <div className="w-24 h-1 rounded-full bg-foreground/6" />
           </div>
-          {i === 0 && <div className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-bold text-white" style={{ background: theme.from }}>3</div>}
+          {i === 0 && <div className="w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style={{ background: theme.from }}>3</div>}
         </div>
       ))}
     </div>
@@ -358,20 +358,20 @@ export default function Experience() {
                   <div className="flex flex-wrap items-center gap-2 mb-1">
                     <span className="font-semibold text-foreground text-base">{role.title}</span>
                     <span
-                      className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full text-white"
+                      className="text-[11px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full text-white"
                       style={{ background: `linear-gradient(90deg, ${theme.from}, ${theme.to})` }}
                     >
                       {role.type || group.type}
                     </span>
                   </div>
-                  <p className="text-xs text-foreground/40 mb-2">
+                  <p className="text-xs text-foreground/50 mb-2">
                     {role.period} · {group.location}
                   </p>
                   <ul className="space-y-1.5">
                     {role.responsibilities.map((r: string, j: number) => (
                       <li key={j} className="flex items-start gap-2.5">
                         <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{ background: theme.from }} />
-                        <p className="text-sm text-foreground/60 leading-relaxed">{r}</p>
+                        <p className="text-sm text-foreground/75 leading-relaxed">{r}</p>
                       </li>
                     ))}
                   </ul>
@@ -380,14 +380,14 @@ export default function Experience() {
 
               {/* Skills */}
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 mb-1.5">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-foreground/45 mb-1.5">
                   Technologies
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {group?.roles.flatMap((r) => r.skills)
                     .filter((s: string, i: number, arr: string[]) => arr.indexOf(s) === i)
                     .map((skill: string, i: number) => (
-                      <span key={i} className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-md bg-foreground/[0.04] text-foreground/45 border border-foreground/[0.07]">
+                      <span key={i} className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-md bg-foreground/[0.04] text-foreground/60 border border-foreground/[0.07]">
                         {skill}
                       </span>
                     ))}

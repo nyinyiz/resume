@@ -83,7 +83,7 @@ export default function Skills() {
 
         {/* Core stack strip */}
         <div className="px-5 py-3.5 border-b border-foreground/[0.07] flex items-center gap-2 flex-wrap">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/30 mr-1 shrink-0">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-foreground/50 mr-1 shrink-0">
             Core Stack
           </span>
           {coreSkills.map((name) => (
@@ -92,7 +92,7 @@ export default function Skills() {
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, ease }}
-              className="px-2.5 py-1 rounded-md bg-primary/[0.08] text-primary text-[11px] font-semibold border border-primary/[0.18]"
+              className="px-2.5 py-1 rounded-md bg-primary/[0.08] text-primary text-[12px] font-semibold border border-primary/[0.18]"
             >
               {name}
             </motion.span>
@@ -133,7 +133,7 @@ export default function Skills() {
                     <Icon size={13} style={{ color: meta.accent }} />
                   </div>
                   <span
-                    className="text-[10px] font-bold uppercase tracking-widest"
+                    className="text-[12px] font-bold uppercase tracking-widest"
                     style={{ color: meta.accent + "cc" }}
                   >
                     {meta.label}
@@ -150,7 +150,7 @@ export default function Skills() {
                       transition={{ duration: 0.35, delay: 0.3 + catIdx * 0.06 + i * 0.04, ease }}
                       className="flex items-center justify-between gap-3"
                     >
-                      <span className="text-[13px] text-foreground/70 font-medium leading-none">
+                      <span className="text-[14px] text-foreground/80 font-medium leading-none">
                         {skill.name}
                       </span>
                       <SkillDots level={skill.level} accent={meta.accent} />
@@ -164,7 +164,7 @@ export default function Skills() {
 
         {/* Bottom legend */}
         <div className="px-5 py-3 border-t border-foreground/[0.07] flex items-center gap-5 flex-wrap">
-          <span className="text-[9px] font-bold text-foreground/25 uppercase tracking-widest">Proficiency</span>
+          <span className="text-[11px] font-bold text-foreground/40 uppercase tracking-widest">Proficiency</span>
           {[
             { label: "Expert",     dots: 5 },
             { label: "Proficient", dots: 4 },
@@ -180,7 +180,7 @@ export default function Skills() {
                   />
                 ))}
               </div>
-              <span className="text-[10px] text-foreground/35 font-medium">{label}</span>
+              <span className="text-[12px] text-foreground/50 font-medium">{label}</span>
             </div>
           ))}
         </div>

@@ -9,7 +9,6 @@ import {
   LinkedinIcon,
   Mail,
   Search,
-  UserRound,
 } from "lucide-react";
 import { analyzeJD, detectGibberish, type MatchResult } from "@/features/hire/lib/jdMatcher";
 
@@ -108,20 +107,6 @@ export function RecruiterPanel() {
 
   return (
     <div className="flex h-full flex-col border-b border-foreground/[0.07] bg-white/70 dark:bg-background/40 lg:border-b-0 lg:border-r">
-      {/* Strip header */}
-      <div className="flex items-center gap-3 border-b border-foreground/[0.07] px-5 py-4 sm:px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg shrink-0"
-          style={{ background: "#60a5fa18" }}>
-          <UserRound size={15} style={{ color: "#2563eb" }} />
-        </div>
-        <div>
-          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#2563eb" }}>
-            Recruiter View
-          </span>
-          <p className="mt-0.5 text-xs text-foreground/40">Paste a real JD and get a direct signal.</p>
-        </div>
-      </div>
-
       {/* Body */}
       <div className="flex flex-1 flex-col gap-5 p-5 sm:p-6">
         <AnimatePresence mode="wait">
@@ -283,18 +268,18 @@ export function RecruiterPanel() {
               {/* Score headline */}
               <div className="flex items-start justify-between gap-4 rounded-2xl border border-foreground/[0.08] bg-white p-4 shadow-[0_18px_50px_-38px_rgba(15,23,42,0.5)] dark:bg-foreground/[0.04]">
                 <div>
-                  <p className="mb-1 text-[9px] font-bold uppercase tracking-widest text-foreground/35">
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-foreground/50">
                     Fit verdict
                   </p>
                   <h3 className="font-heading text-2xl font-bold tracking-tight text-foreground">
                     {resultLabel(result.score)}
                   </h3>
-                  <p className="mt-1 max-w-md text-xs text-foreground/48">
+                  <p className="mt-1 max-w-md text-sm text-foreground/60">
                     {resultSummary(result)}
                   </p>
                 </div>
                 <div className="relative shrink-0">
-                  <svg width="72" height="72" viewBox="0 0 72 72" aria-label={`Fit score: ${Math.max(0, result.score)} out of 100`} role="img">
+                  <svg width="72" height="72" viewBox="0 0 72 72" aria-label={`Match score: ${Math.max(0, result.score)}% - ${resultLabel(result.score)}`} role="img">
                     <circle cx="36" cy="36" r="28" fill="none" stroke="hsl(var(--foreground)/0.07)" strokeWidth="5" />
                     <motion.circle
                       cx="36" cy="36" r="28" fill="none"
@@ -315,29 +300,29 @@ export function RecruiterPanel() {
 
               <div className="grid gap-2 sm:grid-cols-2">
                 <div className="rounded-xl border border-foreground/[0.07] bg-white/70 p-3 dark:bg-foreground/[0.03]">
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-foreground/30">Top matches</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-foreground/40">Top matches</p>
                   <div className="mt-2 space-y-1.5">
                     {result.perfectMatch.slice(0, 3).length > 0 ? result.perfectMatch.slice(0, 3).map((item) => (
-                      <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/65">
+                      <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/75">
                         <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#34d399" }} />
                         {item.display}
                       </div>
                     )) : (
-                      <p className="text-xs text-foreground/35">No clear hard-skill hits yet.</p>
+                      <p className="text-xs text-foreground/40">No clear hard-skill hits yet.</p>
                     )}
                   </div>
                 </div>
 
                 <div className="rounded-xl border border-foreground/[0.07] bg-white/70 p-3 dark:bg-foreground/[0.03]">
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-foreground/30">Watch-outs</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-foreground/40">Watch-outs</p>
                   <div className="mt-2 space-y-1.5">
                     {[...result.outOfScope, ...result.canLearn].slice(0, 3).length > 0 ? [...result.outOfScope, ...result.canLearn].slice(0, 3).map((item) => (
-                      <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/65">
+                      <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/75">
                         <span className="h-1.5 w-1.5 rounded-full" style={{ background: result.outOfScope.includes(item) ? "#f87171" : "#fb923c" }} />
                         {item.display}
                       </div>
                     )) : (
-                      <p className="text-xs text-foreground/35">Nothing scary in the detected keywords.</p>
+                      <p className="text-xs text-foreground/40">Nothing scary in the detected keywords.</p>
                     )}
                   </div>
                 </div>
@@ -347,13 +332,13 @@ export function RecruiterPanel() {
               <div className="flex flex-1 flex-col gap-2 overflow-auto">
 
                 {/* Perfect match */}
-                <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#34d399" }} />
-                    <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#34d399cc" }}>
+                <div className="rounded-xl p-4" style={{ background: "#34d39912", border: "1px solid #34d39932" }}>
+                  <div className="mb-3 flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full shrink-0" style={{ background: "#34d399" }} />
+                    <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#34d399" }}>
                       Perfect match
                     </span>
-                    <span className="ml-auto font-mono text-[9px] text-foreground/25">
+                    <span className="ml-auto font-mono text-[10px]" style={{ color: "#34d39980" }}>
                       {result.perfectMatch.length} hit{result.perfectMatch.length !== 1 ? "s" : ""}
                     </span>
                   </div>
@@ -361,14 +346,14 @@ export function RecruiterPanel() {
                     <div className="flex flex-wrap gap-1.5">
                       {result.perfectMatch.map((i) => (
                         <span key={i.display}
-                          className="rounded-md px-2 py-0.5 text-[10px] font-semibold border"
-                          style={{ background: "#34d39910", color: "#34d399cc", borderColor: "#34d39925" }}>
+                          className="rounded-md px-2.5 py-1 text-[11px] font-semibold border"
+                          style={{ background: "#34d39918", color: "#34d399dd", borderColor: "#34d39935" }}>
                           {i.display}
                         </span>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-[11px] text-foreground/25 italic">Your JD is a mystery. Add more tech keywords and try again.</p>
+                    <p className="text-[11px] text-foreground/40 italic">Your JD is a mystery. Add more tech keywords and try again.</p>
                   )}
                 </div>
 
@@ -376,10 +361,10 @@ export function RecruiterPanel() {
                 <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#60a5fa" }} />
-                    <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#60a5facc" }}>
+                    <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#60a5facc" }}>
                       Adjacent — won&apos;t embarrass you
                     </span>
-                    <span className="ml-auto font-mono text-[9px] text-foreground/25">
+                    <span className="ml-auto font-mono text-[10px] text-foreground/40">
                       {result.canDo.length} hit{result.canDo.length !== 1 ? "s" : ""}
                     </span>
                   </div>
@@ -387,14 +372,14 @@ export function RecruiterPanel() {
                     <div className="flex flex-wrap gap-1.5">
                       {result.canDo.map((i) => (
                         <span key={i.display}
-                          className="rounded-md px-2 py-0.5 text-[10px] font-semibold border"
+                          className="rounded-md px-2 py-0.5 text-[11px] font-semibold border"
                           style={{ background: "#60a5fa10", color: "#60a5facc", borderColor: "#60a5fa25" }}>
                           {i.display}
                         </span>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-[11px] text-foreground/25 italic">All in scope. Smooth sailing.</p>
+                    <p className="text-[11px] text-foreground/40 italic">All in scope. Smooth sailing.</p>
                   )}
                 </div>
 
@@ -403,17 +388,17 @@ export function RecruiterPanel() {
                   <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                     <div className="mb-2 flex items-center gap-2">
                       <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#fb923c" }} />
-                      <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#fb923ccc" }}>
+                      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#fb923ccc" }}>
                         Will learn. Fast. Promise.
                       </span>
-                      <span className="ml-auto font-mono text-[9px] text-foreground/25">
+                      <span className="ml-auto font-mono text-[10px] text-foreground/40">
                         {result.canLearn.length} item{result.canLearn.length !== 1 ? "s" : ""}
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {result.canLearn.map((i) => (
                         <span key={i.display}
-                          className="rounded-md px-2 py-0.5 text-[10px] font-semibold border"
+                          className="rounded-md px-2 py-0.5 text-[11px] font-semibold border"
                           style={{ background: "#fb923c10", color: "#fb923ccc", borderColor: "#fb923c25" }}>
                           {i.display}
                         </span>
@@ -427,23 +412,23 @@ export function RecruiterPanel() {
                   <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                     <div className="mb-2 flex items-center gap-2">
                       <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#f87171" }} />
-                      <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "#f87171cc" }}>
+                      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#f87171cc" }}>
                         Outside my lane
                       </span>
-                      <span className="ml-auto font-mono text-[9px] text-foreground/25">
+                      <span className="ml-auto font-mono text-[10px] text-foreground/40">
                         {result.outOfScope.length} flagged
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {result.outOfScope.map((i) => (
                         <span key={i.display}
-                          className="rounded-md px-2 py-0.5 text-[10px] font-semibold border"
+                          className="rounded-md px-2 py-0.5 text-[11px] font-semibold border"
                           style={{ background: "#f8717110", color: "#f87171cc", borderColor: "#f8717125" }}>
                           {i.display}
                         </span>
                       ))}
                     </div>
-                    <p className="mt-2 text-[10px] text-foreground/30 leading-relaxed">
+                    <p className="mt-2 text-[11px] text-foreground/45 leading-relaxed">
                       These showed up in your JD. Honest answer — not my thing. Worth a conversation if they&apos;re non-negotiable.
                     </p>
                   </div>
@@ -453,35 +438,35 @@ export function RecruiterPanel() {
 
               {/* Contact strip */}
               <div className="mt-auto space-y-2 border-t border-foreground/[0.06] pt-3">
-                <p className="text-[10px] text-foreground/35">
+                <p className="text-[11px] text-foreground/45">
                   Numbers don&apos;t lie. But I&apos;m better in person.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <div className="flex gap-1.5 shrink-0">
                     <button onClick={edit}
                       className="glass rounded-full border border-foreground/10 px-3 py-1.5 text-[12px]
-                        font-medium text-foreground/50 hover:border-foreground/20 hover:text-foreground/70
+                        font-medium text-foreground/60 hover:border-foreground/20 hover:text-foreground/80
                         transition-all duration-200">
                       Edit JD
                     </button>
                     <button onClick={reset}
                       className="glass rounded-full border border-foreground/10 px-2.5 py-1.5 text-[12px]
-                        font-medium text-foreground/30 hover:border-foreground/20 hover:text-foreground/55
+                        font-medium text-foreground/40 hover:border-foreground/20 hover:text-foreground/60
                         transition-all duration-200">
                       New
                     </button>
                   </div>
                   <button onClick={() => copySummary(result)}
                     className="glass flex min-w-[132px] flex-1 items-center justify-center gap-1.5 rounded-full border
-                      border-foreground/10 py-1.5 text-[12px] font-semibold text-foreground/60
-                      hover:border-foreground/20 hover:text-foreground/80 transition-all duration-200">
+                      border-foreground/10 py-1.5 text-[12px] font-semibold text-foreground/70
+                      hover:border-foreground/20 hover:text-foreground/90 transition-all duration-200">
                     {copiedSummary ? <Check size={12} strokeWidth={2.2} /> : <Copy size={12} strokeWidth={1.8} />}
                     {copiedSummary ? "Copied" : "Copy summary"}
                   </button>
                   <a href="https://www.linkedin.com/in/nyinyiz/" target="_blank" rel="noopener noreferrer"
                     className="glass flex min-w-[112px] flex-1 items-center justify-center gap-1.5 rounded-full border
-                      border-foreground/10 py-1.5 text-[12px] font-semibold text-foreground/60
-                      hover:border-foreground/20 hover:text-foreground/80 transition-all duration-200">
+                      border-foreground/10 py-1.5 text-[12px] font-semibold text-foreground/70
+                      hover:border-foreground/20 hover:text-foreground/90 transition-all duration-200">
                     <LinkedinIcon size={12} strokeWidth={1.8} />
                     LinkedIn
                   </a>

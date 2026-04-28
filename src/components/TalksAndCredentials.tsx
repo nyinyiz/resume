@@ -54,7 +54,7 @@ export default function TalksAndCredentials() {
             className="flex items-center gap-2 mb-3"
           >
             <Mic size={13} className="text-primary/70" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/35">
+            <span className="text-[12px] font-bold uppercase tracking-widest text-foreground/50">
               Talks & Contributions
             </span>
           </motion.div>
@@ -68,14 +68,14 @@ export default function TalksAndCredentials() {
                 transition={{ duration: 0.5, delay: 0.22 + i * 0.06, ease }}
                 className="glass-card p-4 rounded-2xl border border-foreground/[0.07] bg-background/30 flex flex-col gap-2.5 hover:border-primary/20 transition-colors duration-300"
               >
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-primary/[0.08] text-primary border border-primary/[0.15] text-[10px] font-semibold self-start leading-none">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-primary/[0.08] text-primary border border-primary/[0.15] text-[12px] font-semibold self-start leading-none">
                   {talk.topic}
                 </span>
                 <p className="font-semibold text-sm text-foreground leading-snug">
                   {talk.event}
                 </p>
                 {talk.organization && (
-                  <p className="text-xs text-foreground/40 font-medium flex items-center gap-1.5">
+                  <p className="text-xs text-foreground/55 font-medium flex items-center gap-1.5">
                     <span className="w-1 h-1 rounded-full bg-primary/40 shrink-0" />
                     {talk.organization}
                   </p>
@@ -94,7 +94,7 @@ export default function TalksAndCredentials() {
             className="flex items-center gap-2 mb-3"
           >
             <Award size={13} className="text-primary/70" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/35">
+            <span className="text-[12px] font-bold uppercase tracking-widest text-foreground/50">
               Certifications
             </span>
           </motion.div>

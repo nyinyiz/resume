@@ -14,62 +14,66 @@ const COMMANDS_CMD = `mkdir -p ~/.claude/commands && cp .agents/skills/nyi-agent
 
 const COMMANDS = [
   {
-    cmd:     "/fitcheck",
-    desc:    "Scores the fit between a JD and Nyi Nyi's profile with a detailed breakdown.",
-    example: '/fitcheck "Here\'s our JD — give me an honest score."',
-    pow:     "/pow1.png",
-    powLabel: "JD fit score output",
+    cmd:      "/fitcheck",
+    desc:     "Validates candidate skills against job description keywords.",
+    example:  '/fitcheck "Here\'s our JD — give me an honest score."',
+    pow:      "/pow1.png",
   },
   {
-    cmd:     "/asknyi",
-    desc:    "Ask anything about skills, experience, tech stack, or professional background.",
-    example: '/asknyi "Can he do React Native for a fintech startup?"',
-    pow:     null,
-    powLabel: null,
+    cmd:      "/asknyi",
+    desc:     "Ask anything about skills, experience, or tech stack.",
+    example:  '/asknyi "Can he do React Native for a fintech startup?"',
+    pow:      null,
+    terminal: [
+      "> /asknyi \"Can he do React Native for a fintech startup?\"",
+      "",
+      "Short answer: yes.",
+      "Nyi Nyi has shipped React Native in production",
+      "alongside native Android (Kotlin) and Flutter.",
+      "Fintech context: crypto wallet, payments — familiar",
+      "territory. Full breakdown in his profile.",
+    ],
   },
   {
-    cmd:     "/workwithnyi",
-    desc:    "Returns preferred working setup, timezone, and availability.",
-    example: '/workwithnyi "What\'s his availability and preferred setup?"',
-    pow:     null,
-    powLabel: null,
+    cmd:      "/workwithnyi",
+    desc:     "Returns preferred setup, timezone, and availability.",
+    example:  '/workwithnyi "What\'s his preferred setup?"',
+    pow:      null,
+    terminal: [
+      "> /workwithnyi \"What's his preferred setup?\"",
+      "",
+      "Location: Bangkok, Thailand (ICT, UTC+7)",
+      "Open to: Remote · Bangkok onsite",
+      "Setup: Mac + Android Studio + Xcode",
+      "Comms: async-first, ships on time.",
+    ],
   },
   {
-    cmd:     "/talkwithnyi",
-    desc:    "Draft a contextual intro message or reach out with background.",
-    example: '/talkwithnyi "Draft a short intro for a mobile lead role."',
-    pow:     "/pow2.png",
-    powLabel: "intro & availability output",
+    cmd:      "/talkwithnyi",
+    desc:     "Draft a contextual intro message or reach out with background.",
+    example:  '/talkwithnyi "Draft a short intro for a mobile lead role."',
+    pow:      "/pow2.png",
   },
 ] as const;
 
-const SKILL_MD = `\
----
-name: nyi-agent
-description: Know everything about Nyi Nyi Zaw — Lead Mobile Engineer.
-  Use when evaluating fit, answering questions about skills/experience,
-  or drafting outreach. Triggers on "is Nyi Nyi a good fit", "can he do X".
----
-
-# Nyi Nyi Zaw — Agent Skill
-
-10+ years building mobile apps people actually use. Android-first,
-equally at home on iOS and cross-platform.
-
-## Perfect Fit
-Kotlin · Java · Android SDK · Jetpack Compose · iOS · Swift · SwiftUI
-Flutter/Dart · React Native · TypeScript · Next.js · Spring Boot
-
-## Adjacent
-React · Node.js · Technical leadership · Cross-functional teams
-
-## Contact
-Email     nyinyizaw.dev@gmail.com
-LinkedIn  linkedin.com/in/nyinyiz
-Portfolio nyinyizaw.dev
-
-# Install
-npx skills add nyinyiz/resume --skill nyi-agent`;
+const SKILL_SECTIONS = [
+  {
+    heading: "Perfect Fit",
+    body:    "Kotlin · Java · Android SDK · Jetpack Compose · iOS · Swift · SwiftUI · Flutter/Dart · React Native · TypeScript · Next.js · Spring Boot",
+  },
+  {
+    heading: "Adjacent",
+    body:    "React · Node.js · Technical leadership · Cross-functional teams · Fractional CTO",
+  },
+  {
+    heading: "Contact",
+    body:    "nyinyizaw.dev@gmail.com · linkedin.com/in/nyinyiz · nyinyizaw.dev",
+  },
+  {
+    heading: "Install",
+    body:    "npx skills add nyinyiz/resume --skill nyi-agent",
+  },
+] as const;
 
 /* ─── Component ──────────────────────────────────────── */
 
@@ -86,180 +90,203 @@ export function SkillPanel() {
 
   return (
     <>
-      <div className="flex flex-col gap-8 p-6 md:p-8 lg:grid lg:grid-cols-2 lg:gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-foreground/[0.06]">
 
-        {/* ── Left column: Install + SKILL.md ─────── */}
-        <div className="space-y-6">
-
-          {/* Header */}
-          <div className="space-y-1">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-widest" style={{ color: "#34d399" }}>
-              agent skill · v{agentConfig.version}
-            </p>
-            <h3 className="text-lg font-bold tracking-tight text-foreground">
-              Let your AI do the first interview.
-            </h3>
-            <p className="text-sm text-foreground/50 leading-relaxed">
-              Install my agent skill and ask fit questions without waiting on a reply.
-            </p>
-          </div>
+        {/* ── Left: Installation ───────────────────── */}
+        <div className="p-6 md:p-8 space-y-8">
+          <h3 className="text-xl font-bold tracking-tight text-foreground">Installation</h3>
 
           {/* Step 1 */}
-          <section className="space-y-2">
-            <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-foreground/30">
-              1 — install skill
-            </p>
-            <TerminalBlock copyKey="install" copiedKey={copiedKey} onCopy={() => copy(INSTALL_CMD, "install")}>
-              <span style={{ color: "#34d399" }}>$</span>{" "}
-              <span style={{ color: "#34d399" }}>npx skills add</span>{" "}
-              <span style={{ color: "#60a5fa" }}>nyinyiz/resume</span>{" "}
-              <span style={{ color: "#a78bfa" }}>--skill</span>{" "}
-              <span style={{ color: "#fb923c" }}>nyi-agent</span>
-            </TerminalBlock>
-          </section>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <StepBadge n={1} />
+              <div>
+                <p className="text-sm font-semibold text-foreground">Install Skill</p>
+                <p className="mt-0.5 text-xs text-foreground/45 leading-relaxed">
+                  Run the following command to add the resume agent to your local environment.
+                </p>
+              </div>
+            </div>
+            <DarkTerminal copyKey="install" copiedKey={copiedKey} onCopy={() => copy(INSTALL_CMD, "install")}>
+              <span className="text-emerald-400">$</span>{" "}
+              <span className="text-emerald-400">npx skills add</span>{" "}
+              <span className="text-sky-400">nyinyiz/resume</span>{" "}
+              <span className="text-violet-400">--skill</span>{" "}
+              <span className="text-orange-400">nyi-agent</span>
+            </DarkTerminal>
+          </div>
 
           {/* Step 2 */}
-          <section className="space-y-2">
-            <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-foreground/30">
-              2 — enable slash commands{" "}
-              <span className="normal-case text-foreground/20">(Claude Code only)</span>
-            </p>
-            <TerminalBlock copyKey="cmds" copiedKey={copiedKey} onCopy={() => copy(COMMANDS_CMD, "cmds")}>
-              <span className="text-foreground/55 break-all">
-                mkdir -p{" "}
-                <span style={{ color: "#fb923c" }}>~/.claude/commands</span>
-                {" "}&amp;&amp; cp .agents/skills/nyi-agent/commands/*.md{" "}
-                <span style={{ color: "#fb923c" }}>~/.claude/commands/</span>
-              </span>
-            </TerminalBlock>
-          </section>
-
-          {/* Compatibility */}
-          <section className="rounded-xl border border-foreground/[0.07] bg-foreground/[0.02] p-4 space-y-2.5">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-foreground/25">
-                compatibility
-              </span>
-              <span className="font-mono text-[9px] text-foreground/20">skill-context: ✓</span>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <StepBadge n={2} />
+              <div>
+                <p className="text-sm font-semibold text-foreground">Enable Slash Commands</p>
+                <p className="mt-0.5 text-xs text-foreground/45 leading-relaxed">
+                  Point your agent to the profile directory to register new command definitions.
+                </p>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-1.5">
-              {["Claude Code", "Codex", "Cursor", "Gemini CLI", "+ 20 more"].map((a) => (
-                <span
-                  key={a}
-                  className="rounded border border-foreground/[0.07] bg-foreground/[0.03] px-2 py-0.5 font-mono text-[9px] text-foreground/40"
-                >
+            <DarkTerminal copyKey="cmds" copiedKey={copiedKey} onCopy={() => copy(COMMANDS_CMD, "cmds")}>
+              <span className="text-white/35 text-[10px]"># Register local skill definitions</span>
+              <br />
+              <span className="text-emerald-400">skill config</span>
+              <span className="text-white/55"> --path </span>
+              <span className="text-orange-400">~/.skills/nyinyiz/resume</span>
+            </DarkTerminal>
+          </div>
+
+          {/* Supported agents */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full"
+                style={{ background: "rgba(52,211,153,0.15)" }}>
+                <Check size={10} strokeWidth={3} style={{ color: "#34d399" }} />
+              </div>
+              <p className="text-sm font-semibold text-foreground">Supported AI Interfaces</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {["Claude Code", "Codex", "Cursor", "Gemini CLI", "GitHub Copilot"].map((a) => (
+                <span key={a}
+                  className="rounded-full border border-foreground/[0.08] bg-foreground/[0.03] px-3 py-1 text-[12px] text-foreground/60">
                   {a}
                 </span>
               ))}
             </div>
-            <p className="font-mono text-[9px] text-foreground/25 leading-relaxed">
-              Skill context works in all agents above.{" "}
-              <span style={{ color: "#fb923c" }}>/slash commands: Claude Code only</span>
-              {" "}— other agents use natural language.
-            </p>
-          </section>
+          </div>
 
-          {/* SKILL.md preview */}
-          <section>
-            <p className="mb-2 font-mono text-[9px] font-bold uppercase tracking-widest text-foreground/30">
-              skill.md preview
+          {/* SKILL.MD Preview */}
+          <div className="space-y-3">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-foreground/50">
+              SKILL.MD Preview
             </p>
             <div
-              className="overflow-hidden rounded-xl border"
-              style={{ background: "hsl(222 14% 9%)", borderColor: "rgba(255,255,255,0.07)" }}
+              className="overflow-hidden rounded-2xl border"
+              style={{ background: "hsl(222 20% 8%)", borderColor: "rgba(255,255,255,0.07)" }}
             >
               {/* Editor chrome */}
               <div
-                className="flex items-center justify-between border-b px-4 py-2"
+                className="flex items-center justify-between border-b px-4 py-2.5"
                 style={{ borderColor: "rgba(255,255,255,0.06)" }}
               >
-                <span className="font-mono text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
-                  nyi-agent / SKILL.md
-                </span>
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1">
+                    <span className="h-2 w-2 rounded-full bg-red-500/40" />
+                    <span className="h-2 w-2 rounded-full bg-yellow-500/40" />
+                    <span className="h-2 w-2 rounded-full bg-green-500/40" />
+                  </div>
+                  <span className="font-mono text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    SKILL.MD PREVIEW
+                  </span>
+                </div>
                 <a
                   href="https://github.com/nyinyiz/resume/tree/main/nyi-agent"
                   target="_blank" rel="noopener noreferrer"
-                  className="font-mono text-[9px] transition-colors duration-150 hover:opacity-70"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
+                  className="font-mono text-[10px] transition-opacity hover:opacity-70"
+                  style={{ color: "rgba(255,255,255,0.35)" }}
                 >
-                  open on GitHub ↗
+                  GitHub ↗
                 </a>
               </div>
-              <div className="max-h-[260px] overflow-y-auto p-4">
-                <pre
-                  className="whitespace-pre-wrap font-mono text-[10.5px] leading-[1.75]"
-                  style={{ color: "rgba(255,255,255,0.45)" }}
-                >
-                  {SKILL_MD}
-                </pre>
+              {/* Sections */}
+              <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+                {SKILL_SECTIONS.map(({ heading, body }) => (
+                  <div key={heading} className="px-4 py-3.5">
+                    <p className="font-mono text-[12px] font-semibold mb-1.5" style={{ color: "#34d399" }}>
+                      # {heading}
+                    </p>
+                    <p className="font-mono text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+                      {body}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
-          </section>
+          </div>
         </div>
 
-        {/* ── Right column: Commands ───────────────── */}
-        <div className="space-y-4">
-          <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-foreground/30">
-            commands ·{" "}
-            <span style={{ color: "#34d399" }}>{COMMANDS.length}</span> available
-          </p>
+        {/* ── Right: Slash Commands ────────────────── */}
+        <div className="p-6 md:p-8 space-y-6">
+          <div>
+            <h3 className="text-xl font-bold tracking-tight text-foreground">Slash Commands</h3>
+            <p className="mt-1 text-[12px] text-foreground/50">Available directives for the agent</p>
+          </div>
 
-          {COMMANDS.map(({ cmd, desc, example, pow, powLabel }) => {
-            const isCopied = copiedKey === cmd;
-            return (
-              <div
-                key={cmd}
-                className="overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.02]"
-              >
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-foreground/[0.06] px-3 py-2">
-                  <span className="font-mono text-[11px] font-semibold" style={{ color: "#a78bfa" }}>
-                    {cmd}
-                  </span>
-                  <button
-                    onClick={() => copy(example, cmd)}
-                    className="flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[9px] text-foreground/30 hover:text-foreground/60 transition-colors"
-                  >
-                    {isCopied
-                      ? <><Check size={9} strokeWidth={2.5} />copied</>
-                      : <><Copy size={9} strokeWidth={1.8} />example</>}
-                  </button>
-                </div>
-
-                <div className="px-3 pt-2.5 pb-3 space-y-2">
-                  <p className="text-[11px] leading-relaxed text-foreground/50">{desc}</p>
-                  <div className="rounded-lg border border-foreground/[0.05] bg-foreground/[0.03] px-2.5 py-2 font-mono text-[10px] text-foreground/35 break-all">
-                    {example}
+          <div className="space-y-4">
+            {COMMANDS.map((item) => {
+              const isCopied = copiedKey === item.cmd;
+              return (
+                <div
+                  key={item.cmd}
+                  className="overflow-hidden rounded-2xl border border-foreground/[0.07] bg-foreground/[0.015]"
+                >
+                  {/* Command header */}
+                  <div className="flex items-center justify-between px-4 py-3">
+                    <span className="font-mono text-[14px] font-semibold" style={{ color: "#a78bfa" }}>
+                      {item.cmd}
+                    </span>
+                    <button
+                      onClick={() => copy(item.example, item.cmd)}
+                      className="rounded-lg border border-foreground/[0.07] bg-foreground/[0.03] p-1.5 text-foreground/40
+                        hover:border-foreground/20 hover:text-foreground/70 transition-all duration-150"
+                    >
+                      {isCopied
+                        ? <Check size={12} strokeWidth={2.5} />
+                        : <Copy size={12} strokeWidth={1.8} />}
+                    </button>
                   </div>
 
-                  {/* Proof screenshot */}
-                  {pow && (
+                  {/* Description */}
+                  <p className="px-4 pb-3 text-[12px] text-foreground/60 leading-relaxed">{item.desc}</p>
+
+                  {/* Visual — proof screenshot or terminal simulation */}
+                  {item.pow ? (
                     <motion.button
-                      onClick={() => setPowImg(pow)}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setPowImg(item.pow!)}
+                      whileHover={{ scale: 1.005 }}
+                      whileTap={{ scale: 0.995 }}
                       transition={{ duration: 0.15 }}
-                      className="group relative w-full overflow-hidden rounded-lg border border-foreground/[0.07] focus:outline-none"
-                      style={{ aspectRatio: "16 / 7" }}
+                      className="group relative block w-full overflow-hidden focus:outline-none"
+                      style={{ aspectRatio: "16 / 9" }}
                     >
                       <Image
-                        src={pow}
-                        alt={`${cmd} example output`}
+                        src={item.pow}
+                        alt={`${item.cmd} output example`}
                         fill
-                        className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-                      <span className="absolute bottom-2 left-2.5 font-mono text-[9px] text-white/50">
-                        {powLabel}
-                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     </motion.button>
+                  ) : (
+                    "terminal" in item && item.terminal && (
+                      <div
+                        className="mx-4 mb-4 overflow-hidden rounded-xl border p-4"
+                        style={{ background: "hsl(222 20% 8%)", borderColor: "rgba(255,255,255,0.07)" }}
+                      >
+                        {item.terminal.map((line, i) => (
+                          <p
+                            key={i}
+                            className="font-mono text-[11px] leading-[1.7]"
+                            style={{
+                              color: i === 0
+                                ? "#a78bfa"
+                                : line === ""
+                                  ? "transparent"
+                                  : "rgba(255,255,255,0.55)",
+                            }}
+                          >
+                            {line || "\u00a0"}
+                          </p>
+                        ))}
+                      </div>
+                    )
                   )}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
 
-          <p className="font-mono text-[9px] text-foreground/20 leading-relaxed italic pt-1">
+          <p className="text-[11px] text-foreground/35 leading-relaxed italic">
             {agentConfig._disclaimer}
           </p>
         </div>
@@ -309,9 +336,20 @@ export function SkillPanel() {
   );
 }
 
-/* ─── TerminalBlock ──────────────────────────────────── */
+/* ─── Helpers ────────────────────────────────────────── */
 
-function TerminalBlock({
+function StepBadge({ n }: { n: number }) {
+  return (
+    <div
+      className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px] font-bold mt-0.5"
+      style={{ background: "rgba(52,211,153,0.15)", color: "#34d399" }}
+    >
+      {n}
+    </div>
+  );
+}
+
+function DarkTerminal({
   children,
   copyKey,
   copiedKey,
@@ -324,23 +362,32 @@ function TerminalBlock({
 }) {
   const isCopied = copiedKey === copyKey;
   return (
-    <div className="overflow-hidden rounded-xl border border-foreground/[0.07] bg-foreground/[0.02]">
-      <div className="flex items-center justify-between border-b border-foreground/[0.06] px-3 py-1.5">
-        <div className="flex gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-red-400/40" />
-          <span className="h-1.5 w-1.5 rounded-full bg-yellow-400/40" />
-          <span className="h-1.5 w-1.5 rounded-full bg-green-400/40" />
+    <div
+      className="overflow-hidden rounded-2xl border"
+      style={{ background: "hsl(222 20% 8%)", borderColor: "rgba(255,255,255,0.07)" }}
+    >
+      {/* Chrome */}
+      <div
+        className="flex items-center justify-between border-b px-4 py-2"
+        style={{ borderColor: "rgba(255,255,255,0.06)" }}
+      >
+        <div className="flex gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-red-500/40" />
+          <span className="h-2 w-2 rounded-full bg-yellow-500/40" />
+          <span className="h-2 w-2 rounded-full bg-green-500/40" />
         </div>
         <button
           onClick={onCopy}
-          className="flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[9px] text-foreground/30 hover:text-foreground/60 transition-colors"
+          className="flex items-center gap-1 font-mono text-[9px] transition-colors duration-150"
+          style={{ color: isCopied ? "#34d399" : "rgba(255,255,255,0.25)" }}
         >
           {isCopied
             ? <><Check size={9} strokeWidth={2.5} />copied</>
             : <><Copy size={9} strokeWidth={1.8} />copy</>}
         </button>
       </div>
-      <div className="px-4 py-3 font-mono text-[11px]">
+      {/* Content */}
+      <div className="px-5 py-4 font-mono text-[12px] leading-relaxed">
         {children}
       </div>
     </div>
