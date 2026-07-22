@@ -62,13 +62,6 @@ export default function Projects() {
     <section id="projects" className="relative z-10">
       {/* Header */}
       <div className="max-w-2xl mb-4">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6, ease }}
-          className="section-label mb-2"
-        >
-          Portfolio
-        </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.05, ease }}

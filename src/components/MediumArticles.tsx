@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Clock, Calendar, BookOpen, PenLine, ArrowRight } from "lucide-react";
+import { ExternalLink, Clock, Calendar, PenLine, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -68,10 +68,6 @@ export default function MediumArticles() {
         transition={{ duration: 0.6 }}
         className="text-left mb-4 w-full"
       >
-        <p className="section-label mb-2">
-          <BookOpen size={12} />
-          Writing
-        </p>
         <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tighter text-foreground mb-2">
           Articles & Thoughts
         </h2>

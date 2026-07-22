@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useResume } from "@/context/ResumeContext";
-import { ArrowRight, Briefcase, Github, Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Github, Linkedin, ChevronLeft, ChevronRight, Heart, Zap, Target } from "lucide-react";
 import Link from "next/link";
 import type { Experience as ExperienceItem } from "@/types";
 
@@ -151,9 +151,9 @@ function HospitalUI({ theme }: { theme: { from: string; to: string } }) {
       </div>
       {/* Vitals row */}
       <div className="grid grid-cols-3 gap-1.5">
-        {[{ color: "#EF4444", icon: "♥" }, { color: theme.from, icon: "⚡" }, { color: "#10B981", icon: "◎" }].map((v, i) => (
+        {[{ color: "#EF4444", Icon: Heart }, { color: theme.from, Icon: Zap }, { color: "#10B981", Icon: Target }].map((v, i) => (
           <div key={i} className="rounded-xl p-2 text-center border border-foreground/5" style={{ background: v.color + "12" }}>
-            <div className="text-[11px] mb-0.5" style={{ color: v.color }}>{v.icon}</div>
+            <div className="mb-0.5 flex justify-center" style={{ color: v.color }}><v.Icon size={11} strokeWidth={2.5} /></div>
             <div className="w-8 h-2 rounded-full mx-auto" style={{ background: v.color + "40" }} />
           </div>
         ))}
@@ -297,13 +297,6 @@ export default function Experience() {
     <section id="experience" className="relative z-10">
       {/* Header */}
       <div className="max-w-2xl mb-4">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6, ease }}
-          className="section-label mb-2"
-        >
-          <Briefcase size={12} /> Career
-        </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.05, ease }}
