@@ -15,9 +15,9 @@ import { analyzeJD, detectGibberish, type MatchResult } from "@/features/hire/li
 const ease = [0.22, 1, 0.36, 1];
 
 function scoreAccent(s: number) {
-  if (s >= 75) return "#34d399";
-  if (s >= 50) return "#fb923c";
-  return "#f87171";
+  if (s >= 75) return "hsl(var(--score-strong))";
+  if (s >= 50) return "hsl(var(--score-warn))";
+  return "hsl(var(--score-weak))";
 }
 
 function resultLabel(score: number) {
@@ -119,25 +119,25 @@ export function RecruiterPanel() {
               <div className="relative flex items-center justify-center">
                 <motion.div
                   className="absolute h-16 w-16 rounded-full"
-                  style={{ border: "1.5px solid #60a5fa" }}
+                  style={{ border: "1.5px solid hsl(var(--score-info))" }}
                   animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
                   transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.div
                   className="absolute h-10 w-10 rounded-full"
-                  style={{ border: "1.5px solid #60a5fa55" }}
+                  style={{ border: "1.5px solid hsl(var(--score-info) / 0.33)" }}
                   animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
                   transition={{ duration: 1.6, delay: 0.3, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <Search size={18} style={{ color: "#60a5fa" }} strokeWidth={1.8} />
+                <Search size={18} style={{ color: "hsl(var(--score-info))" }} strokeWidth={1.8} />
               </div>
 
               {/* Log lines */}
               <div className="w-full max-w-xs space-y-1.5 font-mono text-[11px]">
                 {[
-                  { text: "Parsing the buzzwords…",                    color: "#60a5fa", delay: 0 },
-                  { text: "Cross-referencing 10 years of shipped code…", color: "#a78bfa", delay: 0.18 },
-                  { text: "Running the numbers. Bear with me.",           color: "#34d399", delay: 0.36 },
+                  { text: "Parsing the buzzwords…",                    color: "hsl(var(--score-info))", delay: 0 },
+                  { text: "Cross-referencing 10 years of shipped code…", color: "hsl(var(--accent-violet))", delay: 0.18 },
+                  { text: "Running the numbers. Bear with me.",           color: "hsl(var(--score-strong))", delay: 0.36 },
                 ].map(({ text, color, delay }) => (
                   <motion.p key={text}
                     initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
@@ -152,7 +152,7 @@ export function RecruiterPanel() {
               <div className="w-full max-w-xs overflow-hidden rounded-full bg-foreground/[0.06] h-1">
                 <motion.div
                   className="h-full rounded-full"
-                  style={{ background: "#60a5fa" }}
+                  style={{ background: "hsl(var(--score-info))" }}
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
                   transition={{ duration: 0.38, ease: "easeInOut" }}
@@ -304,7 +304,7 @@ export function RecruiterPanel() {
                   <div className="mt-2 space-y-1.5">
                     {result.perfectMatch.slice(0, 3).length > 0 ? result.perfectMatch.slice(0, 3).map((item) => (
                       <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/75">
-                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#34d399" }} />
+                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: "hsl(var(--score-strong))" }} />
                         {item.display}
                       </div>
                     )) : (
@@ -318,7 +318,7 @@ export function RecruiterPanel() {
                   <div className="mt-2 space-y-1.5">
                     {[...result.outOfScope, ...result.canLearn].slice(0, 3).length > 0 ? [...result.outOfScope, ...result.canLearn].slice(0, 3).map((item) => (
                       <div key={item.display} className="flex items-center gap-2 text-xs font-semibold text-foreground/75">
-                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: result.outOfScope.includes(item) ? "#f87171" : "#fb923c" }} />
+                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: result.outOfScope.includes(item) ? "hsl(var(--score-weak))" : "hsl(var(--score-warn))" }} />
                         {item.display}
                       </div>
                     )) : (
@@ -332,13 +332,13 @@ export function RecruiterPanel() {
               <div className="flex flex-1 flex-col gap-2 overflow-auto">
 
                 {/* Perfect match */}
-                <div className="rounded-xl p-4" style={{ background: "#34d39912", border: "1px solid #34d39932" }}>
+                <div className="rounded-xl p-4" style={{ background: "hsl(var(--score-strong) / 0.07)", border: "1px solid hsl(var(--score-strong) / 0.2)" }}>
                   <div className="mb-3 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full shrink-0" style={{ background: "#34d399" }} />
-                    <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#34d399" }}>
+                    <span className="h-2 w-2 rounded-full shrink-0" style={{ background: "hsl(var(--score-strong))" }} />
+                    <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "hsl(var(--score-strong))" }}>
                       Perfect match
                     </span>
-                    <span className="ml-auto font-mono text-[10px]" style={{ color: "#34d39980" }}>
+                    <span className="ml-auto font-mono text-[10px]" style={{ color: "hsl(var(--score-strong) / 0.5)" }}>
                       {result.perfectMatch.length} hit{result.perfectMatch.length !== 1 ? "s" : ""}
                     </span>
                   </div>
@@ -347,7 +347,7 @@ export function RecruiterPanel() {
                       {result.perfectMatch.map((i) => (
                         <span key={i.display}
                           className="rounded-md px-2.5 py-1 text-[11px] font-semibold border"
-                          style={{ background: "#34d39918", color: "#34d399dd", borderColor: "#34d39935" }}>
+                          style={{ background: "hsl(var(--score-strong) / 0.09)", color: "hsl(var(--score-strong) / 0.87)", borderColor: "hsl(var(--score-strong) / 0.21)" }}>
                           {i.display}
                         </span>
                       ))}
@@ -360,8 +360,8 @@ export function RecruiterPanel() {
                 {/* Can do / needs work */}
                 <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                   <div className="mb-2 flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#60a5fa" }} />
-                    <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#60a5facc" }}>
+                    <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "hsl(var(--score-info))" }} />
+                    <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "hsl(var(--score-info) / 0.8)" }}>
                       Adjacent — won&apos;t embarrass you
                     </span>
                     <span className="ml-auto font-mono text-[10px] text-foreground/40">
@@ -373,7 +373,7 @@ export function RecruiterPanel() {
                       {result.canDo.map((i) => (
                         <span key={i.display}
                           className="rounded-md px-2 py-0.5 text-[11px] font-semibold border"
-                          style={{ background: "#60a5fa10", color: "#60a5facc", borderColor: "#60a5fa25" }}>
+                          style={{ background: "hsl(var(--score-info) / 0.06)", color: "hsl(var(--score-info) / 0.8)", borderColor: "hsl(var(--score-info) / 0.15)" }}>
                           {i.display}
                         </span>
                       ))}
@@ -387,8 +387,8 @@ export function RecruiterPanel() {
                 {result.canLearn.length > 0 && (
                   <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                     <div className="mb-2 flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#fb923c" }} />
-                      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#fb923ccc" }}>
+                      <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "hsl(var(--score-warn))" }} />
+                      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "hsl(var(--score-warn) / 0.8)" }}>
                         Will learn. Fast. Promise.
                       </span>
                       <span className="ml-auto font-mono text-[10px] text-foreground/40">
@@ -399,7 +399,7 @@ export function RecruiterPanel() {
                       {result.canLearn.map((i) => (
                         <span key={i.display}
                           className="rounded-md px-2 py-0.5 text-[11px] font-semibold border"
-                          style={{ background: "#fb923c10", color: "#fb923ccc", borderColor: "#fb923c25" }}>
+                          style={{ background: "hsl(var(--score-warn) / 0.06)", color: "hsl(var(--score-warn) / 0.8)", borderColor: "hsl(var(--score-warn) / 0.15)" }}>
                           {i.display}
                         </span>
                       ))}
@@ -411,8 +411,8 @@ export function RecruiterPanel() {
                 {result.outOfScope.length > 0 && (
                   <div className="rounded-xl border border-foreground/[0.07] bg-white/75 p-3 shadow-sm shadow-black/[0.02] dark:bg-foreground/[0.03]">
                     <div className="mb-2 flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#f87171" }} />
-                      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#f87171cc" }}>
+                      <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "hsl(var(--score-weak))" }} />
+                      <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "hsl(var(--score-weak) / 0.8)" }}>
                         Outside my lane
                       </span>
                       <span className="ml-auto font-mono text-[10px] text-foreground/40">
@@ -423,7 +423,7 @@ export function RecruiterPanel() {
                       {result.outOfScope.map((i) => (
                         <span key={i.display}
                           className="rounded-md px-2 py-0.5 text-[11px] font-semibold border"
-                          style={{ background: "#f8717110", color: "#f87171cc", borderColor: "#f8717125" }}>
+                          style={{ background: "hsl(var(--score-weak) / 0.06)", color: "hsl(var(--score-weak) / 0.8)", borderColor: "hsl(var(--score-weak) / 0.15)" }}>
                           {i.display}
                         </span>
                       ))}

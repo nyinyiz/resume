@@ -17,6 +17,17 @@
     --border: 220 13% 90%;
     --input: 220 14% 94%;
     --ring: 217 91% 52%;
+
+    /* Status / accent palette — hire fit-checker + agent-install panel.
+       HSL channels so tints use `hsl(var(--score-x) / <alpha>)`, matching
+       the project's existing token pattern. */
+    --score-strong:  158 64% 52%;  /* emerald — perfect match / high score */
+    --score-info:    213 94% 68%;  /* blue    — adjacent strengths */
+    --score-warn:     27 96% 61%;  /* orange  — will-learn / mid score */
+    --score-weak:      0 91% 71%;  /* red     — out of scope / low score */
+    --accent-violet: 255 92% 76%;  /* violet  — decorative log line */
+    --agent-accent:  160 84% 39%;  /* emerald-500 — agent-install accent */
+    --terminal-bg:   226 84% 5%;   /* near-black slate — terminal surface */
   }
 
   .dark {

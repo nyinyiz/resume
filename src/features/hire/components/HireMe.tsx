@@ -34,12 +34,6 @@ export default function HireMe() {
 
       {/* Header */}
       <div className="mb-7 max-w-3xl">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15, ease }}
-          className="section-label mb-3">
-          <UserRound size={12} /> Hire
-        </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.22, ease }}
@@ -77,7 +71,7 @@ export default function HireMe() {
                   <motion.div
                     layoutId="hire-tab-indicator"
                     className="absolute bottom-0 left-0 right-0 h-[2px]"
-                    style={{ background: "#34d399" }}
+                    style={{ background: "hsl(var(--score-strong))" }}
                     transition={{ type: "spring", stiffness: 420, damping: 32 }}
                   />
                 )}

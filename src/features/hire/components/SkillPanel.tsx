@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
@@ -80,6 +80,9 @@ const SKILL_SECTIONS = [
 export function SkillPanel() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [powImg,    setPowImg]    = useState<string | null>(null);
+  const [mounted,   setMounted]   = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   const copy = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -118,7 +121,7 @@ export function SkillPanel() {
                   Fetches the latest profile manifest and registers it with your local agent.
                 </p>
               </div>
-              <DarkTerminal copyKey="install" copiedKey={copiedKey} onCopy={() => copy(INSTALL_CMD, "install")}>
+              <DarkTerminal label="install" copyKey="install" copiedKey={copiedKey} onCopy={() => copy(INSTALL_CMD, "install")}>
                 <span className="text-emerald-400">$</span>{" "}
                 <span className="text-emerald-400">npx skills add</span>{" "}
                 <span className="text-sky-400">nyinyiz/resume</span>{" "}
@@ -138,12 +141,14 @@ export function SkillPanel() {
                   Link your agent to the local manifest to enable personality-aware responses.
                 </p>
               </div>
-              <DarkTerminal copyKey="cmds" copiedKey={copiedKey} onCopy={() => copy(COMMANDS_CMD, "cmds")}>
-                <span className="text-white/40 text-[11px]"># Register local profile context</span>
+              <DarkTerminal label="configure" copyKey="cmds" copiedKey={copiedKey} onCopy={() => copy(COMMANDS_CMD, "cmds")}>
+                <span className="text-white/40 text-[11px]"># Register slash commands with your agent</span>
                 <br />
-                <span className="text-emerald-400">skill config</span>
-                <span className="text-white/70"> --path </span>
-                <span className="text-orange-400">~/.skills/nyinyiz/resume</span>
+                <span className="text-emerald-400">mkdir -p</span>
+                <span className="text-white/70"> ~/.claude/commands </span>
+                <span className="text-white/40">&amp;&amp;</span>
+                <span className="text-emerald-400"> cp</span>
+                <span className="text-white/70"> .agents/skills/nyi-agent/commands/*.md ~/.claude/commands/</span>
               </DarkTerminal>
             </div>
           </div>
@@ -154,7 +159,7 @@ export function SkillPanel() {
               <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15">
                 <Check size={11} strokeWidth={3} className="text-emerald-500" />
               </div>
-              <p className="text-[13px] font-bold uppercase tracking-wider text-foreground/70">Native Integration</p>
+              <p className="text-[13px] font-semibold text-foreground/70">Works with your tools</p>
             </div>
             <div className="flex flex-wrap gap-2.5">
               {["Claude Code", "Cursor", "Windsurf", "Codex", "Gemini CLI", "Copilot"].map((a) => (
@@ -173,22 +178,15 @@ export function SkillPanel() {
             </p>
             <div
               className="overflow-hidden rounded-2xl border shadow-xl"
-              style={{ background: "#020617", borderColor: "rgba(255,255,255,0.08)" }}
+              style={{ background: "hsl(var(--terminal-bg))", borderColor: "rgba(255,255,255,0.08)" }}
             >
               <div
                 className="flex items-center justify-between border-b px-5 py-3"
                 style={{ borderColor: "rgba(255,255,255,0.06)" }}
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="flex gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-red-500/20" />
-                    <span className="h-2 w-2 rounded-full bg-yellow-500/20" />
-                    <span className="h-2 w-2 rounded-full bg-green-500/20" />
-                  </div>
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-white/30">
-                    Manifest Preview
-                  </span>
-                </div>
+                <span className="font-mono text-[11px] uppercase tracking-wider text-white/30">
+                  Manifest Preview
+                </span>
                 <a
                   href="https://github.com/nyinyiz/resume/tree/main/nyi-agent"
                   target="_blank" rel="noopener noreferrer"
@@ -289,7 +287,7 @@ export function SkillPanel() {
                       <div className="px-6 pb-6">
                         <div
                           className="overflow-hidden rounded-2xl border p-5 shadow-inner"
-                          style={{ background: "#020617", borderColor: "rgba(255,255,255,0.06)" }}
+                          style={{ background: "hsl(var(--terminal-bg))", borderColor: "rgba(255,255,255,0.06)" }}
                         >
                           {item.terminal.map((line, i) => (
                             <p
@@ -324,7 +322,7 @@ export function SkillPanel() {
       </div>
 
       {/* ── POW Lightbox ──────────────────────────── */}
-      {typeof document !== "undefined" && createPortal(
+      {mounted && createPortal(
         <AnimatePresence>
           {powImg && (
             <motion.div
@@ -373,7 +371,7 @@ function StepBadge({ n }: { n: number }) {
   return (
     <div
       className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-[12px] font-bold mt-0.5 border border-emerald-500/20"
-      style={{ background: "rgba(16, 185, 129, 0.1)", color: "#10b981" }}
+      style={{ background: "hsl(var(--agent-accent) / 0.1)", color: "hsl(var(--agent-accent))" }}
     >
       {n}
     </div>
@@ -382,11 +380,13 @@ function StepBadge({ n }: { n: number }) {
 
 function DarkTerminal({
   children,
+  label,
   copyKey,
   copiedKey,
   onCopy,
 }: {
   children: React.ReactNode;
+  label: string;
   copyKey: string;
   copiedKey: string | null;
   onCopy: () => void;
@@ -395,22 +395,20 @@ function DarkTerminal({
   return (
     <div
       className="overflow-hidden rounded-2xl border shadow-2xl"
-      style={{ background: "#020617", borderColor: "rgba(255,255,255,0.08)" }}
+      style={{ background: "hsl(var(--terminal-bg))", borderColor: "rgba(255,255,255,0.08)" }}
     >
-      {/* Chrome */}
+      {/* Header — typographic frame (top rule + label), not re-drawn window chrome */}
       <div
         className="flex items-center justify-between border-b px-5 py-2.5"
         style={{ borderColor: "rgba(255,255,255,0.06)" }}
       >
-        <div className="flex gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-red-500/30" />
-          <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/30" />
-          <span className="h-2.5 w-2.5 rounded-full bg-green-500/30" />
-        </div>
+        <span className="font-mono text-[10px] uppercase tracking-wider text-white/35">
+          {label}
+        </span>
         <button
           onClick={onCopy}
           className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider transition-all duration-200"
-          style={{ color: isCopied ? "#10b981" : "rgba(255,255,255,0.4)" }}
+          style={{ color: isCopied ? "hsl(var(--agent-accent))" : "rgba(255,255,255,0.4)" }}
         >
           {isCopied
             ? <><Check size={11} strokeWidth={3} />copied</>
