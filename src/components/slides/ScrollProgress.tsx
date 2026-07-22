@@ -12,7 +12,7 @@ export default function ScrollProgress() {
   return (
     <div className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-foreground/5 pointer-events-none">
       <motion.div
-        className="h-full bg-gradient-to-r from-primary to-violet-500 origin-left"
+        className="h-full bg-gradient-to-r from-primary to-sky-400 origin-left"
         animate={{ width: pct }}
         transition={spring.snappy}
       />
