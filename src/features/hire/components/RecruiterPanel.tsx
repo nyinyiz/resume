@@ -169,24 +169,24 @@ export function RecruiterPanel() {
                 <p className="font-heading text-2xl font-bold tracking-tight text-foreground leading-tight sm:text-3xl">
                   Fit check before the first call.
                 </p>
-                <p className="max-w-xl text-sm text-foreground/52 leading-relaxed">
+                <p className="max-w-xl text-sm text-foreground/75 leading-relaxed">
                   Drop in the job description. I&apos;ll split the requirements into strong matches, adjacent strengths, learn-fast areas, and honest no-go zones.
                 </p>
               </div>
 
               {/* Suggestion chips */}
               <div className="flex flex-wrap gap-1.5">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/35 self-center mr-0.5">
+                <span className="text-[11px] font-bold uppercase tracking-widest text-foreground/50 self-center mr-0.5">
                   Samples
                 </span>
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s.label}
                     onClick={() => { setJd(s.text); setError(null); ref.current?.focus(); }}
-                    className="rounded-full border border-foreground/[0.1] bg-white/75 px-3 py-1.5
-                      text-[10px] font-semibold text-foreground/55 shadow-sm shadow-black/[0.02] transition-all duration-200
-                      hover:border-primary/25 hover:bg-primary/[0.04] hover:text-foreground/80
-                      dark:bg-foreground/[0.04]
+                    className="rounded-full border border-foreground/[0.15] bg-white/75 px-3 py-1.5
+                      text-[12px] font-semibold text-foreground/70 shadow-sm shadow-black/[0.02] transition-all duration-200
+                      hover:border-primary/35 hover:bg-primary/[0.04] hover:text-foreground/90
+                      dark:bg-foreground/[0.08]
                       active:scale-95"
                   >
                     {s.label}
@@ -205,12 +205,12 @@ export function RecruiterPanel() {
                   onChange={(e) => { setJd(e.target.value); setError(null); }}
                   placeholder="e.g. Looking for a Senior Engineer with React, Node, and AWS. Remote-first, 5+ years, startup mindset required."
                   className="flex-1 w-full resize-none bg-transparent px-4 pt-4 pb-3 text-sm leading-relaxed
-                    text-foreground/80 placeholder:text-foreground/25 focus:outline-none min-h-[230px]"
+                    text-foreground/85 placeholder:text-foreground/40 focus:outline-none min-h-[230px]"
                   rows={7}
                 />
                 <div className="flex items-center justify-between border-t border-foreground/[0.07] bg-foreground/[0.015] px-4 py-3">
-                  <span className="text-[10px] text-foreground/40">{hint}</span>
-                  <span className="font-mono text-[10px] text-foreground/25">{jd.length}c</span>
+                  <span className="text-[12px] text-foreground/60">{hint}</span>
+                  <span className="font-mono text-[12px] text-foreground/45">{jd.length}c</span>
                 </div>
               </div>
 
@@ -221,8 +221,8 @@ export function RecruiterPanel() {
                     initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     className="flex items-start gap-2 overflow-hidden rounded-xl bg-amber-500/[0.08] px-3 py-2 text-xs
-                      text-amber-200/80 ring-1 ring-amber-500/[0.15]">
-                    <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-400/70" />
+                      text-amber-200/90 ring-1 ring-amber-500/[0.25]">
+                    <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-400/80" />
                     <span>{error}</span>
                   </motion.div>
                 )}
@@ -238,7 +238,7 @@ export function RecruiterPanel() {
                     transition-all duration-300 shrink-0 ${
                     hasText
                       ? "bg-foreground text-background shadow-lg shadow-black/10 hover:opacity-90"
-                      : "bg-foreground/[0.05] text-foreground/20 cursor-not-allowed"
+                      : "bg-foreground/[0.1] text-foreground/40 cursor-not-allowed"
                   }`}
                 >
                   <Search size={13} strokeWidth={1.8} />
@@ -246,15 +246,15 @@ export function RecruiterPanel() {
                 </motion.button>
               </div>
 
-              <p className="text-center text-[10px] text-foreground/35">
+              <p className="text-center text-[11px] text-foreground/50">
                 Rather just talk?{" "}
                 <a href="https://www.linkedin.com/in/nyinyiz/" target="_blank" rel="noopener noreferrer"
-                  className="text-foreground/45 underline underline-offset-2 hover:text-foreground/70 transition-colors duration-200">
+                  className="text-foreground/60 underline underline-offset-2 hover:text-foreground/80 transition-colors duration-200">
                   LinkedIn
                 </a>
                 {" "}·{" "}
                 <a href="mailto:nyinyizaw.dev@gmail.com"
-                  className="text-foreground/45 underline underline-offset-2 hover:text-foreground/70 transition-colors duration-200">
+                  className="text-foreground/60 underline underline-offset-2 hover:text-foreground/80 transition-colors duration-200">
                   Email
                 </a>
               </p>
