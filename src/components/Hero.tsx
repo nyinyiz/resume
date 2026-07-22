@@ -174,6 +174,8 @@ export default function Hero() {
           <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-white/15 to-white/0 dark:from-white/8 p-[1px] shadow-2xl">
             <div className="relative h-full w-full overflow-hidden rounded-[2.4rem] bg-background/50">
               {isExternalImage ? (
+                // Arbitrary external URL — next/image can't optimize un-whitelisted hosts.
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={profileImage}
                   alt={name}

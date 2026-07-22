@@ -249,6 +249,8 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
           <div className="flex flex-col items-center gap-4">
             <div className="relative h-32 w-32 overflow-hidden rounded-full bg-muted">
               {data.personalInfo.profileImage?.startsWith('http') ? (
+                // Arbitrary user-supplied URL — next/image can't optimize un-whitelisted hosts.
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={data.personalInfo.profileImage}
                   alt="Profile"
