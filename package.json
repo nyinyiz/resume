@@ -6,7 +6,6 @@
   "dependencies": {
     "@fontsource/outfit": "^5.2.8",
     "@fontsource/plus-jakarta-sans": "^5.2.8",
-    "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-select": "^2.1.2",
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
@@ -15,21 +14,14 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.18.2",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2",
-    "jspdf-autotable": "^3.8.4",
+    "jspdf": "^4.2.1",
     "lucide-react": "^0.460.0",
-    "mammoth": "^1.8.0",
     "next": "14.2.35",
     "next-themes": "^0.2.1",
-    "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-pdf": "^7.7.0",
-    "react-to-print": "^3.0.2",
     "tailwind-merge": "^2.6.1",
-    "web-vitals": "^4.2.4",
-    "zod": "^3.23.8"
+    "web-vitals": "^4.2.4"
   },
   "scripts": {
     "dev": "next dev",
@@ -39,7 +31,6 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@types/pdfjs-dist": "^2.10.377",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "autoprefixer": "^10.4.20",

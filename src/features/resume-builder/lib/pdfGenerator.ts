@@ -1,6 +1,5 @@
 import type { ResumeData } from "@/types";
 import { jsPDF } from "jspdf";
-import "jspdf-autotable";
 
 type TemplateId = 'modern' | 'classic' | 'minimal';
 

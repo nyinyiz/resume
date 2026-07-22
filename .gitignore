@@ -38,5 +38,10 @@ next-env.d.ts
 # IDE config
 .idea/
 
+# Tooling and Agents
+.agents/
+.claude/
+skills-lock.json
+
 # Claude Code local settings (contains local machine paths)
 .claude/settings.local.json

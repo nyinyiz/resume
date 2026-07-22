@@ -4,9 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { resumeData } from "@/data/resume";
-import ResumeForm from "@/features/resume-builder/components/ResumeForm";
-import PDFPreview from "@/features/resume-builder/components/PDFPreview";
+import dynamic from "next/dynamic";
 import type { ResumeData } from "@/types";
+
+const ResumeForm = dynamic(
+  () => import("@/features/resume-builder/components/ResumeForm"),
+  { loading: () => <div className="animate-pulse rounded-xl bg-foreground/[0.04] h-96" /> }
+);
+
+const PDFPreview = dynamic(
+  () => import("@/features/resume-builder/components/PDFPreview"),
+  { ssr: false, loading: () => <div className="animate-pulse rounded-xl bg-foreground/[0.04] h-96" /> }
+);
 
 export default function ResumeBuilderPage() {
   const [data, setData] = useState<ResumeData>(() => structuredClone(resumeData));

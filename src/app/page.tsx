@@ -28,7 +28,7 @@ export default function Home() {
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       setIsLoading(false)
-    }, 1350)
+    }, 850)
 
     return () => window.clearTimeout(timeoutId)
   }, [])
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <>
       <HomeLoader visible={isLoading} />
-      {!isLoading && <SlideDeck slides={slides} />}
+      <SlideDeck slides={slides} />
       <Analytics />
     </>
   )
