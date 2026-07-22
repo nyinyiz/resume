@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 // PCB-style circuit traces covering the full viewport (viewBox 1440×900)
 const TRACES = [
   "M -10,160 H 180 V 60 H 420 V 200 H 700 V 80 H 960 V 220 H 1240 V 120 H 1450",
@@ -30,43 +28,26 @@ export default function AnimatedBackground() {
       {/* Base */}
       <div className="absolute inset-0 bg-background" />
 
-      {/* Orb 1 — sky blue, top-right — primary light source */}
-      <motion.div
-        className="absolute rounded-full bg-sky-400/[0.14] dark:bg-sky-400/[0.18] blur-[160px]"
+      {/* Corner tint — sky blue, top-right — static ambient light, not a drifting orb */}
+      <div
+        className="absolute rounded-full bg-sky-400/[0.12] dark:bg-sky-400/[0.16] blur-[160px]"
         style={{
           width:  "min(1000px, 90vw)",
           height: "min(1000px, 90vw)",
           top:    "-35%",
           right:  "-20%",
         }}
-        animate={{ scale: [1, 1.14, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Orb 2 — indigo, bottom-left — cool depth shadow */}
-      <motion.div
-        className="absolute rounded-full bg-indigo-500/[0.09] dark:bg-indigo-500/[0.14] blur-[140px]"
+      {/* Corner tint — indigo, bottom-left — static cool depth */}
+      <div
+        className="absolute rounded-full bg-indigo-500/[0.08] dark:bg-indigo-500/[0.12] blur-[140px]"
         style={{
           width:  "min(850px, 80vw)",
           height: "min(850px, 80vw)",
           bottom: "-35%",
           left:   "-20%",
         }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.9, 0.5] }}
-        transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-      />
-
-      {/* Orb 3 — cyan, top-left — fills corner, complements orb 1 */}
-      <motion.div
-        className="absolute rounded-full bg-cyan-400/[0.06] dark:bg-cyan-400/[0.10] blur-[130px]"
-        style={{
-          width:  "min(650px, 65vw)",
-          height: "min(650px, 65vw)",
-          top:    "-20%",
-          left:   "-15%",
-        }}
-        animate={{ scale: [1, 1.18, 1], opacity: [0.4, 0.85, 0.4] }}
-        transition={{ duration: 21, repeat: Infinity, ease: "easeInOut", delay: 9 }}
       />
 
       {/* Circuit board layer — PCB traces with traveling light pulses */}

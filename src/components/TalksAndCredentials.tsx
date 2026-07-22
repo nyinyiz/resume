@@ -16,14 +16,6 @@ export default function TalksAndCredentials() {
 
       {/* Header */}
       <div className="max-w-2xl mb-5">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
-          className="section-label mb-2"
-        >
-          <Mic size={12} /> Community & Credentials
-        </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

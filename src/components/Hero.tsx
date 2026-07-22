@@ -160,15 +160,8 @@ export default function Hero() {
           style={tiltEnabled ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
           className="relative aspect-square w-full"
         >
-          {/* Ambient glow */}
-          {/* Ambient glow — opacity-only pulse, no scale (cheaper with blur filter) */}
-          {!reduced && (
-            <motion.div
-              className="absolute inset-0 bg-sky-400/20 blur-[80px] rounded-full"
-              animate={{ opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-          )}
+          {/* Ambient glow — static, gives the card depth without the pulsing-orb tell */}
+          <div className="absolute inset-0 bg-sky-400/15 blur-[80px] rounded-full" />
 
           {/* Image card */}
           <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-white/15 to-white/0 dark:from-white/8 p-[1px] shadow-2xl">
